@@ -1,0 +1,58 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.mocks.dart"
+    - "lib/l10n/generated/**"
+  errors:
+    # Oublis de const et futures non attendues bloquent la CI
+    prefer_const_constructors: warning
+    prefer_const_literals_to_create_immutables: warning
+    unawaited_futures: warning
+
+linter:
+  rules:
+    # const partout où c'est possible (critère de la grille)
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - unnecessary_const
+
+    # Immutabilité
+    - prefer_final_fields
+    - prefer_final_locals
+    - prefer_final_in_for_each
+
+    # Async
+    - unawaited_futures
+    - avoid_void_async
+    - cancel_subscriptions
+    - close_sinks
+
+    # Lisibilité et cohérence
+    - always_declare_return_types
+    - always_use_package_imports
+    - directives_ordering
+    - prefer_single_quotes
+    - sort_constructors_first
+    - use_super_parameters
+    - unnecessary_lambdas
+    - avoid_redundant_argument_values
+    - avoid_dynamic_calls
+    - only_throw_errors
+    - avoid_print
+
+    # Widgets
+    - use_colored_box
+    - use_decorated_box
+    - sized_box_for_whitespace
+    - avoid_unnecessary_containers
+    - sort_child_properties_last
+    - use_key_in_widget_constructors
