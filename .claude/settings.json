@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze*)",
+      "Bash(flutter test*)",
+      "Bash(flutter pub get*)",
+      "Bash(flutter pub deps*)",
+      "Bash(flutter pub outdated*)",
+      "Bash(flutter gen-l10n*)",
+      "Bash(flutter doctor*)",
+      "Bash(dart format*)",
+      "Bash(dart fix --dry-run*)",
+      "Bash(dart run build_runner*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/.env.*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/format-dart.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "extraKnownMarketplaces": {
+    "dart-flutter": {
+      "source": {
+        "source": "github",
+        "repo": "flutter/agent-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "dart-flutter@dart-flutter": true
+  },
+  "skillOverrides": {
+    "dart-flutter:flutter-apply-architecture-best-practices": "off",
+    "dart-flutter:dart-generate-test-mocks": "off",
+    "dart-flutter:dart-migrate-to-checks-package": "off",
+    "dart-flutter:dart-build-cli-app": "off",
+    "dart-flutter:dart-setup-ffi-assets": "off",
+    "dart-flutter:dart-use-ffigen": "off"
+  }
+}
