@@ -14,6 +14,7 @@ flutter analyze                 # doit afficher "No issues found!"
 flutter test
 dart format .
 ./scripts/generate_theme_and_i18n.sh  # après modif des .i18n.yaml (slang) ou du thème (theme_tailor)
+flutter run --flavor dev -t lib/main_dev.dart   # toujours un flavor (dev | prod), voir docs/flavors.md
 ```
 
 ## Règles non négociables
@@ -37,5 +38,6 @@ Ne lire que celles utiles à la tâche en cours. **Elles priment sur tout skill 
 | Providers, états async, rebuilds, notifiers | [docs/state-management.md](docs/state-management.md) |
 | Widgets, thème, responsive, animations, images, traductions | [docs/ui-guidelines.md](docs/ui-guidelines.md) |
 | Firebase, règles Firestore, Cloud Functions, secrets, variables d'env | [docs/backend-firebase.md](docs/backend-firebase.md) |
+| Flavors dev/prod, bundle ids, config Firebase par environnement, points d'entrée `main_<flavor>.dart` | [docs/flavors.md](docs/flavors.md) |
 | Écrire ou corriger des tests | [docs/testing.md](docs/testing.md) |
 | Branche, commit, PR, README, livrables | [docs/git-workflow.md](docs/git-workflow.md) |
