@@ -11,7 +11,7 @@
 
 ## Configuration
 
-- Configurer via FlutterFire CLI : `flutterfire configure` génère `lib/firebase_options.dart`, `android/app/google-services.json` et `ios/Runner/GoogleService-Info.plist`.
+- Un projet Firebase par flavor (`spotshare-dev-b6185` pour dev, `spotshare-b7f94` pour prod). La config de chaque flavor se génère avec `scripts/flutterfire-config.sh <flavor>`, jamais à la main : voir [flavors.md](flavors.md).
 - Ces fichiers contiennent des identifiants **publics** de projet Firebase : ils sont versionnés pour que le correcteur puisse builder. La sécurité repose sur les règles et l'App Check, pas sur leur secret.
 - Code des Functions et règles dans un dossier `firebase/` (ou `functions/` à la racine) versionné avec l'app.
 

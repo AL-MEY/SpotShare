@@ -9,8 +9,11 @@ Prérequis : [fvm](https://fvm.app) (la version de Flutter est figée dans `.fvm
 ```bash
 fvm install
 fvm flutter pub get
-fvm flutter run
+fvm dart pub global activate flutterfire_cli   # requis par le build iOS
+fvm flutter run --flavor dev -t lib/main_dev.dart
 ```
+
+Deux flavors : `dev` (`com.almey.spotshare.dev`, projet Firebase `spotshare-dev-b6185`) et `prod` (`com.almey.spotshare`, projet `spotshare-b7f94`). Chaque flavor a son point d'entrée `lib/main_<flavor>.dart`. Fonctionnement et problèmes connus : [docs/flavors.md](docs/flavors.md).
 
 Après modification des traductions (`lib/i18n/*.i18n.yaml`) ou du thème (`lib/core/theme/`), régénérer le code :
 
