@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "834286565441",
+    "project_id": "spotshare-b7f94",
+    "storage_bucket": "spotshare-b7f94.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834286565441:android:8dcc0af3075157b7c32ec0",
+        "android_client_info": {
+          "package_name": "com.almey.spotshare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3ce9Ul1UPRvdIc9_loVx1FruHwu27L9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
