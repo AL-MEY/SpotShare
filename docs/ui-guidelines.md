@@ -11,6 +11,7 @@
 
 - `useMaterial3: true`, `ThemeData` clair **et** sombre définis dans `core/theme/`, générés depuis un `ColorScheme.fromSeed`.
 - Aucune couleur ni taille de texte en dur dans les widgets : `Theme.of(context).colorScheme` et `textTheme`.
+- Tokens hors Material (espacements, rayons, couleurs `success`/`warning`/`rating`) : `context.appTheme`, défini dans `core/theme/app_theme.dart` (theme_tailor) et instancié dans `app_theme_impl.dart`. Nouveau token = champ dans la classe + valeur dans l'impl + `./scripts/generate_theme_and_i18n.sh`.
 - Respecter les zones sécurisées : `SafeArea` sur chaque page (ou `Scaffold` qui la gère correctement).
 
 ## Responsive
@@ -31,9 +32,9 @@
 
 ## Localisation FR / EN
 
-- `flutter_localizations` + fichiers `lib/l10n/app_fr.arb` et `app_en.arb`, génération via `flutter gen-l10n`.
-- `l10n.yaml` : `arb-dir: lib/l10n`, `output-dir: lib/l10n/generated`, `template-arb-file: app_fr.arb`. Ne pas utiliser `synthetic-package` ni `package:flutter_gen` (obsolètes) : importer `package:spotshare/l10n/generated/app_localizations.dart`.
-- Aucun texte visible en dur : toujours une clé ARB, ajoutée dans **les deux** fichiers.
+- slang : clés dans `lib/i18n/fr.i18n.yaml` (langue de base) et `en.i18n.yaml`, config dans `build.yaml`, génération via `./scripts/generate_theme_and_i18n.sh` (fichiers `strings*.g.dart` versionnés, jamais édités à la main).
+- Accès dans un widget : `context.t.home.welcome` (import `package:spotshare/i18n/strings.g.dart`).
+- Aucun texte visible en dur : toujours une clé, ajoutée dans **les deux** fichiers.
 - La langue choisie par l'utilisateur est persistée localement et restaurée au démarrage.
 
 ## Accessibilité

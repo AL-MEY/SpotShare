@@ -6,13 +6,14 @@ Stack : Flutter / Dart 3 · Riverpod · Firebase (Auth, Firestore, Cloud Functio
 
 ## Commandes
 
+Version de Flutter figée dans `.fvmrc` (3.44.4) : préfixer les commandes par `fvm` (`fvm flutter test`…).
+
 ```bash
 flutter pub get
 flutter analyze                 # doit afficher "No issues found!"
 flutter test
 dart format .
-dart run build_runner build -d  # si codegen (riverpod_generator, freezed…)
-flutter gen-l10n                # après modification des fichiers .arb
+./scripts/generate_theme_and_i18n.sh  # après modif des .i18n.yaml (slang) ou du thème (theme_tailor)
 ```
 
 ## Règles non négociables
