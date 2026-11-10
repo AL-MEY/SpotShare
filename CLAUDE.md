@@ -25,6 +25,7 @@ dart format .
 - Aucune clé d'API ni secret dans le code client ou dans git.
 - Avant de rendre la main : `flutter analyze` et `flutter test` passent.
 - Ne pas ajouter de package sans le signaler et justifier le choix.
+- Toute modification de code qui rend une doc inexacte (`CLAUDE.md`, `docs/`, `README.md`) inclut sa mise à jour dans le même changement : commandes, arborescence, packages, conventions, variables d'env. Une tâche n'est pas terminée tant que la doc n'est pas alignée.
 
 ## Docs à lire selon la tâche
 
