@@ -9,9 +9,15 @@
 
 ## Thème Material 3
 
-- `useMaterial3: true`, `ThemeData` clair **et** sombre définis dans `core/theme/`, générés depuis un `ColorScheme.fromSeed`.
-- Aucune couleur ni taille de texte en dur dans les widgets : `Theme.of(context).colorScheme` et `textTheme`.
-- Tokens hors Material (espacements, rayons, couleurs `success`/`warning`/`rating`) : `context.appTheme`, défini dans `core/theme/app_theme.dart` (theme_tailor) et instancié dans `app_theme_impl.dart`. Nouveau token = champ dans la classe + valeur dans l'impl + `./scripts/generate_theme_and_i18n.sh`.
+- Les valeurs du design system ne vivent que dans `core/theme/app_theme_impl.dart`, jamais ailleurs.
+- `ThemeData` clair **et** sombre (Material 3) construits dans `core/theme/app_theme_impl.dart`. Le `ColorScheme` et le `TextTheme` y sont dérivés des tokens, si bien que les widgets Material suivent le design system sans configuration.
+- Dans un widget, tout passe par `context.appTheme` (theme_tailor, classes dans `core/theme/app_theme.dart`) :
+  - `colors` : **uniquement les alias fonctionnels** (`background`, `surface`, `foreground`, `action`, `accent`…). Les primitives (`neutral100`, `brand200`…) sont privées à l'impl.
+  - `textStyles` (`h1`–`h3`, `b1`–`b3`, `l1`), `spacing`, `radius`, `stroke`, `shadows`, `opacity`.
+- Aucune couleur, taille de texte, marge ou rayon en dur dans un widget.
+- `accent` (le vermillon) est réservé au favori, aux marqueurs et au spot sélectionné : jamais sur un bouton d'action, qui utilise `action`.
+- Police : Instrument Sans embarquée dans `assets/fonts/` (graisses 400, 500 et 600, licence OFL). Une autre graisse ne s'utilise qu'après avoir ajouté son fichier et l'avoir déclaré dans `pubspec.yaml`.
+- Fonctionnement détaillé du thème et ajout d'un token : [theme.md](theme.md).
 - Respecter les zones sécurisées : `SafeArea` sur chaque page (ou `Scaffold` qui la gère correctement).
 
 ## Responsive

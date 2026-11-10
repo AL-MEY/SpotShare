@@ -37,6 +37,7 @@ Ne lire que celles utiles à la tâche en cours. **Elles priment sur tout skill 
 | Créer une feature, un fichier, un repository, un use case, le cache offline | [docs/architecture.md](docs/architecture.md) |
 | Providers, états async, rebuilds, notifiers | [docs/state-management.md](docs/state-management.md) |
 | Widgets, thème, responsive, animations, images, traductions | [docs/ui-guidelines.md](docs/ui-guidelines.md) |
+| Modifier le thème, ajouter un token (couleur, typo, espacement…), design system | [docs/theme.md](docs/theme.md) |
 | Firebase, règles Firestore, Cloud Functions, secrets, variables d'env | [docs/backend-firebase.md](docs/backend-firebase.md) |
 | Flavors dev/prod, bundle ids, config Firebase par environnement, points d'entrée `main_<flavor>.dart` | [docs/flavors.md](docs/flavors.md) |
 | Écrire ou corriger des tests | [docs/testing.md](docs/testing.md) |

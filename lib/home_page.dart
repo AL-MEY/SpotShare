@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            spacing: context.appTheme.spacing.s,
+            spacing: context.appTheme.spacing.spacingS,
             children: [
               Text(t.welcome, style: textTheme.headlineSmall),
               Text(t.subtitle, style: textTheme.bodyMedium),
