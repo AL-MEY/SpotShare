@@ -25,6 +25,27 @@ android {
         versionName = flutter.versionName
     }
 
+    // AGP 9 désactive resValue par défaut ; requis pour le nom affiché par flavor.
+    buildFeatures {
+        resValues = true
+    }
+
+    flavorDimensions += "default"
+
+    // Un flavor par point d'entrée Dart (lib/main_<flavor>.dart).
+    // `app_name` est une ressource string utilisée par le label du manifest.
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            resValue("string", "app_name", "SpotShare Dev")
+        }
+        create("prod") {
+            dimension = "default"
+            resValue("string", "app_name", "SpotShare")
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
