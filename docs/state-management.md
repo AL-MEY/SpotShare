@@ -45,4 +45,4 @@ final class SubmitError extends SubmitState { const SubmitError(this.failure); f
 
 ## Codegen
 
-Si l'équipe adopte `riverpod_generator` (`@riverpod`), l'utiliser partout pour rester homogène, et lancer `dart run build_runner build -d` après modification. Les fichiers `*.g.dart` ne s'éditent jamais à la main.
+Pas de `riverpod_generator` : providers écrits à la main. Sa version actuelle est incompatible avec `theme_tailor` 3.x (conflit de versions d'`analyzer`) ; à réévaluer si le projet passe à Dart ≥ 3.13 (`theme_tailor` 4). Les fichiers générés (`*.g.dart`, `*.tailor.dart`) ne s'éditent jamais à la main.

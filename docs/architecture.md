@@ -12,10 +12,9 @@ lib/
 │   ├── error/                 # Failure, exceptions typées
 │   ├── network/               # état de connectivité
 │   ├── router/                # go_router + routes
-│   ├── theme/                 # ThemeData clair/sombre, tokens
-│   ├── l10n/                  # extension context.l10n
+│   ├── theme/                 # ThemeData clair/sombre + AppTheme (theme_tailor)
 │   └── widgets/               # widgets génériques réutilisables
-├── l10n/                      # app_fr.arb, app_en.arb
+├── i18n/                      # fr.i18n.yaml, en.i18n.yaml + strings*.g.dart (slang)
 └── features/
     └── <feature>/             # auth, profile, feed, spot, spot_editor, social, map…
         ├── domain/

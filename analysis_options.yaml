@@ -9,7 +9,10 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.mocks.dart"
-    - "lib/l10n/generated/**"
+    - "**/*.tailor.dart"
+    - build/**
+    - android/**
+    - ios/**
   errors:
     # Oublis de const et futures non attendues bloquent la CI
     prefer_const_constructors: warning
