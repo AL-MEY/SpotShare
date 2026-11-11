@@ -160,7 +160,12 @@ const _opacity = AppOpacityTheme(
 const _lightShadows = AppShadowsTheme(
   float: [
     BoxShadow(color: Color(0x14000000), offset: Offset(0, 1), blurRadius: 2),
-    BoxShadow(color: Color(0x29000000), offset: Offset(0, 8), blurRadius: 24, spreadRadius: -6),
+    BoxShadow(
+      color: Color(0x29000000),
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: -6,
+    ),
   ],
   focusRing: [
     BoxShadow(color: _Palette.neutral1100, spreadRadius: 4),
@@ -171,7 +176,12 @@ const _lightShadows = AppShadowsTheme(
 const _darkShadows = AppShadowsTheme(
   float: [
     BoxShadow(color: Color(0x80000000), offset: Offset(0, 1), blurRadius: 2),
-    BoxShadow(color: Color(0xB3000000), offset: Offset(0, 8), blurRadius: 24, spreadRadius: -6),
+    BoxShadow(
+      color: Color(0xB3000000),
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: -6,
+    ),
   ],
   focusRing: [
     BoxShadow(color: _Palette.neutral200, spreadRadius: 4),
@@ -208,36 +218,38 @@ ThemeData _buildTheme(Brightness brightness, AppTheme appTheme) {
     colorScheme: colorScheme,
     scaffoldBackgroundColor: appTheme.colors.background,
     fontFamily: _fontFamily,
-    textTheme: _textTheme(
-      appTheme.textStyles,
-    ).apply(bodyColor: colorScheme.onSurface, displayColor: colorScheme.onSurface),
+    textTheme: _textTheme(appTheme.textStyles).apply(
+      bodyColor: colorScheme.onSurface,
+      displayColor: colorScheme.onSurface,
+    ),
     extensions: [appTheme],
   );
 }
 
-ColorScheme _colorScheme(Brightness brightness, AppColorsTheme c) => ColorScheme(
-  brightness: brightness,
-  primary: c.action,
-  onPrimary: c.onAction,
-  secondary: c.action,
-  onSecondary: c.onAction,
-  tertiary: c.accent,
-  onTertiary: c.onAccent,
-  error: c.error,
-  onError: c.onAction,
-  surface: c.background,
-  onSurface: c.foreground,
-  onSurfaceVariant: c.foregroundMuted,
-  surfaceContainerLowest: c.background,
-  surfaceContainerLow: c.surface,
-  surfaceContainer: c.surface,
-  surfaceContainerHigh: c.surfaceMuted,
-  surfaceContainerHighest: c.surfaceMuted,
-  outline: c.border,
-  outlineVariant: c.borderSubtle,
-  inverseSurface: c.inverse,
-  onInverseSurface: c.onInverse,
-);
+ColorScheme _colorScheme(Brightness brightness, AppColorsTheme c) =>
+    ColorScheme(
+      brightness: brightness,
+      primary: c.action,
+      onPrimary: c.onAction,
+      secondary: c.action,
+      onSecondary: c.onAction,
+      tertiary: c.accent,
+      onTertiary: c.onAccent,
+      error: c.error,
+      onError: c.onAction,
+      surface: c.background,
+      onSurface: c.foreground,
+      onSurfaceVariant: c.foregroundMuted,
+      surfaceContainerLowest: c.background,
+      surfaceContainerLow: c.surface,
+      surfaceContainer: c.surface,
+      surfaceContainerHigh: c.surfaceMuted,
+      surfaceContainerHighest: c.surfaceMuted,
+      outline: c.border,
+      outlineVariant: c.borderSubtle,
+      inverseSurface: c.inverse,
+      onInverseSurface: c.onInverse,
+    );
 
 TextTheme _textTheme(AppTextStylesTheme s) => TextTheme(
   headlineLarge: s.h1,
