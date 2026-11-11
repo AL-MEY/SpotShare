@@ -47,6 +47,12 @@
 
 - Toujours `context.go(AppRoutes.xxx)` / `context.push(AppRoutes.xxx)` (go_router), jamais `Navigator.push` vers une page ni de chemin en dur. Détails : [architecture.md](architecture.md#navigation).
 
+## Affichage des erreurs
+
+- Erreur suite à une action (soumission, favori, suppression…) : `showErrorBottomSheet(context, failure, onRetry: …)` (`core/widgets/error_bottom_sheet.dart`), déclenchée depuis un `ref.listen`. Icône, titre et message dépendent du type de `Failure`.
+- Erreur de chargement d'un écran : état d'erreur affiché dans la page (branche `error` du `.when`), avec `failure.title(t)` / `failure.message(t)`.
+- Jamais de `e.toString()` ni de message Firebase affiché à l'utilisateur.
+
 ## Accessibilité
 
 - Cibles tactiles ≥ 48 dp, `Semantics`/`tooltip` sur les boutons icônes, contrastes conformes en clair et sombre.
