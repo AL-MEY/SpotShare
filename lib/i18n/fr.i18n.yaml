@@ -3,12 +3,14 @@ app:
 home:
   welcome: Bienvenue sur SpotShare
   subtitle: Partage tes meilleurs spots
+  signOut: Se déconnecter
 welcome:
   tagline: Partage tes meilleurs spots
   start: Commencer
   alreadyHaveAccount: J’ai déjà un compte
 login:
   title: Connexion
+  continueWithGoogle: Continuer avec Google
 onboarding:
   title: Bienvenue
 errors:

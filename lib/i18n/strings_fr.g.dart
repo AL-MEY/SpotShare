@@ -74,6 +74,9 @@ class Translations$home$fr {
 
 	/// fr: 'Partage tes meilleurs spots'
 	String get subtitle => 'Partage tes meilleurs spots';
+
+	/// fr: 'Se déconnecter'
+	String get signOut => 'Se déconnecter';
 }
 
 // Path: welcome
@@ -104,6 +107,9 @@ class Translations$login$fr {
 
 	/// fr: 'Connexion'
 	String get title => 'Connexion';
+
+	/// fr: 'Continuer avec Google'
+	String get continueWithGoogle => 'Continuer avec Google';
 }
 
 // Path: onboarding
@@ -275,10 +281,12 @@ extension on Translations {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Bienvenue sur SpotShare',
 			'home.subtitle' => 'Partage tes meilleurs spots',
+			'home.signOut' => 'Se déconnecter',
 			'welcome.tagline' => 'Partage tes meilleurs spots',
 			'welcome.start' => 'Commencer',
 			'welcome.alreadyHaveAccount' => 'J’ai déjà un compte',
 			'login.title' => 'Connexion',
+			'login.continueWithGoogle' => 'Continuer avec Google',
 			'onboarding.title' => 'Bienvenue',
 			'errors.network.title' => 'Pas de connexion',
 			'errors.network.message' => 'Connexion impossible. Vérifie ton réseau.',

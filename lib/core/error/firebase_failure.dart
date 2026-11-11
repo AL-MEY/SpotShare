@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:spotshare/core/error/failure.dart';
 
@@ -12,5 +14,10 @@ Failure failureFrom(Object error) => switch (error) {
     const PermissionFailure(),
   FirebaseException(code: 'not-found' || 'object-not-found') =>
     const NotFoundFailure(),
-  _ => UnknownFailure(error),
+  _ => _unknown(error),
 };
+
+UnknownFailure _unknown(Object error) {
+  log('Unhandled error', name: 'failure', error: error);
+  return UnknownFailure(error);
+}

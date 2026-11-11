@@ -82,11 +82,12 @@ Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Resul
 
 Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configuration : [backend-firebase.md](backend-firebase.md#authentification)).
 
-- `AuthRepository` (domaine) : `currentUser`, `watchUser()`, `signIn`, `signUp`, `signOut`, `sendPasswordResetEmail`. Entité `AppUser` (`id`, `email`).
+- `AuthRepository` (domaine) : `currentUser`, `watchUser()`, `signIn`, `signInWithGoogle`, `signUp`, `signOut`, `sendPasswordResetEmail`. Entité `AppUser` (`id`, `email`).
 - `FirebaseAuthRepository` (data) appelle `FirebaseAuth` directement, sans datasource intermédiaire : il n'y a ni cache local ni seconde source à orchestrer. Il convertit les codes d'erreur d'auth en `Failure` avant de retomber sur `failureFrom`.
-- `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`).
+- `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`, `signInWithGoogleProvider`).
 - La session est persistée par le SDK Firebase : au démarrage, `currentUser` est disponible de façon synchrone, d'où l'absence d'écran de chargement.
-- Ajouter un fournisseur (Google, Apple) = une méthode sur `AuthRepository` + un use case. `authStateProvider` et la garde du routeur ne changent pas.
+- `presentation/providers/google_sign_in_controller.dart` : `AsyncNotifier` qui porte l'état loading / erreur du bouton Google de `LoginPage`.
+- Ajouter un fournisseur (Apple) = une méthode sur `AuthRepository` + un use case, comme pour Google. `authStateProvider` et la garde du routeur ne changent pas.
 
 ## Offline et persistance locale
 

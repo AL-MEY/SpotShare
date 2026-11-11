@@ -29,6 +29,7 @@ Les fichiers générés (`*.g.dart`, `*.tailor.dart`) sont versionnés : le proj
 |---|---|
 | `flutter_riverpod` | Gestion d'état (seule solution du projet) |
 | `go_router` | Navigation déclarative |
+| `google_sign_in` | Connexion Google native (sélecteur de compte Android / iOS) : `firebase_auth` seul ne sait pas ouvrir ce flux sur mobile, il ne fait qu'échanger le jeton obtenu |
 | `firebase_core`, `firebase_auth`, `cloud_firestore`, `firebase_storage`, `cloud_functions` | Backend : authentification, données temps réel, photos, logique serveur et proxy des API tierces |
 | `cached_network_image` | Cache disque des images distantes (consultation hors-ligne) |
 | `connectivity_plus` | Détection du réseau pour le mode hors-ligne et la synchronisation différée |
