@@ -24,6 +24,15 @@ errors:
   notFound:
     title: Introuvable
     message: Contenu introuvable.
+  invalidCredentials:
+    title: Identifiants incorrects
+    message: Vérifie ton e-mail et ton mot de passe.
+  emailAlreadyUsed:
+    title: E-mail déjà utilisé
+    message: Un compte existe déjà avec cet e-mail. Connecte-toi.
+  weakPassword:
+    title: Mot de passe trop faible
+    message: Choisis un mot de passe plus long.
   unknown:
     title: Oups
     message: Une erreur est survenue. Réessaie.

@@ -111,6 +111,9 @@ class _Translations$errors$en extends Translations$errors$fr {
 	@override late final _Translations$errors$unauthenticated$en unauthenticated = _Translations$errors$unauthenticated$en._(_root);
 	@override late final _Translations$errors$permissionDenied$en permissionDenied = _Translations$errors$permissionDenied$en._(_root);
 	@override late final _Translations$errors$notFound$en notFound = _Translations$errors$notFound$en._(_root);
+	@override late final _Translations$errors$invalidCredentials$en invalidCredentials = _Translations$errors$invalidCredentials$en._(_root);
+	@override late final _Translations$errors$emailAlreadyUsed$en emailAlreadyUsed = _Translations$errors$emailAlreadyUsed$en._(_root);
+	@override late final _Translations$errors$weakPassword$en weakPassword = _Translations$errors$weakPassword$en._(_root);
 	@override late final _Translations$errors$unknown$en unknown = _Translations$errors$unknown$en._(_root);
 	@override String get retry => 'Try again';
 	@override String get close => 'Close';
@@ -161,6 +164,39 @@ class _Translations$errors$notFound$en extends Translations$errors$notFound$fr {
 	@override String get message => 'Content not found.';
 }
 
+// Path: errors.invalidCredentials
+class _Translations$errors$invalidCredentials$en extends Translations$errors$invalidCredentials$fr {
+	_Translations$errors$invalidCredentials$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Wrong credentials';
+	@override String get message => 'Check your email and password.';
+}
+
+// Path: errors.emailAlreadyUsed
+class _Translations$errors$emailAlreadyUsed$en extends Translations$errors$emailAlreadyUsed$fr {
+	_Translations$errors$emailAlreadyUsed$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Email already in use';
+	@override String get message => 'An account already exists with this email. Sign in instead.';
+}
+
+// Path: errors.weakPassword
+class _Translations$errors$weakPassword$en extends Translations$errors$weakPassword$fr {
+	_Translations$errors$weakPassword$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Password too weak';
+	@override String get message => 'Pick a longer password.';
+}
+
 // Path: errors.unknown
 class _Translations$errors$unknown$en extends Translations$errors$unknown$fr {
 	_Translations$errors$unknown$en._(TranslationsEn root) : this._root = root, super.internal(root);
@@ -196,6 +232,12 @@ extension on TranslationsEn {
 			'errors.permissionDenied.message' => 'You’re not allowed to do this.',
 			'errors.notFound.title' => 'Not found',
 			'errors.notFound.message' => 'Content not found.',
+			'errors.invalidCredentials.title' => 'Wrong credentials',
+			'errors.invalidCredentials.message' => 'Check your email and password.',
+			'errors.emailAlreadyUsed.title' => 'Email already in use',
+			'errors.emailAlreadyUsed.message' => 'An account already exists with this email. Sign in instead.',
+			'errors.weakPassword.title' => 'Password too weak',
+			'errors.weakPassword.message' => 'Pick a longer password.',
 			'errors.unknown.title' => 'Oops',
 			'errors.unknown.message' => 'Something went wrong. Try again.',
 			'errors.retry' => 'Try again',

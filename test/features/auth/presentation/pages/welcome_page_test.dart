@@ -1,20 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:spotshare/app.dart';
 import 'package:spotshare/features/auth/presentation/pages/login_page.dart';
 import 'package:spotshare/features/onboarding/presentation/pages/onboarding_page.dart';
-import 'package:spotshare/i18n/strings.g.dart';
 
-Future<void> _pumpApp(WidgetTester tester) async {
-  await tester.runAsync(() => LocaleSettings.setLocale(AppLocale.fr));
-  await tester.pumpWidget(
-    ProviderScope(child: TranslationProvider(child: const SpotShareApp())),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   testWidgets('Commencer ouvre l’onboarding', (tester) async {
-    await _pumpApp(tester);
+    await pumpApp(tester);
 
     await tester.tap(find.text('Commencer'));
     await tester.pumpAndSettle();
@@ -23,7 +15,7 @@ void main() {
   });
 
   testWidgets('J’ai déjà un compte ouvre la connexion', (tester) async {
-    await _pumpApp(tester);
+    await pumpApp(tester);
 
     await tester.tap(find.text('J’ai déjà un compte'));
     await tester.pumpAndSettle();

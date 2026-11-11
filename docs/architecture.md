@@ -62,7 +62,7 @@ presentation  ──►  domain  ◄──  data
 
 Tout est dans `core/error/` :
 
-- `failure.dart` : sealed class `Failure implements Exception`, Dart pur (importable depuis le domaine). Sous-types : `NetworkFailure`, `UnauthenticatedFailure`, `PermissionFailure`, `NotFoundFailure`, `UnknownFailure`.
+- `failure.dart` : sealed class `Failure implements Exception`, Dart pur (importable depuis le domaine). Sous-types : `NetworkFailure`, `UnauthenticatedFailure`, `PermissionFailure`, `NotFoundFailure`, `UnknownFailure`, et pour l'auth `InvalidCredentialsFailure`, `EmailAlreadyUsedFailure`, `WeakPasswordFailure`. La classe étant `sealed`, tout sous-type se déclare dans ce fichier.
 - `firebase_failure.dart` : `failureFrom(error)` convertit une exception technique en `Failure`. Les repositories l'appellent dans leur `catch` : `catch (e) { throw failureFrom(e); }`. Les codes propres à une feature (ex. `wrong-password`) se traitent dans son repository avant de retomber sur `failureFrom`.
 - `failure_message.dart` : `failure.title(t)` et `failure.message(t)` renvoient les textes localisés (`errors.<type>.title` / `.message` dans les `.i18n.yaml`). Les `switch` sont exhaustifs : un nouveau sous-type ne compile pas sans ses textes.
 - `core/widgets/error_bottom_sheet.dart` : `showErrorBottomSheet(context, failure, onRetry: …)` affiche l'erreur à l'utilisateur (icône, titre et message selon le type de `Failure`, bouton « Réessayer » si `onRetry` est fourni). À déclencher depuis un `ref.listen`, pas depuis `build`.
@@ -76,7 +76,17 @@ Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Resul
 - Chemins déclarés dans `AppRoutes` ; naviguer avec `context.go(AppRoutes.xxx)`, jamais avec une chaîne en dur.
 - Ajouter un écran = une constante dans `AppRoutes` + un `GoRoute` dans `routerProvider`.
 - Route inconnue : `NotFoundPage` (`core/router/not_found_page.dart`).
-- Les gardes (ex. redirection vers la connexion) iront dans le `redirect` du `GoRouter`, en lisant l'état d'auth via `ref`.
+- Garde d'auth dans le `redirect` du `GoRouter` : un visiteur ne voit que les routes de `AppRoutes.public` (sinon retour à `welcome`), un utilisateur connecté en est renvoyé vers `home`. Le routeur se réévalue à chaque changement de `authStateProvider`. Une route accessible sans compte s'ajoute à `AppRoutes.public`.
+
+## Authentification
+
+Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configuration : [backend-firebase.md](backend-firebase.md#authentification)).
+
+- `AuthRepository` (domaine) : `currentUser`, `watchUser()`, `signIn`, `signUp`, `signOut`, `sendPasswordResetEmail`. Entité `AppUser` (`id`, `email`).
+- `FirebaseAuthRepository` (data) appelle `FirebaseAuth` directement, sans datasource intermédiaire : il n'y a ni cache local ni seconde source à orchestrer. Il convertit les codes d'erreur d'auth en `Failure` avant de retomber sur `failureFrom`.
+- `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`).
+- La session est persistée par le SDK Firebase : au démarrage, `currentUser` est disponible de façon synchrone, d'où l'absence d'écran de chargement.
+- Ajouter un fournisseur (Google, Apple) = une méthode sur `AuthRepository` + un use case. `authStateProvider` et la garde du routeur ne changent pas.
 
 ## Offline et persistance locale
 

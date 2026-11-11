@@ -18,6 +18,18 @@ final class NotFoundFailure extends Failure {
   const NotFoundFailure();
 }
 
+final class InvalidCredentialsFailure extends Failure {
+  const InvalidCredentialsFailure();
+}
+
+final class EmailAlreadyUsedFailure extends Failure {
+  const EmailAlreadyUsedFailure();
+}
+
+final class WeakPasswordFailure extends Failure {
+  const WeakPasswordFailure();
+}
+
 final class UnknownFailure extends Failure {
   const UnknownFailure([this.cause]);
 
