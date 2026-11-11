@@ -43,6 +43,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final Translations$app$fr app = Translations$app$fr.internal(_root);
 	late final Translations$home$fr home = Translations$home$fr.internal(_root);
+	late final Translations$welcome$fr welcome = Translations$welcome$fr.internal(_root);
+	late final Translations$login$fr login = Translations$login$fr.internal(_root);
+	late final Translations$onboarding$fr onboarding = Translations$onboarding$fr.internal(_root);
 	late final Translations$errors$fr errors = Translations$errors$fr.internal(_root);
 }
 
@@ -71,6 +74,48 @@ class Translations$home$fr {
 
 	/// fr: 'Partage tes meilleurs spots'
 	String get subtitle => 'Partage tes meilleurs spots';
+}
+
+// Path: welcome
+class Translations$welcome$fr {
+	Translations$welcome$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Partage tes meilleurs spots'
+	String get tagline => 'Partage tes meilleurs spots';
+
+	/// fr: 'Commencer'
+	String get start => 'Commencer';
+
+	/// fr: 'J’ai déjà un compte'
+	String get alreadyHaveAccount => 'J’ai déjà un compte';
+}
+
+// Path: login
+class Translations$login$fr {
+	Translations$login$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Connexion'
+	String get title => 'Connexion';
+}
+
+// Path: onboarding
+class Translations$onboarding$fr {
+	Translations$onboarding$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Bienvenue'
+	String get title => 'Bienvenue';
 }
 
 // Path: errors
@@ -182,6 +227,11 @@ extension on Translations {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Bienvenue sur SpotShare',
 			'home.subtitle' => 'Partage tes meilleurs spots',
+			'welcome.tagline' => 'Partage tes meilleurs spots',
+			'welcome.start' => 'Commencer',
+			'welcome.alreadyHaveAccount' => 'J’ai déjà un compte',
+			'login.title' => 'Connexion',
+			'onboarding.title' => 'Bienvenue',
 			'errors.network.title' => 'Pas de connexion',
 			'errors.network.message' => 'Connexion impossible. Vérifie ton réseau.',
 			'errors.unauthenticated.title' => 'Connexion requise',

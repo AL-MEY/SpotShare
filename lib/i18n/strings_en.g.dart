@@ -41,6 +41,9 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	// Translations
 	@override late final _Translations$app$en app = _Translations$app$en._(_root);
 	@override late final _Translations$home$en home = _Translations$home$en._(_root);
+	@override late final _Translations$welcome$en welcome = _Translations$welcome$en._(_root);
+	@override late final _Translations$login$en login = _Translations$login$en._(_root);
+	@override late final _Translations$onboarding$en onboarding = _Translations$onboarding$en._(_root);
 	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
 }
 
@@ -63,6 +66,38 @@ class _Translations$home$en extends Translations$home$fr {
 	// Translations
 	@override String get welcome => 'Welcome to SpotShare';
 	@override String get subtitle => 'Share your best spots';
+}
+
+// Path: welcome
+class _Translations$welcome$en extends Translations$welcome$fr {
+	_Translations$welcome$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get tagline => 'Share your best spots';
+	@override String get start => 'Get started';
+	@override String get alreadyHaveAccount => 'I already have an account';
+}
+
+// Path: login
+class _Translations$login$en extends Translations$login$fr {
+	_Translations$login$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Sign in';
+}
+
+// Path: onboarding
+class _Translations$onboarding$en extends Translations$onboarding$fr {
+	_Translations$onboarding$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Welcome';
 }
 
 // Path: errors
@@ -148,6 +183,11 @@ extension on TranslationsEn {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Welcome to SpotShare',
 			'home.subtitle' => 'Share your best spots',
+			'welcome.tagline' => 'Share your best spots',
+			'welcome.start' => 'Get started',
+			'welcome.alreadyHaveAccount' => 'I already have an account',
+			'login.title' => 'Sign in',
+			'onboarding.title' => 'Welcome',
 			'errors.network.title' => 'No connection',
 			'errors.network.message' => 'Can’t connect. Check your network.',
 			'errors.unauthenticated.title' => 'Sign-in required',

@@ -3,6 +3,14 @@ app:
 home:
   welcome: Welcome to SpotShare
   subtitle: Share your best spots
+welcome:
+  tagline: Share your best spots
+  start: Get started
+  alreadyHaveAccount: I already have an account
+login:
+  title: Sign in
+onboarding:
+  title: Welcome
 errors:
   network:
     title: No connection
