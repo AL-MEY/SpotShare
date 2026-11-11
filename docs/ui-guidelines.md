@@ -38,7 +38,7 @@
 
 ## Localisation FR / EN
 
-- slang : clés dans `lib/i18n/fr.i18n.yaml` (langue de base) et `en.i18n.yaml`, config dans `build.yaml`, génération via `./scripts/generate_theme_and_i18n.sh` (fichiers `strings*.g.dart` versionnés, jamais édités à la main).
+- slang : clés dans `lib/i18n/fr.i18n.yaml` (langue de base) et `en.i18n.yaml`, config dans `slang.yaml`, génération via `./scripts/generate_theme_and_i18n.sh` (qui lance `fvm dart run slang`) (fichiers `strings*.g.dart` versionnés, jamais édités à la main).
 - Accès dans un widget : `context.t.home.welcome` (import `package:spotshare/i18n/strings.g.dart`).
 - Aucun texte visible en dur : toujours une clé, ajoutée dans **les deux** fichiers.
 - La langue choisie par l'utilisateur est persistée localement et restaurée au démarrage.
