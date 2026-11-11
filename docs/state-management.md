@@ -61,4 +61,4 @@ ref.listen(spotProvider(id), (_, next) {
 
 ## Codegen
 
-Pas de `riverpod_generator` : providers écrits à la main. Sa version actuelle est incompatible avec `theme_tailor` 3.x (conflit de versions d'`analyzer`) ; à réévaluer si le projet passe à Dart ≥ 3.13 (`theme_tailor` 4). Les fichiers générés (`*.g.dart`, `*.tailor.dart`) ne s'éditent jamais à la main.
+Pas de `riverpod_generator` : providers écrits à la main. Sa version actuelle est incompatible avec `theme_tailor` 3.x (conflit de versions d'`analyzer`) ; à réévaluer avec `theme_tailor` 4, possible depuis le passage à Dart 3.13. Les fichiers générés (`*.g.dart`, `*.tailor.dart`) ne s'éditent jamais à la main.

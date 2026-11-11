@@ -4,7 +4,7 @@ Application sociale Flutter (Android + iOS) de partage de spots : cafés, points
 
 ## Installation
 
-Prérequis : [fvm](https://fvm.app) (la version de Flutter est figée dans `.fvmrc`, 3.44.4).
+Prérequis : [fvm](https://fvm.app) (la version de Flutter est figée dans `.fvmrc`, 3.47.9).
 
 ```bash
 fvm install
