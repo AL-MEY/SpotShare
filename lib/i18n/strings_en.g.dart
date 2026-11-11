@@ -41,6 +41,7 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	// Translations
 	@override late final _Translations$app$en app = _Translations$app$en._(_root);
 	@override late final _Translations$home$en home = _Translations$home$en._(_root);
+	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
 }
 
 // Path: app
@@ -64,6 +65,78 @@ class _Translations$home$en extends Translations$home$fr {
 	@override String get subtitle => 'Share your best spots';
 }
 
+// Path: errors
+class _Translations$errors$en extends Translations$errors$fr {
+	_Translations$errors$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$errors$network$en network = _Translations$errors$network$en._(_root);
+	@override late final _Translations$errors$unauthenticated$en unauthenticated = _Translations$errors$unauthenticated$en._(_root);
+	@override late final _Translations$errors$permissionDenied$en permissionDenied = _Translations$errors$permissionDenied$en._(_root);
+	@override late final _Translations$errors$notFound$en notFound = _Translations$errors$notFound$en._(_root);
+	@override late final _Translations$errors$unknown$en unknown = _Translations$errors$unknown$en._(_root);
+	@override String get retry => 'Try again';
+	@override String get close => 'Close';
+	@override String get backHome => 'Back to home';
+}
+
+// Path: errors.network
+class _Translations$errors$network$en extends Translations$errors$network$fr {
+	_Translations$errors$network$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'No connection';
+	@override String get message => 'Can’t connect. Check your network.';
+}
+
+// Path: errors.unauthenticated
+class _Translations$errors$unauthenticated$en extends Translations$errors$unauthenticated$fr {
+	_Translations$errors$unauthenticated$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Sign-in required';
+	@override String get message => 'Sign in to continue.';
+}
+
+// Path: errors.permissionDenied
+class _Translations$errors$permissionDenied$en extends Translations$errors$permissionDenied$fr {
+	_Translations$errors$permissionDenied$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Not allowed';
+	@override String get message => 'You’re not allowed to do this.';
+}
+
+// Path: errors.notFound
+class _Translations$errors$notFound$en extends Translations$errors$notFound$fr {
+	_Translations$errors$notFound$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Not found';
+	@override String get message => 'Content not found.';
+}
+
+// Path: errors.unknown
+class _Translations$errors$unknown$en extends Translations$errors$unknown$fr {
+	_Translations$errors$unknown$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Oops';
+	@override String get message => 'Something went wrong. Try again.';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -75,6 +148,19 @@ extension on TranslationsEn {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Welcome to SpotShare',
 			'home.subtitle' => 'Share your best spots',
+			'errors.network.title' => 'No connection',
+			'errors.network.message' => 'Can’t connect. Check your network.',
+			'errors.unauthenticated.title' => 'Sign-in required',
+			'errors.unauthenticated.message' => 'Sign in to continue.',
+			'errors.permissionDenied.title' => 'Not allowed',
+			'errors.permissionDenied.message' => 'You’re not allowed to do this.',
+			'errors.notFound.title' => 'Not found',
+			'errors.notFound.message' => 'Content not found.',
+			'errors.unknown.title' => 'Oops',
+			'errors.unknown.message' => 'Something went wrong. Try again.',
+			'errors.retry' => 'Try again',
+			'errors.close' => 'Close',
+			'errors.backHome' => 'Back to home',
 			_ => null,
 		};
 	}

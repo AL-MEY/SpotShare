@@ -43,6 +43,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final Translations$app$fr app = Translations$app$fr.internal(_root);
 	late final Translations$home$fr home = Translations$home$fr.internal(_root);
+	late final Translations$errors$fr errors = Translations$errors$fr.internal(_root);
 }
 
 // Path: app
@@ -72,6 +73,104 @@ class Translations$home$fr {
 	String get subtitle => 'Partage tes meilleurs spots';
 }
 
+// Path: errors
+class Translations$errors$fr {
+	Translations$errors$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$errors$network$fr network = Translations$errors$network$fr.internal(_root);
+	late final Translations$errors$unauthenticated$fr unauthenticated = Translations$errors$unauthenticated$fr.internal(_root);
+	late final Translations$errors$permissionDenied$fr permissionDenied = Translations$errors$permissionDenied$fr.internal(_root);
+	late final Translations$errors$notFound$fr notFound = Translations$errors$notFound$fr.internal(_root);
+	late final Translations$errors$unknown$fr unknown = Translations$errors$unknown$fr.internal(_root);
+
+	/// fr: 'Réessayer'
+	String get retry => 'Réessayer';
+
+	/// fr: 'Fermer'
+	String get close => 'Fermer';
+
+	/// fr: 'Retour à l’accueil'
+	String get backHome => 'Retour à l’accueil';
+}
+
+// Path: errors.network
+class Translations$errors$network$fr {
+	Translations$errors$network$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Pas de connexion'
+	String get title => 'Pas de connexion';
+
+	/// fr: 'Connexion impossible. Vérifie ton réseau.'
+	String get message => 'Connexion impossible. Vérifie ton réseau.';
+}
+
+// Path: errors.unauthenticated
+class Translations$errors$unauthenticated$fr {
+	Translations$errors$unauthenticated$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Connexion requise'
+	String get title => 'Connexion requise';
+
+	/// fr: 'Connecte-toi pour continuer.'
+	String get message => 'Connecte-toi pour continuer.';
+}
+
+// Path: errors.permissionDenied
+class Translations$errors$permissionDenied$fr {
+	Translations$errors$permissionDenied$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Action non autorisée'
+	String get title => 'Action non autorisée';
+
+	/// fr: 'Tu n’as pas les droits pour cette action.'
+	String get message => 'Tu n’as pas les droits pour cette action.';
+}
+
+// Path: errors.notFound
+class Translations$errors$notFound$fr {
+	Translations$errors$notFound$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Introuvable'
+	String get title => 'Introuvable';
+
+	/// fr: 'Contenu introuvable.'
+	String get message => 'Contenu introuvable.';
+}
+
+// Path: errors.unknown
+class Translations$errors$unknown$fr {
+	Translations$errors$unknown$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Oups'
+	String get title => 'Oups';
+
+	/// fr: 'Une erreur est survenue. Réessaie.'
+	String get message => 'Une erreur est survenue. Réessaie.';
+}
+
 /// The flat map containing all translations for locale <fr>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -83,6 +182,19 @@ extension on Translations {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Bienvenue sur SpotShare',
 			'home.subtitle' => 'Partage tes meilleurs spots',
+			'errors.network.title' => 'Pas de connexion',
+			'errors.network.message' => 'Connexion impossible. Vérifie ton réseau.',
+			'errors.unauthenticated.title' => 'Connexion requise',
+			'errors.unauthenticated.message' => 'Connecte-toi pour continuer.',
+			'errors.permissionDenied.title' => 'Action non autorisée',
+			'errors.permissionDenied.message' => 'Tu n’as pas les droits pour cette action.',
+			'errors.notFound.title' => 'Introuvable',
+			'errors.notFound.message' => 'Contenu introuvable.',
+			'errors.unknown.title' => 'Oups',
+			'errors.unknown.message' => 'Une erreur est survenue. Réessaie.',
+			'errors.retry' => 'Réessayer',
+			'errors.close' => 'Fermer',
+			'errors.backHome' => 'Retour à l’accueil',
 			_ => null,
 		};
 	}
