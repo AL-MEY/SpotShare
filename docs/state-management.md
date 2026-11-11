@@ -32,6 +32,22 @@ final class SubmitSuccess extends SubmitState { const SubmitSuccess(); }
 final class SubmitError extends SubmitState { const SubmitError(this.failure); final Failure failure; }
 ```
 
+## Afficher une erreur
+
+Les repositories lèvent des `Failure` (voir [architecture.md](architecture.md#erreurs)) : elles arrivent dans `AsyncValue.error`. Pour une erreur suite à une action, l'effet passe par `ref.listen`, jamais par `build` :
+
+```dart
+ref.listen(spotProvider(id), (_, next) {
+  if (next case AsyncError(:final Failure error)) {
+    showErrorBottomSheet(
+      context,
+      error,
+      onRetry: () => ref.invalidate(spotProvider(id)),
+    );
+  }
+});
+```
+
 ## Rebuilds chirurgicaux
 
 - Interdit : `setState` pour l'état métier et toute reconstruction d'une page entière pour un changement local (ex. bouton favori).

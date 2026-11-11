@@ -13,7 +13,7 @@ lib/
 │   ├── network/               # état de connectivité
 │   ├── router/                # go_router + routes
 │   ├── theme/                 # ThemeData clair/sombre + AppTheme (theme_tailor)
-│   └── widgets/               # widgets génériques réutilisables
+│   └── widgets/               # widgets génériques réutilisables (ErrorBottomSheet…)
 ├── i18n/                      # fr.i18n.yaml, en.i18n.yaml + strings*.g.dart (slang)
 └── features/
     └── <feature>/             # auth, profile, feed, spot, spot_editor, social, map…
@@ -65,6 +65,7 @@ Tout est dans `core/error/` :
 - `failure.dart` : sealed class `Failure implements Exception`, Dart pur (importable depuis le domaine). Sous-types : `NetworkFailure`, `UnauthenticatedFailure`, `PermissionFailure`, `NotFoundFailure`, `UnknownFailure`.
 - `firebase_failure.dart` : `failureFrom(error)` convertit une exception technique en `Failure`. Les repositories l'appellent dans leur `catch` : `catch (e) { throw failureFrom(e); }`. Les codes propres à une feature (ex. `wrong-password`) se traitent dans son repository avant de retomber sur `failureFrom`.
 - `failure_message.dart` : `failure.title(t)` et `failure.message(t)` renvoient les textes localisés (`errors.<type>.title` / `.message` dans les `.i18n.yaml`). Les `switch` sont exhaustifs : un nouveau sous-type ne compile pas sans ses textes.
+- `core/widgets/error_bottom_sheet.dart` : `showErrorBottomSheet(context, failure, onRetry: …)` affiche l'erreur à l'utilisateur (icône, titre et message selon le type de `Failure`, bouton « Réessayer » si `onRetry` est fourni). À déclencher depuis un `ref.listen`, pas depuis `build`.
 
 Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Result` : Riverpod les capture dans `AsyncValue.error`, sans package supplémentaire.
 
