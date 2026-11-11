@@ -35,7 +35,7 @@ Les fichiers générés (`*.g.dart`, `*.tailor.dart`) sont versionnés : le proj
 | `shared_preferences` | Persistance locale des préférences (langue choisie) |
 | `slang`, `slang_flutter`, `intl`, `flutter_localizations` | Traductions FR/EN typées, générées depuis des fichiers YAML |
 | `theme_tailor_annotation` | Tokens de thème typés (espacements, rayons, couleurs hors Material) via `ThemeExtension` |
-| dev : `build_runner`, `slang_build_runner`, `theme_tailor` | Génération de code des traductions et du thème |
+| dev : `build_runner`, `theme_tailor` | Génération de code du thème (les traductions sont générées par la CLI de `slang`) |
 | dev : `mocktail` | Mocks de test sans génération de code |
 
 Choix écartés : `riverpod_generator` (incompatible avec `theme_tailor` 3.x, providers écrits à la main) ; moteur de base locale (Drift, Isar…) encore à trancher.
