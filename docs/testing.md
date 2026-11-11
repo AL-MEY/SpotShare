@@ -15,6 +15,7 @@ La grille exige : tests unitaires des **repositories**, **use cases** et **provi
 | Use case | appel du repository mocké, résultat et erreurs |
 | Repository | datasources mockées : mapping DTO ↔ entité, conversion des exceptions en `Failure`, logique offline (local d'abord, sync différée) |
 | Provider / Notifier | `ProviderContainer` avec `overrides` des use cases ; vérifier la séquence `loading → data` et `loading → error` |
+| Routeur | pomper `SpotShareApp`, récupérer le routeur via `ProviderScope.containerOf(...).read(routerProvider)` puis `go(...)` ; vérifier la page affichée |
 | Widget critique | `pumpWidget` dans un `ProviderScope(overrides: …)` + `MaterialApp` avec localisations ; vérifier les états loading / data / error et les interactions |
 
 ## Règles
