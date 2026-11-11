@@ -13,16 +13,16 @@ Future<void> _pumpApp(WidgetTester tester, AppLocale locale) async {
 }
 
 void main() {
-  testWidgets('affiche la page d’accueil en français', (tester) async {
+  testWidgets('affiche l’écran de bienvenue en français', (tester) async {
     await _pumpApp(tester, AppLocale.fr);
 
-    expect(find.text('Bienvenue sur SpotShare'), findsOneWidget);
+    expect(find.text('Partage tes meilleurs spots'), findsOneWidget);
   });
 
-  testWidgets('affiche la page d’accueil en anglais', (tester) async {
+  testWidgets('affiche l’écran de bienvenue en anglais', (tester) async {
     await _pumpApp(tester, AppLocale.en);
 
-    expect(find.text('Welcome to SpotShare'), findsOneWidget);
+    expect(find.text('Share your best spots'), findsOneWidget);
   });
 
   testWidgets('expose AppTheme via context.appTheme', (tester) async {
