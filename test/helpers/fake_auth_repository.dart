@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:spotshare/core/error/failure.dart';
 import 'package:spotshare/features/auth/domain/entities/app_user.dart';
 import 'package:spotshare/features/auth/domain/repositories/auth_repository.dart';
 
@@ -9,6 +10,7 @@ class FakeAuthRepository implements AuthRepository {
   static const user = AppUser(id: 'uid', email: 'test@spotshare.app');
 
   AppUser? _user;
+  Failure? googleFailure;
   final _controller = StreamController<AppUser?>.broadcast();
 
   void emit(AppUser? user) {
@@ -29,6 +31,13 @@ class FakeAuthRepository implements AuthRepository {
     required String email,
     required String password,
   }) async => emit(user);
+
+  @override
+  Future<void> signInWithGoogle() async {
+    final failure = googleFailure;
+    if (failure != null) throw failure;
+    emit(user);
+  }
 
   @override
   Future<void> signUp({

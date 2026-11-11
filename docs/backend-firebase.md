@@ -14,14 +14,14 @@
 | Fournisseur | État | Côté client |
 |---|---|---|
 | E-mail / mot de passe | implémenté | `firebase_auth` seul |
-| Google | prévu | package `google_sign_in` à ajouter, puis `signInWithCredential(GoogleAuthProvider.credential(...))` |
+| Google | implémenté | `google_sign_in` ouvre le sélecteur de compte, puis `signInWithCredential(GoogleAuthProvider.credential(idToken: …))` |
 | Apple | prévu | `signInWithProvider(AppleAuthProvider())` de `firebase_auth` ; à confirmer sur appareil avant d'ajouter `sign_in_with_apple` |
 
 Réinitialisation du mot de passe : `sendPasswordResetEmail` envoie l'e-mail Firebase (modèle à personnaliser dans la console des deux projets). Un e-mail inconnu réussit en silence pour ne pas révéler l'existence d'un compte ; l'UI affiche donc toujours le même message de confirmation.
 
-Chaque fournisseur s'active dans la console **des deux projets** (dev et prod). Pour Google : empreintes SHA-1/SHA-256 Android de chaque flavor, puis régénérer la config avec `scripts/flutterfire-config.sh <flavor>`. Côté iOS, le client OAuth et l'URL scheme sont déjà branchés par configuration de build (voir [flavors.md](flavors.md#ios)). Pour Apple : capability « Sign in with Apple » sur les deux bundle ids ; côté Android, Service ID et clé Apple renseignés dans la console Firebase. Apple impose de proposer « Sign in with Apple » dès qu'une app iOS propose une connexion tierce comme Google.
+Chaque fournisseur s'active dans la console **des deux projets** (dev et prod). Pour Google sur Android : `google_sign_in` lit le client web dans `google-services.json`, et le projet Firebase doit connaître les empreintes SHA-1/SHA-256 de chaque flavor (un `oauth_client` de `client_type` 1 apparaît alors dans le fichier). Ajouter les empreintes dans la console, puis régénérer la config avec `scripts/flutterfire-config.sh <flavor>`. Côté iOS, le client OAuth et l'URL scheme sont déjà branchés par configuration de build (voir [flavors.md](flavors.md#ios)). Pour Apple : capability « Sign in with Apple » sur les deux bundle ids ; côté Android, Service ID et clé Apple renseignés dans la console Firebase. Apple impose de proposer « Sign in with Apple » dès qu'une app iOS propose une connexion tierce comme Google.
 
-Cas à traiter à l'implémentation : annulation par l'utilisateur (ne pas afficher d'erreur), `account-exists-with-different-credential` (même e-mail déjà utilisé par un autre fournisseur), e-mail masqué par Apple.
+L'annulation par l'utilisateur n'est pas une erreur : `signInWithGoogle` se termine sans rien faire. Une erreur non reconnue devient `UnknownFailure` et sa cause est écrite dans la console de debug (`failureFrom`). Cas restant à traiter : `account-exists-with-different-credential` (même e-mail déjà utilisé par un autre fournisseur), e-mail masqué par Apple.
 
 Architecture côté app : [architecture.md](architecture.md#authentification).
 

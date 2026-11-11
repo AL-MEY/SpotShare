@@ -66,6 +66,7 @@ class _Translations$home$en extends Translations$home$fr {
 	// Translations
 	@override String get welcome => 'Welcome to SpotShare';
 	@override String get subtitle => 'Share your best spots';
+	@override String get signOut => 'Sign out';
 }
 
 // Path: welcome
@@ -88,6 +89,7 @@ class _Translations$login$en extends Translations$login$fr {
 
 	// Translations
 	@override String get title => 'Sign in';
+	@override String get continueWithGoogle => 'Continue with Google';
 }
 
 // Path: onboarding
@@ -219,10 +221,12 @@ extension on TranslationsEn {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Welcome to SpotShare',
 			'home.subtitle' => 'Share your best spots',
+			'home.signOut' => 'Sign out',
 			'welcome.tagline' => 'Share your best spots',
 			'welcome.start' => 'Get started',
 			'welcome.alreadyHaveAccount' => 'I already have an account',
 			'login.title' => 'Sign in',
+			'login.continueWithGoogle' => 'Continue with Google',
 			'onboarding.title' => 'Welcome',
 			'errors.network.title' => 'No connection',
 			'errors.network.message' => 'Can’t connect. Check your network.',
