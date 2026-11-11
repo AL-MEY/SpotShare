@@ -12,7 +12,12 @@
           "package_name": "com.almey.spotshare"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "834286565441-jhpnf1h7mih3bsqfk970r4nvgdufanl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB3ce9Ul1UPRvdIc9_loVx1FruHwu27L9w"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834286565441-jhpnf1h7mih3bsqfk970r4nvgdufanl8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.almey.spotshare"
+              }
+            }
+          ]
         }
       }
     }
