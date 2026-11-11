@@ -27,6 +27,9 @@ class ErrorBottomSheet extends StatelessWidget {
     UnauthenticatedFailure() => Icons.lock_outline,
     PermissionFailure() => Icons.block,
     NotFoundFailure() => Icons.search_off,
+    InvalidCredentialsFailure() => Icons.key_off,
+    EmailAlreadyUsedFailure() => Icons.alternate_email,
+    WeakPasswordFailure() => Icons.password,
     UnknownFailure() => Icons.error_outline,
   };
 

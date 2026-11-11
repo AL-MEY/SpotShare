@@ -129,6 +129,9 @@ class Translations$errors$fr {
 	late final Translations$errors$unauthenticated$fr unauthenticated = Translations$errors$unauthenticated$fr.internal(_root);
 	late final Translations$errors$permissionDenied$fr permissionDenied = Translations$errors$permissionDenied$fr.internal(_root);
 	late final Translations$errors$notFound$fr notFound = Translations$errors$notFound$fr.internal(_root);
+	late final Translations$errors$invalidCredentials$fr invalidCredentials = Translations$errors$invalidCredentials$fr.internal(_root);
+	late final Translations$errors$emailAlreadyUsed$fr emailAlreadyUsed = Translations$errors$emailAlreadyUsed$fr.internal(_root);
+	late final Translations$errors$weakPassword$fr weakPassword = Translations$errors$weakPassword$fr.internal(_root);
 	late final Translations$errors$unknown$fr unknown = Translations$errors$unknown$fr.internal(_root);
 
 	/// fr: 'Réessayer'
@@ -201,6 +204,51 @@ class Translations$errors$notFound$fr {
 	String get message => 'Contenu introuvable.';
 }
 
+// Path: errors.invalidCredentials
+class Translations$errors$invalidCredentials$fr {
+	Translations$errors$invalidCredentials$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Identifiants incorrects'
+	String get title => 'Identifiants incorrects';
+
+	/// fr: 'Vérifie ton e-mail et ton mot de passe.'
+	String get message => 'Vérifie ton e-mail et ton mot de passe.';
+}
+
+// Path: errors.emailAlreadyUsed
+class Translations$errors$emailAlreadyUsed$fr {
+	Translations$errors$emailAlreadyUsed$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'E-mail déjà utilisé'
+	String get title => 'E-mail déjà utilisé';
+
+	/// fr: 'Un compte existe déjà avec cet e-mail. Connecte-toi.'
+	String get message => 'Un compte existe déjà avec cet e-mail. Connecte-toi.';
+}
+
+// Path: errors.weakPassword
+class Translations$errors$weakPassword$fr {
+	Translations$errors$weakPassword$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Mot de passe trop faible'
+	String get title => 'Mot de passe trop faible';
+
+	/// fr: 'Choisis un mot de passe plus long.'
+	String get message => 'Choisis un mot de passe plus long.';
+}
+
 // Path: errors.unknown
 class Translations$errors$unknown$fr {
 	Translations$errors$unknown$fr.internal(this._root);
@@ -240,6 +288,12 @@ extension on Translations {
 			'errors.permissionDenied.message' => 'Tu n’as pas les droits pour cette action.',
 			'errors.notFound.title' => 'Introuvable',
 			'errors.notFound.message' => 'Contenu introuvable.',
+			'errors.invalidCredentials.title' => 'Identifiants incorrects',
+			'errors.invalidCredentials.message' => 'Vérifie ton e-mail et ton mot de passe.',
+			'errors.emailAlreadyUsed.title' => 'E-mail déjà utilisé',
+			'errors.emailAlreadyUsed.message' => 'Un compte existe déjà avec cet e-mail. Connecte-toi.',
+			'errors.weakPassword.title' => 'Mot de passe trop faible',
+			'errors.weakPassword.message' => 'Choisis un mot de passe plus long.',
 			'errors.unknown.title' => 'Oups',
 			'errors.unknown.message' => 'Une erreur est survenue. Réessaie.',
 			'errors.retry' => 'Réessayer',

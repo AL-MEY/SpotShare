@@ -24,6 +24,15 @@ errors:
   notFound:
     title: Not found
     message: Content not found.
+  invalidCredentials:
+    title: Wrong credentials
+    message: Check your email and password.
+  emailAlreadyUsed:
+    title: Email already in use
+    message: An account already exists with this email. Sign in instead.
+  weakPassword:
+    title: Password too weak
+    message: Pick a longer password.
   unknown:
     title: Oops
     message: Something went wrong. Try again.
