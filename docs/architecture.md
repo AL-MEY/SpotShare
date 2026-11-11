@@ -68,6 +68,15 @@ Tout est dans `core/error/` :
 
 Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Result` : Riverpod les capture dans `AsyncValue.error`, sans package supplémentaire.
 
+## Navigation
+
+`core/router/app_router.dart` expose le `GoRouter` unique via `routerProvider`, consommé par `MaterialApp.router` dans `app.dart`.
+
+- Chemins déclarés dans `AppRoutes` ; naviguer avec `context.go(AppRoutes.xxx)`, jamais avec une chaîne en dur.
+- Ajouter un écran = une constante dans `AppRoutes` + un `GoRoute` dans `routerProvider`.
+- Route inconnue : `NotFoundPage` (`core/router/not_found_page.dart`).
+- Les gardes (ex. redirection vers la connexion) iront dans le `redirect` du `GoRouter`, en lisant l'état d'auth via `ref`.
+
 ## Offline et persistance locale
 
 Exigence : consultation hors-ligne des spots déjà chargés, navigation continue sans réseau, capture photo offline avec synchronisation différée.

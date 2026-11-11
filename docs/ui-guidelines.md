@@ -43,6 +43,10 @@
 - Aucun texte visible en dur : toujours une clé, ajoutée dans **les deux** fichiers.
 - La langue choisie par l'utilisateur est persistée localement et restaurée au démarrage.
 
+## Navigation
+
+- Toujours `context.go(AppRoutes.xxx)` / `context.push(AppRoutes.xxx)` (go_router), jamais `Navigator.push` vers une page ni de chemin en dur. Détails : [architecture.md](architecture.md#navigation).
+
 ## Accessibilité
 
 - Cibles tactiles ≥ 48 dp, `Semantics`/`tooltip` sur les boutons icônes, contrastes conformes en clair et sombre.
