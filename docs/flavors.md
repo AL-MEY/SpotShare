@@ -42,6 +42,7 @@ iOS ne connaît pas les flavors : Flutter les associe à un **scheme** et à des
 - 6 configurations : `Debug`, `Profile` et `Release`, chacune en `-dev` et `-prod`. Les configurations d'origine (`Debug`, `Release`, `Profile`) et le scheme `Runner` ont été supprimés : un build sans flavor échoue au lieu de produire une app hybride.
 - 2 schemes partagés, `dev` et `prod`, dans `ios/Runner.xcodeproj/xcshareddata/xcschemes/`.
 - Par configuration : `PRODUCT_BUNDLE_IDENTIFIER`, `APP_DISPLAY_NAME` (lu par `CFBundleDisplayName` dans `Info.plist`) et un fichier `ios/Flutter/<Build>-<flavor>.xcconfig` qui inclut `Generated.xcconfig`.
+- Par configuration aussi : `GOOGLE_CLIENT_ID` et `REVERSED_CLIENT_ID` (connexion Google), lus par `GIDClientID` et l'URL scheme de `Info.plist`. Ils recopient `CLIENT_ID` et `REVERSED_CLIENT_ID` du `GoogleService-Info.plist` du flavor : à remettre à jour dans Xcode si ce fichier est régénéré avec un autre client OAuth.
 - Les plugins passent par Swift Package Manager (pas de `Podfile`). La version iOS minimale est 15.0, imposée par Firebase.
 
 Le SDK Firebase natif cherche aussi un `GoogleService-Info.plist` dans l'app : sans lui, certains cas échouent, comme le démarrage à froid depuis une notification. La build phase `FlutterFire: "flutterfire bundle-service-file"` copie le bon fichier (`ios/flavors/<flavor>/`) dans l'app à chaque build, d'après l'entrée de la configuration courante dans `firebase.json`.

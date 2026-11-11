@@ -347,6 +347,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
+				GOOGLE_CLIENT_ID = "834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm.apps.googleusercontent.com";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -354,6 +355,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.almey.spotshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -426,6 +428,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
+				GOOGLE_CLIENT_ID = "331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2.apps.googleusercontent.com";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -433,6 +436,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.almey.spotshare.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -517,6 +521,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
+				GOOGLE_CLIENT_ID = "331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2.apps.googleusercontent.com";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -524,6 +529,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.almey.spotshare.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -660,6 +666,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
+				GOOGLE_CLIENT_ID = "834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm.apps.googleusercontent.com";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -667,6 +674,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.almey.spotshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -682,6 +690,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
+				GOOGLE_CLIENT_ID = "331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2.apps.googleusercontent.com";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -689,6 +698,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.almey.spotshare.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -816,6 +826,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
+				GOOGLE_CLIENT_ID = "834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm.apps.googleusercontent.com";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -823,6 +834,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.almey.spotshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.834286565441-65tcn7iqh6e75ms56psm9lu4lamoi8pm";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
