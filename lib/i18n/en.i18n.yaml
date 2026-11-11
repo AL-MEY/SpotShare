@@ -3,3 +3,22 @@ app:
 home:
   welcome: Welcome to SpotShare
   subtitle: Share your best spots
+errors:
+  network:
+    title: No connection
+    message: Can’t connect. Check your network.
+  unauthenticated:
+    title: Sign-in required
+    message: Sign in to continue.
+  permissionDenied:
+    title: Not allowed
+    message: You’re not allowed to do this.
+  notFound:
+    title: Not found
+    message: Content not found.
+  unknown:
+    title: Oops
+    message: Something went wrong. Try again.
+  retry: Try again
+  close: Close
+  backHome: Back to home

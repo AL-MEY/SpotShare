@@ -3,3 +3,22 @@ app:
 home:
   welcome: Bienvenue sur SpotShare
   subtitle: Partage tes meilleurs spots
+errors:
+  network:
+    title: Pas de connexion
+    message: Connexion impossible. Vérifie ton réseau.
+  unauthenticated:
+    title: Connexion requise
+    message: Connecte-toi pour continuer.
+  permissionDenied:
+    title: Action non autorisée
+    message: Tu n’as pas les droits pour cette action.
+  notFound:
+    title: Introuvable
+    message: Contenu introuvable.
+  unknown:
+    title: Oups
+    message: Une erreur est survenue. Réessaie.
+  retry: Réessayer
+  close: Fermer
+  backHome: Retour à l’accueil

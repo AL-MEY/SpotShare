@@ -50,13 +50,23 @@ presentation  ──►  domain  ◄──  data
 - Entités immuables (`final` + `const` constructor, `copyWith`, égalité par valeur). `freezed` est acceptable si l'équipe l'adopte.
 - Value objects pour les types porteurs de règles (ex. `Rating` entre 1 et 5, `GeoPoint`).
 - Use case : une classe, une méthode `call(...)`, nommée par l'action (`CreateSpot`, `ToggleFavorite`, `GetNearbySpots`).
-- Les erreurs remontent sous forme typée (sealed class `Failure` ou exceptions du domaine), jamais des exceptions Firebase brutes.
+- Les erreurs remontent sous forme typée (sealed class `Failure`), jamais des exceptions Firebase brutes. Voir « Erreurs » ci-dessous.
 
 ## Data
 
 - DTO séparés des entités : ce sont eux qui connaissent le format Firestore / JSON.
 - Le mapper est le seul endroit qui convertit DTO ↔ entité.
 - Le repository orchestre remote + local et convertit les exceptions techniques en `Failure`.
+
+## Erreurs
+
+Tout est dans `core/error/` :
+
+- `failure.dart` : sealed class `Failure implements Exception`, Dart pur (importable depuis le domaine). Sous-types : `NetworkFailure`, `UnauthenticatedFailure`, `PermissionFailure`, `NotFoundFailure`, `UnknownFailure`.
+- `firebase_failure.dart` : `failureFrom(error)` convertit une exception technique en `Failure`. Les repositories l'appellent dans leur `catch` : `catch (e) { throw failureFrom(e); }`. Les codes propres à une feature (ex. `wrong-password`) se traitent dans son repository avant de retomber sur `failureFrom`.
+- `failure_message.dart` : `failure.title(t)` et `failure.message(t)` renvoient les textes localisés (`errors.<type>.title` / `.message` dans les `.i18n.yaml`). Les `switch` sont exhaustifs : un nouveau sous-type ne compile pas sans ses textes.
+
+Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Result` : Riverpod les capture dans `AsyncValue.error`, sans package supplémentaire.
 
 ## Offline et persistance locale
 
