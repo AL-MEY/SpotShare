@@ -6,7 +6,7 @@ La grille exige : tests unitaires des **repositories**, **use cases** et **provi
 
 - `test/` reproduit l'arborescence de `lib/` : `lib/features/spot/domain/usecases/create_spot.dart` → `test/features/spot/domain/usecases/create_spot_test.dart`.
 - Un fichier de test par classe testée, suffixe `_test.dart`.
-- Fakes et fixtures partagés dans `test/helpers/` : `pumpApp(tester, auth: …)` pompe l'app complète avec un `FakeAuthRepository` (visiteur par défaut, `FakeAuthRepository(FakeAuthRepository.user)` pour un utilisateur connecté, `auth.emit(...)` pour simuler connexion et déconnexion).
+- Fakes et fixtures partagés dans `test/helpers/` : `pumpApp(tester, auth: …)` pompe l'app complète avec un `FakeAuthRepository` (visiteur par défaut, `FakeAuthRepository(FakeAuthRepository.user)` pour un utilisateur connecté, `auth.emit(...)` pour simuler connexion et déconnexion, `auth.failure = …` pour faire échouer toutes les actions, `auth.resetEmail` pour vérifier l'e-mail de réinitialisation).
 
 ## Quoi tester
 

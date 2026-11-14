@@ -13,7 +13,7 @@ lib/
 │   ├── network/               # état de connectivité
 │   ├── router/                # go_router + routes
 │   ├── theme/                 # ThemeData clair/sombre + AppTheme (theme_tailor)
-│   └── widgets/               # widgets génériques réutilisables (ErrorBottomSheet…)
+│   └── widgets/               # widgets génériques réutilisables (ErrorBottomSheet, LoadingButton…)
 ├── i18n/                      # fr.i18n.yaml, en.i18n.yaml + strings*.g.dart (slang)
 └── features/
     └── <feature>/             # auth, profile, feed, spot, spot_editor, social, map…
@@ -86,7 +86,10 @@ Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configura
 - `FirebaseAuthRepository` (data) appelle `FirebaseAuth` directement, sans datasource intermédiaire : il n'y a ni cache local ni seconde source à orchestrer. Il convertit les codes d'erreur d'auth en `Failure` avant de retomber sur `failureFrom`.
 - `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`, `signInWithGoogleProvider`).
 - La session est persistée par le SDK Firebase : au démarrage, `currentUser` est disponible de façon synchrone, d'où l'absence d'écran de chargement.
-- `presentation/providers/google_sign_in_controller.dart` : `AsyncNotifier` qui porte l'état loading / erreur du bouton Google de `LoginPage`.
+- `presentation/providers/auth_form_controller.dart` : `AuthFormController`, `AsyncNotifier` qui porte l'état initial / loading / data / error d'un formulaire. `submit(action)` exécute le use case passé par la page. Un provider par écran (`loginControllerProvider`, `signUpControllerProvider`, `passwordResetControllerProvider`) pour que l'erreur d'une page ne soit pas affichée par celle qu'elle recouvre.
+- Parcours visiteur : `WelcomePage` → « Commencer » → onboarding (`/onboarding`, feature `onboarding`) → `SignUpPage` en dernière étape (`/onboarding/sign-up`, route enfant de l'onboarding : le retour ramène à l'étape précédente). « J'ai déjà un compte » → `LoginPage` → `ForgotPasswordPage` (snackbar de confirmation puis retour). La création de compte ne s'atteint que par l'onboarding, la connexion n'a pas de lien vers l'inscription.
+- `SignUpPage` et `LoginPage` proposent e-mail / mot de passe et Google (Google connecte aussi un compte existant). Toutes ces routes sont dans `AppRoutes.public`.
+- `presentation/widgets/auth_fields.dart` : `EmailField` et `PasswordField` (validation localisée, bouton afficher / masquer ; `isNewPassword: true` exige `minPasswordLength` = 6 caractères, le minimum de Firebase).
 - Ajouter un fournisseur (Apple) = une méthode sur `AuthRepository` + un use case, comme pour Google. `authStateProvider` et la garde du routeur ne changent pas.
 
 ## Offline et persistance locale
