@@ -31,6 +31,7 @@ Les fichiers générés (`*.g.dart`, `*.tailor.dart`) sont versionnés : le proj
 | `go_router` | Navigation déclarative |
 | `google_sign_in` | Connexion Google native (sélecteur de compte Android / iOS) : `firebase_auth` seul ne sait pas ouvrir ce flux sur mobile, il ne fait qu'échanger le jeton obtenu |
 | `firebase_core`, `firebase_auth`, `cloud_firestore`, `firebase_storage`, `cloud_functions` | Backend : authentification, données temps réel, photos, logique serveur et proxy des API tierces |
+| `image_picker` | Photo depuis l'appareil photo ou la galerie, redimensionnée à la source (avatar, photos de spots) : plugin officiel de l'équipe Flutter, sans dépendance de compression en plus |
 | `cached_network_image` | Cache disque des images distantes (consultation hors-ligne) |
 | `connectivity_plus` | Détection du réseau pour le mode hors-ligne et la synchronisation différée |
 | `shared_preferences` | Persistance locale des préférences (langue choisie) |
