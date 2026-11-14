@@ -44,7 +44,7 @@ presentation  ──►  domain  ◄──  data
 - `domain` : Dart pur. Aucun import de `package:flutter`, `cloud_firestore`, `firebase_*`, ni de `data/`.
 - `data` implémente les interfaces de `domain/repositories` et ne connaît pas `presentation`.
 - `presentation` ne parle qu'aux use cases (ou aux repositories via leur interface), jamais directement à une datasource ni à Firestore.
-- Une feature n'importe pas les couches `data/` ou `presentation/` d'une autre feature. Partager via `core/` ou via le `domain` exposé.
+- Une feature n'importe pas les couches `data/` ou `presentation/` d'une autre feature. Partager via `core/` ou via le `domain` exposé. Seule exception : le fichier `presentation/providers/<feature>_providers.dart` est l'API d'injection publique d'une feature, une autre feature peut y lire un provider d'infrastructure (ex. `profile` lit `currentUserIdProvider` de `auth`), jamais un widget ni un notifier d'écran.
 
 ## Domain
 
@@ -85,7 +85,7 @@ Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configura
 
 - `AuthRepository` (domaine) : `currentUser`, `watchUser()`, `signIn`, `signInWithGoogle`, `signUp`, `signOut`, `sendPasswordResetEmail`. Entité `AppUser` (`id`, `email`).
 - `FirebaseAuthRepository` (data) appelle `FirebaseAuth` directement, sans datasource intermédiaire : il n'y a ni cache local ni seconde source à orchestrer. Il convertit les codes d'erreur d'auth en `Failure` avant de retomber sur `failureFrom`.
-- `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`), un `SubmitController` par écran (`loginControllerProvider`, `signUpControllerProvider`, `passwordResetControllerProvider`, pour que l'erreur d'une page ne soit pas affichée par celle qu'elle recouvre) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`, `signInWithGoogleProvider`).
+- `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`), `currentUserIdProvider` (ne notifie que si l'utilisateur change : base des providers qui dépendent de l'utilisateur connecté), un `SubmitController` par écran (`loginControllerProvider`, `signUpControllerProvider`, `passwordResetControllerProvider`, pour que l'erreur d'une page ne soit pas affichée par celle qu'elle recouvre) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`, `signInWithGoogleProvider`).
 - La session est persistée par le SDK Firebase : au démarrage, `currentUser` est disponible de façon synchrone, d'où l'absence d'écran de chargement.
 - `core/providers/submit_controller.dart` : `SubmitController`, `AsyncNotifier` qui porte l'état initial / loading / data / error d'un formulaire. `submit(action)` exécute le use case passé par la page. Chaque écran déclare son propre provider `AsyncNotifierProvider.autoDispose<SubmitController, void>`.
 - Parcours visiteur : `WelcomePage` → « Commencer » → onboarding (`/onboarding`, feature `onboarding`) → `SignUpPage` en dernière étape (`/onboarding/sign-up`, route enfant de l'onboarding : le retour ramène à l'étape précédente). « J'ai déjà un compte » → `LoginPage` → `ForgotPasswordPage` (snackbar de confirmation puis retour). La création de compte ne s'atteint que par l'onboarding, la connexion n'a pas de lien vers l'inscription.
