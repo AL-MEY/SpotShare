@@ -12,10 +12,9 @@ lib/
 │   ├── error/                 # Failure, exceptions typées
 │   ├── network/               # état de connectivité
 │   ├── router/                # go_router + routes
-│   ├── theme/                 # ThemeData clair/sombre, tokens
-│   ├── l10n/                  # extension context.l10n
-│   └── widgets/               # widgets génériques réutilisables
-├── l10n/                      # app_fr.arb, app_en.arb
+│   ├── theme/                 # ThemeData clair/sombre + AppTheme (theme_tailor)
+│   └── widgets/               # widgets génériques réutilisables (ErrorBottomSheet, LoadingButton…)
+├── i18n/                      # fr.i18n.yaml, en.i18n.yaml + strings*.g.dart (slang)
 └── features/
     └── <feature>/             # auth, profile, feed, spot, spot_editor, social, map…
         ├── domain/
@@ -51,13 +50,47 @@ presentation  ──►  domain  ◄──  data
 - Entités immuables (`final` + `const` constructor, `copyWith`, égalité par valeur). `freezed` est acceptable si l'équipe l'adopte.
 - Value objects pour les types porteurs de règles (ex. `Rating` entre 1 et 5, `GeoPoint`).
 - Use case : une classe, une méthode `call(...)`, nommée par l'action (`CreateSpot`, `ToggleFavorite`, `GetNearbySpots`).
-- Les erreurs remontent sous forme typée (sealed class `Failure` ou exceptions du domaine), jamais des exceptions Firebase brutes.
+- Les erreurs remontent sous forme typée (sealed class `Failure`), jamais des exceptions Firebase brutes. Voir « Erreurs » ci-dessous.
 
 ## Data
 
 - DTO séparés des entités : ce sont eux qui connaissent le format Firestore / JSON.
 - Le mapper est le seul endroit qui convertit DTO ↔ entité.
 - Le repository orchestre remote + local et convertit les exceptions techniques en `Failure`.
+
+## Erreurs
+
+Tout est dans `core/error/` :
+
+- `failure.dart` : sealed class `Failure implements Exception`, Dart pur (importable depuis le domaine). Sous-types : `NetworkFailure`, `UnauthenticatedFailure`, `PermissionFailure`, `NotFoundFailure`, `UnknownFailure`, et pour l'auth `InvalidCredentialsFailure`, `EmailAlreadyUsedFailure`, `WeakPasswordFailure`. La classe étant `sealed`, tout sous-type se déclare dans ce fichier.
+- `firebase_failure.dart` : `failureFrom(error)` convertit une exception technique en `Failure`. Les repositories l'appellent dans leur `catch` : `catch (e) { throw failureFrom(e); }`. Les codes propres à une feature (ex. `wrong-password`) se traitent dans son repository avant de retomber sur `failureFrom`.
+- `failure_message.dart` : `failure.title(t)` et `failure.message(t)` renvoient les textes localisés (`errors.<type>.title` / `.message` dans les `.i18n.yaml`). Les `switch` sont exhaustifs : un nouveau sous-type ne compile pas sans ses textes.
+- `core/widgets/error_bottom_sheet.dart` : `showErrorBottomSheet(context, failure, onRetry: …)` affiche l'erreur à l'utilisateur (icône, titre et message selon le type de `Failure`, bouton « Réessayer » si `onRetry` est fourni). À déclencher depuis un `ref.listen`, pas depuis `build`.
+
+Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Result` : Riverpod les capture dans `AsyncValue.error`, sans package supplémentaire.
+
+## Navigation
+
+`core/router/app_router.dart` expose le `GoRouter` unique via `routerProvider`, consommé par `MaterialApp.router` dans `app.dart`.
+
+- Chemins déclarés dans `AppRoutes` ; naviguer avec `context.go(AppRoutes.xxx)`, jamais avec une chaîne en dur.
+- Ajouter un écran = une constante dans `AppRoutes` + un `GoRoute` dans `routerProvider`.
+- Route inconnue : `NotFoundPage` (`core/router/not_found_page.dart`).
+- Garde d'auth dans le `redirect` du `GoRouter` : un visiteur ne voit que les routes de `AppRoutes.public` (sinon retour à `welcome`), un utilisateur connecté en est renvoyé vers `home`. Le routeur se réévalue à chaque changement de `authStateProvider`. Une route accessible sans compte s'ajoute à `AppRoutes.public`.
+
+## Authentification
+
+Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configuration : [backend-firebase.md](backend-firebase.md#authentification)).
+
+- `AuthRepository` (domaine) : `currentUser`, `watchUser()`, `signIn`, `signInWithGoogle`, `signUp`, `signOut`, `sendPasswordResetEmail`. Entité `AppUser` (`id`, `email`).
+- `FirebaseAuthRepository` (data) appelle `FirebaseAuth` directement, sans datasource intermédiaire : il n'y a ni cache local ni seconde source à orchestrer. Il convertit les codes d'erreur d'auth en `Failure` avant de retomber sur `failureFrom`.
+- `presentation/providers/auth_providers.dart` : `authRepositoryProvider`, `authStateProvider` (`StreamProvider<AppUser?>`) et un provider par use case (`signInProvider`, `signUpProvider`, `signOutProvider`, `sendPasswordResetEmailProvider`, `signInWithGoogleProvider`).
+- La session est persistée par le SDK Firebase : au démarrage, `currentUser` est disponible de façon synchrone, d'où l'absence d'écran de chargement.
+- `presentation/providers/auth_form_controller.dart` : `AuthFormController`, `AsyncNotifier` qui porte l'état initial / loading / data / error d'un formulaire. `submit(action)` exécute le use case passé par la page. Un provider par écran (`loginControllerProvider`, `signUpControllerProvider`, `passwordResetControllerProvider`) pour que l'erreur d'une page ne soit pas affichée par celle qu'elle recouvre.
+- Parcours visiteur : `WelcomePage` → « Commencer » → onboarding (`/onboarding`, feature `onboarding`) → `SignUpPage` en dernière étape (`/onboarding/sign-up`, route enfant de l'onboarding : le retour ramène à l'étape précédente). « J'ai déjà un compte » → `LoginPage` → `ForgotPasswordPage` (snackbar de confirmation puis retour). La création de compte ne s'atteint que par l'onboarding, la connexion n'a pas de lien vers l'inscription.
+- `SignUpPage` et `LoginPage` proposent e-mail / mot de passe et Google (Google connecte aussi un compte existant). Toutes ces routes sont dans `AppRoutes.public`.
+- `presentation/widgets/auth_fields.dart` : `EmailField` et `PasswordField` (validation localisée, bouton afficher / masquer ; `isNewPassword: true` exige `minPasswordLength` = 6 caractères, le minimum de Firebase).
+- Ajouter un fournisseur (Apple) = une méthode sur `AuthRepository` + un use case, comme pour Google. `authStateProvider` et la garde du routeur ne changent pas.
 
 ## Offline et persistance locale
 

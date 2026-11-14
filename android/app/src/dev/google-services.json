@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "331763532228",
+    "project_id": "spotshare-dev-b6185",
+    "storage_bucket": "spotshare-dev-b6185.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331763532228:android:71ef1ead5d8ef41175a491",
+        "android_client_info": {
+          "package_name": "com.almey.spotshare.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331763532228-cf6ofval2fmrh1nbvpebsog79s009j43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmRWk9OqfsLYJeGeGSGVtTnMWsZcEluZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331763532228-cf6ofval2fmrh1nbvpebsog79s009j43.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "331763532228-hn489l9jum6ve1lq58kl681hj4ss0bf2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.almey.spotshare.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

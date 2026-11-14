@@ -53,3 +53,6 @@ env/*.json
 
 # Claude Code (réglages personnels)
 .claude/settings.local.json
+
+# FVM (lien local vers le SDK, version figée dans .fvmrc)
+.fvm/

@@ -1,0 +1,63 @@
+app:
+  title: SpotShare
+home:
+  welcome: Bienvenue sur SpotShare
+  subtitle: Partage tes meilleurs spots
+  signOut: Se déconnecter
+welcome:
+  tagline: Partage tes meilleurs spots
+  start: Commencer
+  alreadyHaveAccount: J’ai déjà un compte
+auth:
+  email: E-mail
+  password: Mot de passe
+  showPassword: Afficher le mot de passe
+  hidePassword: Masquer le mot de passe
+  invalidEmail: Saisis un e-mail valide.
+  passwordRequired: Saisis ton mot de passe.
+  passwordTooShort: Au moins ${min} caractères.
+  continueWithGoogle: Continuer avec Google
+login:
+  title: Connexion
+  submit: Se connecter
+  forgotPassword: Mot de passe oublié ?
+signUp:
+  title: Crée ton compte
+  submit: Créer mon compte
+forgotPassword:
+  title: Mot de passe oublié
+  hint: Saisis ton e-mail, on t’envoie un lien pour choisir un nouveau mot de passe.
+  submit: Envoyer le lien
+  sent: Si un compte existe pour cet e-mail, un lien vient de t’être envoyé.
+onboarding:
+  title: Trouve tes spots
+  subtitle: "Cafés, points de vue, street art : découvre les lieux partagés près de chez toi."
+  next: Continuer
+errors:
+  network:
+    title: Pas de connexion
+    message: Connexion impossible. Vérifie ton réseau.
+  unauthenticated:
+    title: Connexion requise
+    message: Connecte-toi pour continuer.
+  permissionDenied:
+    title: Action non autorisée
+    message: Tu n’as pas les droits pour cette action.
+  notFound:
+    title: Introuvable
+    message: Contenu introuvable.
+  invalidCredentials:
+    title: Identifiants incorrects
+    message: Vérifie ton e-mail et ton mot de passe.
+  emailAlreadyUsed:
+    title: E-mail déjà utilisé
+    message: Un compte existe déjà avec cet e-mail. Connecte-toi.
+  weakPassword:
+    title: Mot de passe trop faible
+    message: Choisis un mot de passe plus long.
+  unknown:
+    title: Oups
+    message: Une erreur est survenue. Réessaie.
+  retry: Réessayer
+  close: Fermer
+  backHome: Retour à l’accueil

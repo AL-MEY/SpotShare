@@ -6,7 +6,7 @@ La grille exige : tests unitaires des **repositories**, **use cases** et **provi
 
 - `test/` reproduit l'arborescence de `lib/` : `lib/features/spot/domain/usecases/create_spot.dart` → `test/features/spot/domain/usecases/create_spot_test.dart`.
 - Un fichier de test par classe testée, suffixe `_test.dart`.
-- Fakes et fixtures partagés dans `test/helpers/`.
+- Fakes et fixtures partagés dans `test/helpers/` : `pumpApp(tester, auth: …)` pompe l'app complète avec un `FakeAuthRepository` (visiteur par défaut, `FakeAuthRepository(FakeAuthRepository.user)` pour un utilisateur connecté, `auth.emit(...)` pour simuler connexion et déconnexion, `auth.failure = …` pour faire échouer toutes les actions, `auth.resetEmail` pour vérifier l'e-mail de réinitialisation).
 
 ## Quoi tester
 
@@ -15,6 +15,7 @@ La grille exige : tests unitaires des **repositories**, **use cases** et **provi
 | Use case | appel du repository mocké, résultat et erreurs |
 | Repository | datasources mockées : mapping DTO ↔ entité, conversion des exceptions en `Failure`, logique offline (local d'abord, sync différée) |
 | Provider / Notifier | `ProviderContainer` avec `overrides` des use cases ; vérifier la séquence `loading → data` et `loading → error` |
+| Routeur | pomper `SpotShareApp`, `pumpApp` renvoie le `ProviderContainer` : `container.read(routerProvider).go(...)` ; vérifier la page affichée |
 | Widget critique | `pumpWidget` dans un `ProviderScope(overrides: …)` + `MaterialApp` avec localisations ; vérifier les états loading / data / error et les interactions |
 
 ## Règles

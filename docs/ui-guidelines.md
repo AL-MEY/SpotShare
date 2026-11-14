@@ -9,8 +9,15 @@
 
 ## Thème Material 3
 
-- `useMaterial3: true`, `ThemeData` clair **et** sombre définis dans `core/theme/`, générés depuis un `ColorScheme.fromSeed`.
-- Aucune couleur ni taille de texte en dur dans les widgets : `Theme.of(context).colorScheme` et `textTheme`.
+- Les valeurs du design system ne vivent que dans `core/theme/app_theme_impl.dart`, jamais ailleurs.
+- `ThemeData` clair **et** sombre (Material 3) construits dans `core/theme/app_theme_impl.dart`. Le `ColorScheme` et le `TextTheme` y sont dérivés des tokens, si bien que les widgets Material suivent le design system sans configuration.
+- Dans un widget, tout passe par `context.appTheme` (theme_tailor, classes dans `core/theme/app_theme.dart`) :
+  - `colors` : **uniquement les alias fonctionnels** (`background`, `surface`, `foreground`, `action`, `accent`…). Les primitives (`neutral100`, `brand200`…) sont privées à l'impl.
+  - `textStyles` (`h1`–`h3`, `b1`–`b3`, `l1`), `spacing`, `radius`, `stroke`, `shadows`, `opacity`.
+- Aucune couleur, taille de texte, marge ou rayon en dur dans un widget.
+- `accent` (le vermillon) est réservé au favori, aux marqueurs et au spot sélectionné : jamais sur un bouton d'action, qui utilise `action`.
+- Police : Instrument Sans embarquée dans `assets/fonts/` (graisses 400, 500 et 600, licence OFL). Une autre graisse ne s'utilise qu'après avoir ajouté son fichier et l'avoir déclaré dans `pubspec.yaml`.
+- Fonctionnement détaillé du thème et ajout d'un token : [theme.md](theme.md).
 - Respecter les zones sécurisées : `SafeArea` sur chaque page (ou `Scaffold` qui la gère correctement).
 
 ## Responsive
@@ -31,10 +38,24 @@
 
 ## Localisation FR / EN
 
-- `flutter_localizations` + fichiers `lib/l10n/app_fr.arb` et `app_en.arb`, génération via `flutter gen-l10n`.
-- `l10n.yaml` : `arb-dir: lib/l10n`, `output-dir: lib/l10n/generated`, `template-arb-file: app_fr.arb`. Ne pas utiliser `synthetic-package` ni `package:flutter_gen` (obsolètes) : importer `package:spotshare/l10n/generated/app_localizations.dart`.
-- Aucun texte visible en dur : toujours une clé ARB, ajoutée dans **les deux** fichiers.
+- slang : clés dans `lib/i18n/fr.i18n.yaml` (langue de base) et `en.i18n.yaml`, config dans `slang.yaml`, génération via `./scripts/generate_theme_and_i18n.sh` (qui lance `fvm dart run slang`) (fichiers `strings*.g.dart` versionnés, jamais édités à la main).
+- Accès dans un widget : `context.t.home.welcome` (import `package:spotshare/i18n/strings.g.dart`).
+- Aucun texte visible en dur : toujours une clé, ajoutée dans **les deux** fichiers.
 - La langue choisie par l'utilisateur est persistée localement et restaurée au démarrage.
+
+## Navigation
+
+- Toujours `context.go(AppRoutes.xxx)` / `context.push(AppRoutes.xxx)` (go_router), jamais `Navigator.push` vers une page ni de chemin en dur. Détails : [architecture.md](architecture.md#navigation).
+
+## Boutons d'action asynchrone
+
+- `LoadingButton` (`core/widgets/loading_button.dart`) : `FilledButton` désactivé avec un indicateur pendant `isLoading`. À utiliser pour toute soumission branchée sur un `AsyncValue`.
+
+## Affichage des erreurs
+
+- Erreur suite à une action (soumission, favori, suppression…) : `showErrorBottomSheet(context, failure, onRetry: …)` (`core/widgets/error_bottom_sheet.dart`), déclenchée depuis un `ref.listen`. Icône, titre et message dépendent du type de `Failure`.
+- Erreur de chargement d'un écran : état d'erreur affiché dans la page (branche `error` du `.when`), avec `failure.title(t)` / `failure.message(t)`.
+- Jamais de `e.toString()` ni de message Firebase affiché à l'utilisateur.
 
 ## Accessibilité
 

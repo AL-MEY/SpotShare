@@ -1,30 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:spotshare/core/theme/app_theme.dart';
+import 'package:spotshare/i18n/strings.g.dart';
 
-import 'package:spotshare/main.dart';
+import 'helpers/pump_app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('affiche l’écran de bienvenue en français', (tester) async {
+    await pumpApp(tester);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Partage tes meilleurs spots'), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('affiche l’écran de bienvenue en anglais', (tester) async {
+    await pumpApp(tester, locale: AppLocale.en);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Share your best spots'), findsOneWidget);
+  });
+
+  testWidgets('expose AppTheme via context.appTheme', (tester) async {
+    await pumpApp(tester);
+
+    final context = tester.element(find.byType(Scaffold));
+    expect(context.appTheme, isA<AppTheme>());
   });
 }

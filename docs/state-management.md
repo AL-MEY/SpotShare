@@ -32,6 +32,22 @@ final class SubmitSuccess extends SubmitState { const SubmitSuccess(); }
 final class SubmitError extends SubmitState { const SubmitError(this.failure); final Failure failure; }
 ```
 
+## Afficher une erreur
+
+Les repositories lèvent des `Failure` (voir [architecture.md](architecture.md#erreurs)) : elles arrivent dans `AsyncValue.error`. Pour une erreur suite à une action, l'effet passe par `ref.listen`, jamais par `build` :
+
+```dart
+ref.listen(spotProvider(id), (_, next) {
+  if (next case AsyncError(:final Failure error)) {
+    showErrorBottomSheet(
+      context,
+      error,
+      onRetry: () => ref.invalidate(spotProvider(id)),
+    );
+  }
+});
+```
+
 ## Rebuilds chirurgicaux
 
 - Interdit : `setState` pour l'état métier et toute reconstruction d'une page entière pour un changement local (ex. bouton favori).
@@ -45,4 +61,4 @@ final class SubmitError extends SubmitState { const SubmitError(this.failure); f
 
 ## Codegen
 
-Si l'équipe adopte `riverpod_generator` (`@riverpod`), l'utiliser partout pour rester homogène, et lancer `dart run build_runner build -d` après modification. Les fichiers `*.g.dart` ne s'éditent jamais à la main.
+Pas de `riverpod_generator` : providers écrits à la main. Sa version actuelle est incompatible avec `theme_tailor` 3.x (conflit de versions d'`analyzer`) ; à réévaluer avec `theme_tailor` 4, possible depuis le passage à Dart 3.13. Les fichiers générés (`*.g.dart`, `*.tailor.dart`) ne s'éditent jamais à la main.

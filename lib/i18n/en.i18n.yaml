@@ -1,0 +1,63 @@
+app:
+  title: SpotShare
+home:
+  welcome: Welcome to SpotShare
+  subtitle: Share your best spots
+  signOut: Sign out
+welcome:
+  tagline: Share your best spots
+  start: Get started
+  alreadyHaveAccount: I already have an account
+auth:
+  email: Email
+  password: Password
+  showPassword: Show password
+  hidePassword: Hide password
+  invalidEmail: Enter a valid email.
+  passwordRequired: Enter your password.
+  passwordTooShort: At least ${min} characters.
+  continueWithGoogle: Continue with Google
+login:
+  title: Sign in
+  submit: Sign in
+  forgotPassword: Forgot password?
+signUp:
+  title: Create your account
+  submit: Create my account
+forgotPassword:
+  title: Forgot password
+  hint: Enter your email and we’ll send you a link to choose a new password.
+  submit: Send the link
+  sent: If an account exists for this email, a link has just been sent.
+onboarding:
+  title: Find your spots
+  subtitle: "Cafés, viewpoints, street art: discover places shared near you."
+  next: Continue
+errors:
+  network:
+    title: No connection
+    message: Can’t connect. Check your network.
+  unauthenticated:
+    title: Sign-in required
+    message: Sign in to continue.
+  permissionDenied:
+    title: Not allowed
+    message: You’re not allowed to do this.
+  notFound:
+    title: Not found
+    message: Content not found.
+  invalidCredentials:
+    title: Wrong credentials
+    message: Check your email and password.
+  emailAlreadyUsed:
+    title: Email already in use
+    message: An account already exists with this email. Sign in instead.
+  weakPassword:
+    title: Password too weak
+    message: Pick a longer password.
+  unknown:
+    title: Oops
+    message: Something went wrong. Try again.
+  retry: Try again
+  close: Close
+  backHome: Back to home
