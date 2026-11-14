@@ -10,8 +10,14 @@ class FakeAuthRepository implements AuthRepository {
   static const user = AppUser(id: 'uid', email: 'test@spotshare.app');
 
   AppUser? _user;
-  Failure? googleFailure;
+  Failure? failure;
+  String? resetEmail;
   final _controller = StreamController<AppUser?>.broadcast();
+
+  void _throwIfFailing() {
+    final failure = this.failure;
+    if (failure != null) throw failure;
+  }
 
   void emit(AppUser? user) {
     _user = user;
@@ -27,27 +33,29 @@ class FakeAuthRepository implements AuthRepository {
   Stream<AppUser?> watchUser() => _controller.stream;
 
   @override
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async => emit(user);
-
-  @override
-  Future<void> signInWithGoogle() async {
-    final failure = googleFailure;
-    if (failure != null) throw failure;
+  Future<void> signIn({required String email, required String password}) async {
+    _throwIfFailing();
     emit(user);
   }
 
   @override
-  Future<void> signUp({
-    required String email,
-    required String password,
-  }) async => emit(user);
+  Future<void> signInWithGoogle() async {
+    _throwIfFailing();
+    emit(user);
+  }
+
+  @override
+  Future<void> signUp({required String email, required String password}) async {
+    _throwIfFailing();
+    emit(user);
+  }
 
   @override
   Future<void> signOut() async => emit(null);
 
   @override
-  Future<void> sendPasswordResetEmail(String email) async {}
+  Future<void> sendPasswordResetEmail(String email) async {
+    _throwIfFailing();
+    resetEmail = email;
+  }
 }

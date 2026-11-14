@@ -8,11 +8,31 @@ welcome:
   tagline: Share your best spots
   start: Get started
   alreadyHaveAccount: I already have an account
+auth:
+  email: Email
+  password: Password
+  showPassword: Show password
+  hidePassword: Hide password
+  invalidEmail: Enter a valid email.
+  passwordRequired: Enter your password.
+  passwordTooShort: At least ${min} characters.
+  continueWithGoogle: Continue with Google
 login:
   title: Sign in
-  continueWithGoogle: Continue with Google
+  submit: Sign in
+  forgotPassword: Forgot password?
+signUp:
+  title: Create your account
+  submit: Create my account
+forgotPassword:
+  title: Forgot password
+  hint: Enter your email and we’ll send you a link to choose a new password.
+  submit: Send the link
+  sent: If an account exists for this email, a link has just been sent.
 onboarding:
-  title: Welcome
+  title: Find your spots
+  subtitle: "Cafés, viewpoints, street art: discover places shared near you."
+  next: Continue
 errors:
   network:
     title: No connection

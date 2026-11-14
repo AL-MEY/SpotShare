@@ -42,7 +42,10 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$app$en app = _Translations$app$en._(_root);
 	@override late final _Translations$home$en home = _Translations$home$en._(_root);
 	@override late final _Translations$welcome$en welcome = _Translations$welcome$en._(_root);
+	@override late final _Translations$auth$en auth = _Translations$auth$en._(_root);
 	@override late final _Translations$login$en login = _Translations$login$en._(_root);
+	@override late final _Translations$signUp$en signUp = _Translations$signUp$en._(_root);
+	@override late final _Translations$forgotPassword$en forgotPassword = _Translations$forgotPassword$en._(_root);
 	@override late final _Translations$onboarding$en onboarding = _Translations$onboarding$en._(_root);
 	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
 }
@@ -81,6 +84,23 @@ class _Translations$welcome$en extends Translations$welcome$fr {
 	@override String get alreadyHaveAccount => 'I already have an account';
 }
 
+// Path: auth
+class _Translations$auth$en extends Translations$auth$fr {
+	_Translations$auth$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get email => 'Email';
+	@override String get password => 'Password';
+	@override String get showPassword => 'Show password';
+	@override String get hidePassword => 'Hide password';
+	@override String get invalidEmail => 'Enter a valid email.';
+	@override String get passwordRequired => 'Enter your password.';
+	@override String passwordTooShort({required Object min}) => 'At least ${min} characters.';
+	@override String get continueWithGoogle => 'Continue with Google';
+}
+
 // Path: login
 class _Translations$login$en extends Translations$login$fr {
 	_Translations$login$en._(TranslationsEn root) : this._root = root, super.internal(root);
@@ -89,7 +109,32 @@ class _Translations$login$en extends Translations$login$fr {
 
 	// Translations
 	@override String get title => 'Sign in';
-	@override String get continueWithGoogle => 'Continue with Google';
+	@override String get submit => 'Sign in';
+	@override String get forgotPassword => 'Forgot password?';
+}
+
+// Path: signUp
+class _Translations$signUp$en extends Translations$signUp$fr {
+	_Translations$signUp$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Create your account';
+	@override String get submit => 'Create my account';
+}
+
+// Path: forgotPassword
+class _Translations$forgotPassword$en extends Translations$forgotPassword$fr {
+	_Translations$forgotPassword$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Forgot password';
+	@override String get hint => 'Enter your email and we’ll send you a link to choose a new password.';
+	@override String get submit => 'Send the link';
+	@override String get sent => 'If an account exists for this email, a link has just been sent.';
 }
 
 // Path: onboarding
@@ -99,7 +144,9 @@ class _Translations$onboarding$en extends Translations$onboarding$fr {
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Welcome';
+	@override String get title => 'Find your spots';
+	@override String get subtitle => 'Cafés, viewpoints, street art: discover places shared near you.';
+	@override String get next => 'Continue';
 }
 
 // Path: errors
@@ -225,9 +272,26 @@ extension on TranslationsEn {
 			'welcome.tagline' => 'Share your best spots',
 			'welcome.start' => 'Get started',
 			'welcome.alreadyHaveAccount' => 'I already have an account',
+			'auth.email' => 'Email',
+			'auth.password' => 'Password',
+			'auth.showPassword' => 'Show password',
+			'auth.hidePassword' => 'Hide password',
+			'auth.invalidEmail' => 'Enter a valid email.',
+			'auth.passwordRequired' => 'Enter your password.',
+			'auth.passwordTooShort' => ({required Object min}) => 'At least ${min} characters.',
+			'auth.continueWithGoogle' => 'Continue with Google',
 			'login.title' => 'Sign in',
-			'login.continueWithGoogle' => 'Continue with Google',
-			'onboarding.title' => 'Welcome',
+			'login.submit' => 'Sign in',
+			'login.forgotPassword' => 'Forgot password?',
+			'signUp.title' => 'Create your account',
+			'signUp.submit' => 'Create my account',
+			'forgotPassword.title' => 'Forgot password',
+			'forgotPassword.hint' => 'Enter your email and we’ll send you a link to choose a new password.',
+			'forgotPassword.submit' => 'Send the link',
+			'forgotPassword.sent' => 'If an account exists for this email, a link has just been sent.',
+			'onboarding.title' => 'Find your spots',
+			'onboarding.subtitle' => 'Cafés, viewpoints, street art: discover places shared near you.',
+			'onboarding.next' => 'Continue',
 			'errors.network.title' => 'No connection',
 			'errors.network.message' => 'Can’t connect. Check your network.',
 			'errors.unauthenticated.title' => 'Sign-in required',

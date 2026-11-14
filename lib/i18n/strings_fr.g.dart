@@ -44,7 +44,10 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$app$fr app = Translations$app$fr.internal(_root);
 	late final Translations$home$fr home = Translations$home$fr.internal(_root);
 	late final Translations$welcome$fr welcome = Translations$welcome$fr.internal(_root);
+	late final Translations$auth$fr auth = Translations$auth$fr.internal(_root);
 	late final Translations$login$fr login = Translations$login$fr.internal(_root);
+	late final Translations$signUp$fr signUp = Translations$signUp$fr.internal(_root);
+	late final Translations$forgotPassword$fr forgotPassword = Translations$forgotPassword$fr.internal(_root);
 	late final Translations$onboarding$fr onboarding = Translations$onboarding$fr.internal(_root);
 	late final Translations$errors$fr errors = Translations$errors$fr.internal(_root);
 }
@@ -97,6 +100,39 @@ class Translations$welcome$fr {
 	String get alreadyHaveAccount => 'J’ai déjà un compte';
 }
 
+// Path: auth
+class Translations$auth$fr {
+	Translations$auth$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'E-mail'
+	String get email => 'E-mail';
+
+	/// fr: 'Mot de passe'
+	String get password => 'Mot de passe';
+
+	/// fr: 'Afficher le mot de passe'
+	String get showPassword => 'Afficher le mot de passe';
+
+	/// fr: 'Masquer le mot de passe'
+	String get hidePassword => 'Masquer le mot de passe';
+
+	/// fr: 'Saisis un e-mail valide.'
+	String get invalidEmail => 'Saisis un e-mail valide.';
+
+	/// fr: 'Saisis ton mot de passe.'
+	String get passwordRequired => 'Saisis ton mot de passe.';
+
+	/// fr: 'Au moins ${min} caractères.'
+	String passwordTooShort({required Object min}) => 'Au moins ${min} caractères.';
+
+	/// fr: 'Continuer avec Google'
+	String get continueWithGoogle => 'Continuer avec Google';
+}
+
 // Path: login
 class Translations$login$fr {
 	Translations$login$fr.internal(this._root);
@@ -108,8 +144,47 @@ class Translations$login$fr {
 	/// fr: 'Connexion'
 	String get title => 'Connexion';
 
-	/// fr: 'Continuer avec Google'
-	String get continueWithGoogle => 'Continuer avec Google';
+	/// fr: 'Se connecter'
+	String get submit => 'Se connecter';
+
+	/// fr: 'Mot de passe oublié ?'
+	String get forgotPassword => 'Mot de passe oublié ?';
+}
+
+// Path: signUp
+class Translations$signUp$fr {
+	Translations$signUp$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Crée ton compte'
+	String get title => 'Crée ton compte';
+
+	/// fr: 'Créer mon compte'
+	String get submit => 'Créer mon compte';
+}
+
+// Path: forgotPassword
+class Translations$forgotPassword$fr {
+	Translations$forgotPassword$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Mot de passe oublié'
+	String get title => 'Mot de passe oublié';
+
+	/// fr: 'Saisis ton e-mail, on t’envoie un lien pour choisir un nouveau mot de passe.'
+	String get hint => 'Saisis ton e-mail, on t’envoie un lien pour choisir un nouveau mot de passe.';
+
+	/// fr: 'Envoyer le lien'
+	String get submit => 'Envoyer le lien';
+
+	/// fr: 'Si un compte existe pour cet e-mail, un lien vient de t’être envoyé.'
+	String get sent => 'Si un compte existe pour cet e-mail, un lien vient de t’être envoyé.';
 }
 
 // Path: onboarding
@@ -120,8 +195,14 @@ class Translations$onboarding$fr {
 
 	// Translations
 
-	/// fr: 'Bienvenue'
-	String get title => 'Bienvenue';
+	/// fr: 'Trouve tes spots'
+	String get title => 'Trouve tes spots';
+
+	/// fr: 'Cafés, points de vue, street art : découvre les lieux partagés près de chez toi.'
+	String get subtitle => 'Cafés, points de vue, street art : découvre les lieux partagés près de chez toi.';
+
+	/// fr: 'Continuer'
+	String get next => 'Continuer';
 }
 
 // Path: errors
@@ -285,9 +366,26 @@ extension on Translations {
 			'welcome.tagline' => 'Partage tes meilleurs spots',
 			'welcome.start' => 'Commencer',
 			'welcome.alreadyHaveAccount' => 'J’ai déjà un compte',
+			'auth.email' => 'E-mail',
+			'auth.password' => 'Mot de passe',
+			'auth.showPassword' => 'Afficher le mot de passe',
+			'auth.hidePassword' => 'Masquer le mot de passe',
+			'auth.invalidEmail' => 'Saisis un e-mail valide.',
+			'auth.passwordRequired' => 'Saisis ton mot de passe.',
+			'auth.passwordTooShort' => ({required Object min}) => 'Au moins ${min} caractères.',
+			'auth.continueWithGoogle' => 'Continuer avec Google',
 			'login.title' => 'Connexion',
-			'login.continueWithGoogle' => 'Continuer avec Google',
-			'onboarding.title' => 'Bienvenue',
+			'login.submit' => 'Se connecter',
+			'login.forgotPassword' => 'Mot de passe oublié ?',
+			'signUp.title' => 'Crée ton compte',
+			'signUp.submit' => 'Créer mon compte',
+			'forgotPassword.title' => 'Mot de passe oublié',
+			'forgotPassword.hint' => 'Saisis ton e-mail, on t’envoie un lien pour choisir un nouveau mot de passe.',
+			'forgotPassword.submit' => 'Envoyer le lien',
+			'forgotPassword.sent' => 'Si un compte existe pour cet e-mail, un lien vient de t’être envoyé.',
+			'onboarding.title' => 'Trouve tes spots',
+			'onboarding.subtitle' => 'Cafés, points de vue, street art : découvre les lieux partagés près de chez toi.',
+			'onboarding.next' => 'Continuer',
 			'errors.network.title' => 'Pas de connexion',
 			'errors.network.message' => 'Connexion impossible. Vérifie ton réseau.',
 			'errors.unauthenticated.title' => 'Connexion requise',
