@@ -31,7 +31,28 @@ Architecture côté app : [architecture.md](architecture.md#authentification).
 - Ces fichiers contiennent des identifiants **publics** de projet Firebase : ils sont versionnés pour que le correcteur puisse builder. La sécurité repose sur les règles et l'App Check, pas sur leur secret.
 - Code des Functions et règles dans un dossier `firebase/` (ou `functions/` à la racine) versionné avec l'app.
 
+## Modèle de données
+
+| Emplacement | Contenu | Écrit par |
+|---|---|---|
+| Firestore `users/{uid}` | `displayName` (2–30 car.), `bio` (≤ 160), `avatarUrl` (URL ou `null`), `updatedAt` (horodatage serveur) | l'utilisateur lui-même |
+| Storage `users/{uid}/avatar_<timestamp>.<ext>` | avatar (image < 5 Mo) | l'utilisateur lui-même |
+
+Le document de profil est public pour tout utilisateur connecté (auteur d'un spot, d'un commentaire) : il ne contient donc rien de privé. L'écriture se fait en `merge` pour ne pas écraser de futurs champs gérés côté serveur (compteurs…), qu'il faudra ajouter à la liste `hasOnly` des règles.
+
+Firestore garde un cache local (activé par défaut sur mobile) : le profil s'affiche hors-ligne s'il a déjà été chargé. Limite connue : un `set` hors-ligne ne se termine qu'au retour du réseau, l'enregistrement du profil attend donc la connexion.
+
 ## Règles de sécurité Firestore / Storage
+
+Fichiers versionnés à la racine : `firestore.rules` et `storage.rules`, référencés par `firebase.json`. Les alias de projets sont dans `.firebaserc` (`dev`, `prod`). Déploiement :
+
+```bash
+firebase deploy --only firestore:rules,storage --project dev
+firebase deploy --only firestore:rules,storage --project prod
+```
+
+Vérifier la compilation sans déployer : ajouter `--dry-run`. Prérequis par projet : base Firestore et Storage créés dans la console (Storage demande le forfait Blaze sur les nouveaux projets).
+
 
 - Tout est refusé par défaut, puis ouvert explicitement collection par collection.
 - Lecture des spots publique pour un utilisateur authentifié ; écriture/suppression réservées à l'auteur (`request.auth.uid == resource.data.authorId`).

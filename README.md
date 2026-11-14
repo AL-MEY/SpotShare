@@ -23,6 +23,16 @@ Après modification des traductions (`lib/i18n/*.i18n.yaml`) ou du thème (`lib/
 
 Les fichiers générés (`*.g.dart`, `*.tailor.dart`) sont versionnés : le projet build sans étape de génération.
 
+## Règles Firebase
+
+Les règles Firestore et Storage sont versionnées (`firestore.rules`, `storage.rules`). Après modification :
+
+```bash
+firebase deploy --only firestore:rules,storage --project dev
+```
+
+Détails et modèle de données : [docs/backend-firebase.md](docs/backend-firebase.md).
+
 ## Packages retenus
 
 | Package | Rôle |
