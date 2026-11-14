@@ -13,7 +13,7 @@ L'historique Git compte dans la note : il doit être propre, atomique, et équil
 Format : `<type>(<scope>): <description>` en anglais, impératif, minuscule, sans point final.
 
 - Types : `feat`, `fix`, `refactor`, `test`, `docs`, `style`, `chore`, `ci`, `perf`, `build`.
-- Scope = la feature ou la zone : `auth`, `feed`, `spot`, `spot-editor`, `social`, `offline`, `map`, `core`, `l10n`, `theme`.
+- Scope = la feature ou la zone : `auth`, `profile`, `feed`, `spot`, `spot-editor`, `social`, `offline`, `map`, `core`, `l10n`, `theme`.
 - Exemples : `feat(feed): add vertical immersive feed`, `fix(auth): persist session after app restart`, `test(spot): cover favorite toggle use case`.
 - Un commit = un changement cohérent qui compile et passe les tests.
 - L'auteur du commit est le membre de l'équipe : ne jamais ajouter d'agent IA en co-auteur.

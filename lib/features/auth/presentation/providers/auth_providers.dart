@@ -19,6 +19,11 @@ final authStateProvider = StreamProvider<AppUser?>(
   (ref) => ref.watch(authRepositoryProvider).watchUser(),
 );
 
+final currentUserIdProvider = Provider<String?>((ref) {
+  ref.watch(authStateProvider);
+  return ref.watch(authRepositoryProvider).currentUser?.id;
+});
+
 final signInProvider = Provider(
   (ref) => SignIn(ref.watch(authRepositoryProvider)),
 );
