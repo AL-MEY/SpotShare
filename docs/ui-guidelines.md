@@ -47,6 +47,10 @@
 
 - Toujours `context.go(AppRoutes.xxx)` / `context.push(AppRoutes.xxx)` (go_router), jamais `Navigator.push` vers une page ni de chemin en dur. Détails : [architecture.md](architecture.md#navigation).
 
+## Boutons d'action asynchrone
+
+- `LoadingButton` (`core/widgets/loading_button.dart`) : `FilledButton` désactivé avec un indicateur pendant `isLoading`. À utiliser pour toute soumission branchée sur un `AsyncValue`.
+
 ## Affichage des erreurs
 
 - Erreur suite à une action (soumission, favori, suppression…) : `showErrorBottomSheet(context, failure, onRetry: …)` (`core/widgets/error_bottom_sheet.dart`), déclenchée depuis un `ref.listen`. Icône, titre et message dépendent du type de `Failure`.
