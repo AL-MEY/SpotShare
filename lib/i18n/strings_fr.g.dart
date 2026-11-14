@@ -49,6 +49,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$signUp$fr signUp = Translations$signUp$fr.internal(_root);
 	late final Translations$forgotPassword$fr forgotPassword = Translations$forgotPassword$fr.internal(_root);
 	late final Translations$onboarding$fr onboarding = Translations$onboarding$fr.internal(_root);
+	late final Translations$profile$fr profile = Translations$profile$fr.internal(_root);
 	late final Translations$errors$fr errors = Translations$errors$fr.internal(_root);
 }
 
@@ -203,6 +204,48 @@ class Translations$onboarding$fr {
 
 	/// fr: 'Continuer'
 	String get next => 'Continuer';
+}
+
+// Path: profile
+class Translations$profile$fr {
+	Translations$profile$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Ton profil'
+	String get setupTitle => 'Ton profil';
+
+	/// fr: 'Choisis comment la communauté te verra.'
+	String get setupHint => 'Choisis comment la communauté te verra.';
+
+	/// fr: 'C’est parti'
+	String get setupSubmit => 'C’est parti';
+
+	/// fr: 'Nom affiché'
+	String get displayName => 'Nom affiché';
+
+	/// fr: 'Au moins ${min} caractères.'
+	String displayNameTooShort({required Object min}) => 'Au moins ${min} caractères.';
+
+	/// fr: 'Bio'
+	String get bio => 'Bio';
+
+	/// fr: 'Quelques mots sur toi (facultatif)'
+	String get bioHint => 'Quelques mots sur toi (facultatif)';
+
+	/// fr: 'Changer la photo de profil'
+	String get changeAvatar => 'Changer la photo de profil';
+
+	/// fr: 'Prendre une photo'
+	String get takePhoto => 'Prendre une photo';
+
+	/// fr: 'Choisir dans la galerie'
+	String get chooseFromGallery => 'Choisir dans la galerie';
+
+	/// fr: 'Se déconnecter'
+	String get signOut => 'Se déconnecter';
 }
 
 // Path: errors
@@ -386,6 +429,17 @@ extension on Translations {
 			'onboarding.title' => 'Trouve tes spots',
 			'onboarding.subtitle' => 'Cafés, points de vue, street art : découvre les lieux partagés près de chez toi.',
 			'onboarding.next' => 'Continuer',
+			'profile.setupTitle' => 'Ton profil',
+			'profile.setupHint' => 'Choisis comment la communauté te verra.',
+			'profile.setupSubmit' => 'C’est parti',
+			'profile.displayName' => 'Nom affiché',
+			'profile.displayNameTooShort' => ({required Object min}) => 'Au moins ${min} caractères.',
+			'profile.bio' => 'Bio',
+			'profile.bioHint' => 'Quelques mots sur toi (facultatif)',
+			'profile.changeAvatar' => 'Changer la photo de profil',
+			'profile.takePhoto' => 'Prendre une photo',
+			'profile.chooseFromGallery' => 'Choisir dans la galerie',
+			'profile.signOut' => 'Se déconnecter',
 			'errors.network.title' => 'Pas de connexion',
 			'errors.network.message' => 'Connexion impossible. Vérifie ton réseau.',
 			'errors.unauthenticated.title' => 'Connexion requise',
