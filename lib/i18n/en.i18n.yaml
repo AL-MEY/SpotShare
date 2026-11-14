@@ -33,6 +33,18 @@ onboarding:
   title: Find your spots
   subtitle: "Cafés, viewpoints, street art: discover places shared near you."
   next: Continue
+profile:
+  setupTitle: Your profile
+  setupHint: Choose how the community will see you.
+  setupSubmit: Let’s go
+  displayName: Display name
+  displayNameTooShort: At least ${min} characters.
+  bio: Bio
+  bioHint: A few words about you (optional)
+  changeAvatar: Change profile photo
+  takePhoto: Take a photo
+  chooseFromGallery: Choose from gallery
+  signOut: Sign out
 errors:
   network:
     title: No connection

@@ -33,6 +33,18 @@ onboarding:
   title: Trouve tes spots
   subtitle: "Cafés, points de vue, street art : découvre les lieux partagés près de chez toi."
   next: Continuer
+profile:
+  setupTitle: Ton profil
+  setupHint: Choisis comment la communauté te verra.
+  setupSubmit: C’est parti
+  displayName: Nom affiché
+  displayNameTooShort: Au moins ${min} caractères.
+  bio: Bio
+  bioHint: Quelques mots sur toi (facultatif)
+  changeAvatar: Changer la photo de profil
+  takePhoto: Prendre une photo
+  chooseFromGallery: Choisir dans la galerie
+  signOut: Se déconnecter
 errors:
   network:
     title: Pas de connexion

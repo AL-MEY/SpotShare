@@ -77,7 +77,11 @@ Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Resul
 - Chemins déclarés dans `AppRoutes` ; naviguer avec `context.go(AppRoutes.xxx)`, jamais avec une chaîne en dur.
 - Ajouter un écran = une constante dans `AppRoutes` + un `GoRoute` dans `routerProvider`.
 - Route inconnue : `NotFoundPage` (`core/router/not_found_page.dart`).
-- Garde d'auth dans le `redirect` du `GoRouter` : un visiteur ne voit que les routes de `AppRoutes.public` (sinon retour à `welcome`), un utilisateur connecté en est renvoyé vers `home`. Le routeur se réévalue à chaque changement de `authStateProvider`. Une route accessible sans compte s'ajoute à `AppRoutes.public`.
+- Garde dans le `redirect` du `GoRouter`, réévaluée à chaque changement de `authStateProvider` ou de `currentProfileProvider` :
+  - visiteur : seulement les routes de `AppRoutes.public` (sinon retour à `welcome`). Une route accessible sans compte s'ajoute à `AppRoutes.public` ;
+  - connecté, profil en chargement ou en erreur : `profileLoading` (`ProfileLoadingPage`, avec « Réessayer » en cas d'erreur) ;
+  - connecté sans profil : `profileSetup` (`ProfileSetupPage`) ;
+  - connecté avec profil : renvoyé vers `home` s'il est sur une route publique ou d'attente du profil.
 
 ## Authentification
 
@@ -92,6 +96,32 @@ Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configura
 - `SignUpPage` et `LoginPage` proposent e-mail / mot de passe et Google (Google connecte aussi un compte existant). Toutes ces routes sont dans `AppRoutes.public`.
 - `presentation/widgets/auth_fields.dart` : `EmailField` et `PasswordField` (validation localisée, bouton afficher / masquer ; `isNewPassword: true` exige `minPasswordLength` = 6 caractères, le minimum de Firebase).
 - Ajouter un fournisseur (Apple) = une méthode sur `AuthRepository` + un use case, comme pour Google. `authStateProvider` et la garde du routeur ne changent pas.
+
+## Profil utilisateur
+
+Feature `profile`, première feature à suivre l'arborescence complète : c'est le modèle à reproduire pour les spots.
+
+```
+domain/  entities/user_profile.dart            UserProfile (id, displayName, bio, avatarUrl) + limites de longueur
+         repositories/profile_repository.dart  watchProfile(uid), saveProfile(profile, avatarPath:)
+         usecases/save_profile.dart            nettoie les champs puis délègue
+data/    models/user_profile_dto.dart          format du document Firestore (fromFirestore / toFirestore)
+         mappers/user_profile_mapper.dart      DTO <-> entité
+         datasources/profile_remote_data_source.dart  seul fichier qui parle à Firestore et Storage
+         repositories/firebase_profile_repository.dart orchestre upload + écriture, convertit en Failure
+presentation/
+         providers/profile_providers.dart      profileRepositoryProvider, currentProfileProvider,
+                                               saveProfileProvider, pickedAvatarProvider…
+         pages/profile_setup_page.dart         dernière étape de l'onboarding, après l'inscription
+         pages/profile_loading_page.dart       attente / erreur du chargement du profil
+         widgets/avatar_picker.dart, profile_fields.dart  réutilisables pour l'édition du profil
+```
+
+- Le profil (`users/{uid}`) est distinct du compte (`AppUser`, Firebase Auth) : l'auth sait *qui* est connecté, le profil est ce que la communauté voit. L'e-mail n'est jamais copié dans le profil.
+- `currentProfileProvider` (`StreamProvider<UserProfile?>`) suit le document de l'utilisateur connecté en temps réel. `null` = profil pas encore créé, ce qui déclenche l'étape `ProfileSetupPage` (premier login e-mail **ou** Google).
+- Avatar : l'image choisie (`image_picker`, redimensionnée à 512 px) reste un chemin local dans `pickedAvatarProvider` jusqu'à la soumission. `saveProfile` la téléverse, écrit son URL dans le document, puis supprime l'ancien fichier. Chaque envoi a un nom unique, donc une nouvelle URL : `CachedNetworkImage` n'affiche jamais un avatar périmé.
+- Le domaine ne voit qu'un `String` de chemin local, jamais `File`, `XFile` ni `Reference` Storage.
+- Pour l'édition depuis le profil : une page qui pré-remplit `DisplayNameField` / `BioField` avec `currentProfileProvider`, passe `currentUrl` à `AvatarPicker`, et appelle `saveProfileProvider` avec `profile.copyWith(...)`.
 
 ## Offline et persistance locale
 
