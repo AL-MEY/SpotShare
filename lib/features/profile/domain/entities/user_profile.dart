@@ -2,7 +2,7 @@ class UserProfile {
   const UserProfile({
     required this.id,
     required this.displayName,
-    this.bio = '',
+    required this.bio,
     this.avatarUrl,
   });
 

@@ -26,7 +26,7 @@ abstract final class AppRoutes {
 
   static const public = {welcome, login, signUp, forgotPassword, onboarding};
 
-  static const _profileGates = {profileLoading, profileSetup};
+  static const _leaveOnceReady = {...public, profileLoading, profileSetup};
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -49,10 +49,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         _ => AppRoutes.profileLoading,
       };
       if (gate != null) return location == gate ? null : gate;
-      final onGate =
-          AppRoutes.public.contains(location) ||
-          AppRoutes._profileGates.contains(location);
-      return onGate ? AppRoutes.home : null;
+      return AppRoutes._leaveOnceReady.contains(location)
+          ? AppRoutes.home
+          : null;
     },
     routes: [
       GoRoute(
