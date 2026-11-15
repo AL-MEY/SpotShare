@@ -94,7 +94,7 @@ Feature `auth`, branchée sur Firebase Authentication (fournisseurs et configura
 - `core/providers/submit_controller.dart` : `SubmitController`, `AsyncNotifier` qui porte l'état initial / loading / data / error d'un formulaire. `submit(action)` exécute le use case passé par la page. Chaque écran déclare son propre provider `AsyncNotifierProvider.autoDispose<SubmitController, void>`.
 - Parcours visiteur : `WelcomePage` → « Commencer » → onboarding (`/onboarding`, feature `onboarding`) → `SignUpPage` en dernière étape (`/onboarding/sign-up`, route enfant de l'onboarding : le retour ramène à l'étape précédente). « J'ai déjà un compte » → `LoginPage` → `ForgotPasswordPage` (snackbar de confirmation puis retour). La création de compte ne s'atteint que par l'onboarding, la connexion n'a pas de lien vers l'inscription.
 - `SignUpPage` et `LoginPage` proposent e-mail / mot de passe et Google (Google connecte aussi un compte existant). Toutes ces routes sont dans `AppRoutes.public`.
-- `presentation/widgets/auth_fields.dart` : `EmailField` et `PasswordField` (validation localisée, bouton afficher / masquer ; `isNewPassword: true` exige `minPasswordLength` = 6 caractères, le minimum de Firebase).
+- `presentation/widgets/email_field.dart` et `password_field.dart` : `EmailField` et `PasswordField` (validation localisée, bouton afficher / masquer ; `isNewPassword: true` exige `minPasswordLength` = 6 caractères, le minimum de Firebase).
 - Ajouter un fournisseur (Apple) = une méthode sur `AuthRepository` + un use case, comme pour Google. `authStateProvider` et la garde du routeur ne changent pas.
 
 ## Profil utilisateur
