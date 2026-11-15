@@ -15,6 +15,11 @@ service cloud.firestore {
       allow create, update: if isOwner(userId) && isValidProfile(request.resource.data);
       allow delete: if false;
 
+      function isOwnAvatarUrl(url) {
+        return url is string
+          && url.matches('https://firebasestorage[.]googleapis[.]com/v0/b/[^/]+/o/users%2F' + userId + '%2Favatar_[0-9]+[.](jpg|jpeg|png|webp|heic)[?].*');
+      }
+
       function isValidProfile(data) {
         return data.keys().hasOnly(['displayName', 'bio', 'avatarUrl', 'updatedAt'])
           && data.displayName is string
@@ -22,7 +27,7 @@ service cloud.firestore {
           && data.displayName.size() <= 30
           && data.bio is string
           && data.bio.size() <= 160
-          && (data.avatarUrl == null || (data.avatarUrl is string && data.avatarUrl.size() <= 1024))
+          && (data.avatarUrl == null || isOwnAvatarUrl(data.avatarUrl))
           && data.updatedAt == request.time;
       }
     }

@@ -35,8 +35,8 @@ Architecture côté app : [architecture.md](architecture.md#authentification).
 
 | Emplacement | Contenu | Écrit par |
 |---|---|---|
-| Firestore `users/{uid}` | `displayName` (2–30 car.), `bio` (≤ 160), `avatarUrl` (URL ou `null`), `updatedAt` (horodatage serveur) | l'utilisateur lui-même |
-| Storage `users/{uid}/avatar_<timestamp>.<ext>` | avatar (image < 5 Mo) | l'utilisateur lui-même |
+| Firestore `users/{uid}` | `displayName` (2–30 car.), `bio` (≤ 160), `avatarUrl` (`null` ou URL de téléchargement d'un avatar de son propre dossier Storage : une URL externe est refusée), `updatedAt` (horodatage serveur) | l'utilisateur lui-même |
+| Storage `users/{uid}/avatar_<timestamp>.<ext>` | avatar : `jpg`, `jpeg`, `png`, `webp` ou `heic`, type MIME correspondant envoyé explicitement, < 5 Mo | l'utilisateur lui-même |
 
 Le document de profil est public pour tout utilisateur connecté (auteur d'un spot, d'un commentaire) : il ne contient donc rien de privé. L'écriture se fait en `merge` pour ne pas écraser de futurs champs gérés côté serveur (compteurs…), qu'il faudra ajouter à la liste `hasOnly` des règles.
 

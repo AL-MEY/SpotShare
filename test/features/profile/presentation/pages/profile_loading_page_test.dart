@@ -22,7 +22,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
   }
 
-  testWidgets('affiche l’erreur de chargement sans attendre de relance', (tester) async {
+  testWidgets('affiche l’erreur de chargement sans attendre de relance', (
+    tester,
+  ) async {
     await pumpWithLoadError(tester);
 
     expect(find.byType(ProfileLoadingPage), findsOneWidget);
