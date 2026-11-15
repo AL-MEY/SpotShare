@@ -51,14 +51,14 @@ Limites connues :
 
 ## Règles de sécurité Firestore / Storage
 
-Fichiers versionnés à la racine : `firestore.rules` et `storage.rules`, référencés par `firebase.json`. Les alias de projets sont dans `.firebaserc` (`dev`, `prod`). Déploiement :
+Fichiers versionnés à la racine : `firestore.rules` et `storage.rules`, référencés par `firebase.json`. Les alias de projets sont dans `.firebaserc` (`dev`, `prod`). Déploiement avec `scripts/deploy-rules.sh` (lance `firebase deploy --only firestore:rules,storage` sur chaque projet) :
 
 ```bash
-firebase deploy --only firestore:rules,storage --project dev
-firebase deploy --only firestore:rules,storage --project prod
+./scripts/deploy-rules.sh dev            # ou prod, ou all pour les deux
+./scripts/deploy-rules.sh all --dry-run  # vérifie la compilation sans déployer
 ```
 
-Vérifier la compilation sans déployer : ajouter `--dry-run`. Prérequis par projet : base Firestore et Storage créés dans la console (Storage demande le forfait Blaze sur les nouveaux projets).
+Déployer d'abord sur dev et vérifier sur l'app avant prod. Prérequis par projet : base Firestore et Storage créés dans la console (Storage demande le forfait Blaze sur les nouveaux projets).
 
 
 - Tout est refusé par défaut, puis ouvert explicitement collection par collection.
