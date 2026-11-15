@@ -23,7 +23,7 @@ final currentProfileProvider = StreamProvider<UserProfile?>((ref) {
   final userId = ref.watch(currentUserIdProvider);
   if (userId == null) return Stream.value(null);
   return ref.watch(profileRepositoryProvider).watchProfile(userId);
-});
+}, retry: (_, _) => null);
 
 final saveProfileProvider = Provider(
   (ref) => SaveProfile(ref.watch(profileRepositoryProvider)),
