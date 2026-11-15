@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,20 +9,12 @@ import 'package:spotshare/features/profile/presentation/widgets/image_source_she
 import 'package:spotshare/i18n/strings.g.dart';
 
 class AvatarPicker extends ConsumerWidget {
-  const AvatarPicker({this.currentUrl, super.key});
-
-  final String? currentUrl;
+  const AvatarPicker({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = context.appTheme;
     final picked = ref.watch(pickedAvatarProvider);
-    final url = currentUrl;
-    final ImageProvider? image = picked != null
-        ? FileImage(File(picked))
-        : url != null
-        ? CachedNetworkImageProvider(url)
-        : null;
     return Center(
       child: Semantics(
         button: true,
@@ -33,7 +24,7 @@ class AvatarPicker extends ConsumerWidget {
           child: CircleAvatar(
             radius: theme.spacing.spacing4xl,
             backgroundColor: theme.colors.surfaceMuted,
-            foregroundImage: image,
+            foregroundImage: picked == null ? null : FileImage(File(picked)),
             child: Icon(
               Icons.add_a_photo_outlined,
               color: theme.colors.foregroundMuted,

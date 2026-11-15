@@ -32,7 +32,6 @@ void main() {
     remote = _MockRemote();
     repository = FirebaseProfileRepository(remote);
     when(() => remote.saveProfile(any())).thenAnswer((_) async {});
-    when(() => remote.deleteFile(any())).thenAnswer((_) async {});
   });
 
   test('convertit le document en UserProfile, null si absent', () {
@@ -63,11 +62,9 @@ void main() {
             as UserProfileDto;
     expect(saved.avatarUrl, 'https://old');
     verifyNever(() => remote.uploadAvatar(any(), any()));
-    verifyNever(() => remote.deleteFile(any()));
   });
 
-  test('téléverse le nouvel avatar, enregistre son URL puis supprime '
-      'l’ancien', () async {
+  test('téléverse le nouvel avatar puis enregistre son URL', () async {
     when(() => remote.uploadAvatar('uid', '/tmp/a.jpg'))
         .thenAnswer((_) async => 'https://new');
 
@@ -77,7 +74,6 @@ void main() {
         verify(() => remote.saveProfile(captureAny())).captured.single
             as UserProfileDto;
     expect(saved.avatarUrl, 'https://new');
-    verify(() => remote.deleteFile('https://old')).called(1);
   });
 
   test('n’enregistre rien si le téléversement échoue', () {
@@ -90,16 +86,5 @@ void main() {
       throwsA(isA<PermissionFailure>()),
     );
     verifyNever(() => remote.saveProfile(any()));
-  });
-
-  test('ignore l’échec de suppression de l’ancien avatar', () async {
-    when(() => remote.uploadAvatar(any(), any()))
-        .thenAnswer((_) async => 'https://new');
-    when(() => remote.deleteFile(any())).thenThrow(Exception('boom'));
-
-    await expectLater(
-      repository.saveProfile(_profile, avatarPath: '/tmp/a.jpg'),
-      completes,
-    );
   });
 }

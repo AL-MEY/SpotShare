@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:spotshare/core/error/firebase_failure.dart';
 import 'package:spotshare/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:spotshare/features/profile/data/mappers/user_profile_mapper.dart';
@@ -19,7 +17,6 @@ class FirebaseProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveProfile(UserProfile profile, {String? avatarPath}) async {
-    final previousAvatar = profile.avatarUrl;
     try {
       final toSave = avatarPath == null
           ? profile
@@ -27,19 +24,8 @@ class FirebaseProfileRepository implements ProfileRepository {
               avatarUrl: await _remote.uploadAvatar(profile.id, avatarPath),
             );
       await _remote.saveProfile(toSave.toDto());
-      if (avatarPath != null && previousAvatar != null) {
-        await _deleteQuietly(previousAvatar);
-      }
     } catch (e) {
       throw failureFrom(e);
-    }
-  }
-
-  Future<void> _deleteQuietly(String url) async {
-    try {
-      await _remote.deleteFile(url);
-    } catch (e) {
-      log('Old avatar not deleted', name: 'profile', error: e);
     }
   }
 }

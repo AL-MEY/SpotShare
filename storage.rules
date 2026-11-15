@@ -9,7 +9,6 @@ service firebase.storage {
         && fileName.matches('avatar_[0-9]+[.](jpg|jpeg|png|webp|heic)')
         && request.resource.size < 5 * 1024 * 1024
         && request.resource.contentType.matches('image/(jpeg|png|webp|heic)');
-      allow delete: if request.auth != null && request.auth.uid == userId;
     }
   }
 }
