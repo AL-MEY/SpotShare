@@ -39,6 +39,7 @@ profile:
   setupSubmit: C’est parti
   displayName: Nom affiché
   displayNameTooShort: Au moins ${min} caractères.
+  tooLong: ${max} caractères maximum.
   bio: Bio
   bioHint: Quelques mots sur toi (facultatif)
   changeAvatar: Changer la photo de profil

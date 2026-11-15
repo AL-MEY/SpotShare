@@ -17,6 +17,10 @@ class BioField extends StatelessWidget {
       minLines: 2,
       maxLines: 4,
       textCapitalization: TextCapitalization.sentences,
+      validator: (value) =>
+          UserProfile.lengthOf(value ?? '') > UserProfile.bioMaxLength
+          ? t.tooLong(max: UserProfile.bioMaxLength)
+          : null,
     );
   }
 }

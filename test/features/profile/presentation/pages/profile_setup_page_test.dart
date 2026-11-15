@@ -46,6 +46,15 @@ void main() {
     expect(profile.saved, isNull);
   });
 
+  testWidgets('compte les emojis comme les règles Firestore', (tester) async {
+    final profile = await _pumpNewUser(tester);
+
+    await _fillAndSubmit(tester, '🇫🇷' * 16);
+
+    expect(find.text('30 caractères maximum.'), findsOneWidget);
+    expect(profile.saved, isNull);
+  });
+
   testWidgets('enregistre le profil puis mène à l’accueil', (tester) async {
     final profile = await _pumpNewUser(tester);
 

@@ -40,7 +40,13 @@ Architecture côté app : [architecture.md](architecture.md#authentification).
 
 Le document de profil est public pour tout utilisateur connecté (auteur d'un spot, d'un commentaire) : il ne contient donc rien de privé. L'écriture se fait en `merge` pour ne pas écraser de futurs champs gérés côté serveur (compteurs…), qu'il faudra ajouter à la liste `hasOnly` des règles.
 
-Firestore garde un cache local (activé par défaut sur mobile) : le profil s'affiche hors-ligne s'il a déjà été chargé. Limite connue : un `set` hors-ligne ne se termine qu'au retour du réseau, l'enregistrement du profil attend donc la connexion.
+Firestore garde un cache local (activé par défaut sur mobile) : le profil s'affiche hors-ligne s'il a déjà été chargé.
+
+L'écriture est optimiste : `set` met à jour le cache local tout de suite, le flux du profil émet et le routeur part sur l'accueil sans attendre le serveur (hors-ligne compris : l'envoi se fait au retour du réseau). Si le serveur refuse ensuite l'écriture, le document disparaît du cache et le routeur ramène vers la création du profil, sans message d'erreur. D'où une validation client identique aux règles : longueurs comptées en points de code (`UserProfile.lengthOf`), comme `size()` dans les règles.
+
+Limites connues :
+- avec un nouvel avatar, l'upload Storage passe avant l'écriture : hors-ligne, le bouton reste en chargement jusqu'au retour du réseau ou à l'échec de l'upload ;
+- si l'upload réussit mais que l'écriture échoue, le fichier reste orphelin dans Storage.
 
 ## Règles de sécurité Firestore / Storage
 

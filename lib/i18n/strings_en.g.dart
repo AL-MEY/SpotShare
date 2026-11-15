@@ -162,6 +162,7 @@ class _Translations$profile$en extends Translations$profile$fr {
 	@override String get setupSubmit => 'Let’s go';
 	@override String get displayName => 'Display name';
 	@override String displayNameTooShort({required Object min}) => 'At least ${min} characters.';
+	@override String tooLong({required Object max}) => '${max} characters max.';
 	@override String get bio => 'Bio';
 	@override String get bioHint => 'A few words about you (optional)';
 	@override String get changeAvatar => 'Change profile photo';
@@ -318,6 +319,7 @@ extension on TranslationsEn {
 			'profile.setupSubmit' => 'Let’s go',
 			'profile.displayName' => 'Display name',
 			'profile.displayNameTooShort' => ({required Object min}) => 'At least ${min} characters.',
+			'profile.tooLong' => ({required Object max}) => '${max} characters max.',
 			'profile.bio' => 'Bio',
 			'profile.bioHint' => 'A few words about you (optional)',
 			'profile.changeAvatar' => 'Change profile photo',
