@@ -114,7 +114,9 @@ presentation/
                                                saveProfileProvider, pickedAvatarProvider…
          pages/profile_setup_page.dart         dernière étape de l'onboarding, après l'inscription
          pages/profile_loading_page.dart       attente / erreur du chargement du profil
-         widgets/avatar_picker.dart, profile_fields.dart  réutilisables pour l'édition du profil
+         widgets/                              un widget par fichier : avatar_picker, image_source_sheet,
+                                               display_name_field, bio_field (réutilisables pour l'édition),
+                                               profile_load_error
 ```
 
 - Le profil (`users/{uid}`) est distinct du compte (`AppUser`, Firebase Auth) : l'auth sait *qui* est connecté, le profil est ce que la communauté voit. L'e-mail n'est jamais copié dans le profil.
