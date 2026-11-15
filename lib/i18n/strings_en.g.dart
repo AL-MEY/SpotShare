@@ -47,6 +47,7 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$signUp$en signUp = _Translations$signUp$en._(_root);
 	@override late final _Translations$forgotPassword$en forgotPassword = _Translations$forgotPassword$en._(_root);
 	@override late final _Translations$onboarding$en onboarding = _Translations$onboarding$en._(_root);
+	@override late final _Translations$profile$en profile = _Translations$profile$en._(_root);
 	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
 }
 
@@ -147,6 +148,27 @@ class _Translations$onboarding$en extends Translations$onboarding$fr {
 	@override String get title => 'Find your spots';
 	@override String get subtitle => 'Cafés, viewpoints, street art: discover places shared near you.';
 	@override String get next => 'Continue';
+}
+
+// Path: profile
+class _Translations$profile$en extends Translations$profile$fr {
+	_Translations$profile$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get setupTitle => 'Your profile';
+	@override String get setupHint => 'Choose how the community will see you.';
+	@override String get setupSubmit => 'Let’s go';
+	@override String get displayName => 'Display name';
+	@override String displayNameTooShort({required Object min}) => 'At least ${min} characters.';
+	@override String tooLong({required Object max}) => '${max} characters max.';
+	@override String get bio => 'Bio';
+	@override String get bioHint => 'A few words about you (optional)';
+	@override String get changeAvatar => 'Change profile photo';
+	@override String get takePhoto => 'Take a photo';
+	@override String get chooseFromGallery => 'Choose from gallery';
+	@override String get signOut => 'Sign out';
 }
 
 // Path: errors
@@ -292,6 +314,18 @@ extension on TranslationsEn {
 			'onboarding.title' => 'Find your spots',
 			'onboarding.subtitle' => 'Cafés, viewpoints, street art: discover places shared near you.',
 			'onboarding.next' => 'Continue',
+			'profile.setupTitle' => 'Your profile',
+			'profile.setupHint' => 'Choose how the community will see you.',
+			'profile.setupSubmit' => 'Let’s go',
+			'profile.displayName' => 'Display name',
+			'profile.displayNameTooShort' => ({required Object min}) => 'At least ${min} characters.',
+			'profile.tooLong' => ({required Object max}) => '${max} characters max.',
+			'profile.bio' => 'Bio',
+			'profile.bioHint' => 'A few words about you (optional)',
+			'profile.changeAvatar' => 'Change profile photo',
+			'profile.takePhoto' => 'Take a photo',
+			'profile.chooseFromGallery' => 'Choose from gallery',
+			'profile.signOut' => 'Sign out',
 			'errors.network.title' => 'No connection',
 			'errors.network.message' => 'Can’t connect. Check your network.',
 			'errors.unauthenticated.title' => 'Sign-in required',

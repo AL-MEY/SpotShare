@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "dev": "spotshare-dev-b6185",
+    "prod": "spotshare-b7f94"
+  }
+}

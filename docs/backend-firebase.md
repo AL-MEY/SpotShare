@@ -31,7 +31,35 @@ Architecture côté app : [architecture.md](architecture.md#authentification).
 - Ces fichiers contiennent des identifiants **publics** de projet Firebase : ils sont versionnés pour que le correcteur puisse builder. La sécurité repose sur les règles et l'App Check, pas sur leur secret.
 - Code des Functions et règles dans un dossier `firebase/` (ou `functions/` à la racine) versionné avec l'app.
 
+## Modèle de données
+
+| Emplacement | Contenu | Écrit par |
+|---|---|---|
+| Firestore `users/{uid}` | `displayName` (2–30 car.), `bio` (≤ 160), `avatarUrl` (`null` ou URL de téléchargement d'un avatar de son propre dossier Storage : une URL externe est refusée), `updatedAt` (horodatage serveur) | l'utilisateur lui-même |
+| Storage `users/{uid}/avatar_<timestamp>.<ext>` | avatar : `jpg`, `jpeg`, `png`, `webp` ou `heic`, type MIME correspondant envoyé explicitement, < 5 Mo | l'utilisateur lui-même |
+
+Le document de profil est public pour tout utilisateur connecté (auteur d'un spot, d'un commentaire) : il ne contient donc rien de privé. L'écriture se fait en `merge` pour ne pas écraser de futurs champs gérés côté serveur (compteurs…), qu'il faudra ajouter à la liste `hasOnly` des règles.
+
+Firestore garde un cache local (activé par défaut sur mobile) : le profil s'affiche hors-ligne s'il a déjà été chargé.
+
+L'écriture est optimiste : `set` met à jour le cache local tout de suite, le flux du profil émet et le routeur part sur l'accueil sans attendre le serveur (hors-ligne compris : l'envoi se fait au retour du réseau). Si le serveur refuse ensuite l'écriture, le document disparaît du cache et le routeur ramène vers la création du profil, sans message d'erreur. D'où une validation client identique aux règles : longueurs comptées en points de code (`UserProfile.lengthOf`), comme `size()` dans les règles.
+
+Limites connues :
+- avec un nouvel avatar, l'upload Storage passe avant l'écriture : hors-ligne, le bouton reste en chargement jusqu'au retour du réseau ou à l'échec de l'upload ;
+- si l'upload réussit mais que l'écriture échoue, le fichier reste orphelin dans Storage.
+- l'ancien avatar n'est jamais supprimé (et `storage.rules` n'autorise pas la suppression) : à ajouter avec la page d'édition du profil, seul endroit où un avatar peut être remplacé.
+
 ## Règles de sécurité Firestore / Storage
+
+Fichiers versionnés à la racine : `firestore.rules` et `storage.rules`, référencés par `firebase.json`. Les alias de projets sont dans `.firebaserc` (`dev`, `prod`). Déploiement avec `scripts/deploy-rules.sh` (lance `firebase deploy --only firestore:rules,storage` sur chaque projet) :
+
+```bash
+./scripts/deploy-rules.sh dev            # ou prod, ou all pour les deux
+./scripts/deploy-rules.sh all --dry-run  # vérifie la compilation sans déployer
+```
+
+Déployer d'abord sur dev et vérifier sur l'app avant prod. Prérequis par projet : base Firestore et Storage créés dans la console (Storage demande le forfait Blaze sur les nouveaux projets).
+
 
 - Tout est refusé par défaut, puis ouvert explicitement collection par collection.
 - Lecture des spots publique pour un utilisateur authentifié ; écriture/suppression réservées à l'auteur (`request.auth.uid == resource.data.authorId`).

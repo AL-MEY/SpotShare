@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:spotshare/core/providers/submit_controller.dart';
 import 'package:spotshare/features/auth/data/repositories/firebase_auth_repository.dart';
 import 'package:spotshare/features/auth/domain/entities/app_user.dart';
 import 'package:spotshare/features/auth/domain/repositories/auth_repository.dart';
@@ -17,6 +18,11 @@ final authRepositoryProvider = Provider<AuthRepository>(
 final authStateProvider = StreamProvider<AppUser?>(
   (ref) => ref.watch(authRepositoryProvider).watchUser(),
 );
+
+final currentUserIdProvider = Provider<String?>((ref) {
+  ref.watch(authStateProvider);
+  return ref.watch(authRepositoryProvider).currentUser?.id;
+});
 
 final signInProvider = Provider(
   (ref) => SignIn(ref.watch(authRepositoryProvider)),
@@ -37,3 +43,18 @@ final sendPasswordResetEmailProvider = Provider(
 final signInWithGoogleProvider = Provider(
   (ref) => SignInWithGoogle(ref.watch(authRepositoryProvider)),
 );
+
+final loginControllerProvider =
+    AsyncNotifierProvider.autoDispose<SubmitController, void>(
+      SubmitController.new,
+    );
+
+final signUpControllerProvider =
+    AsyncNotifierProvider.autoDispose<SubmitController, void>(
+      SubmitController.new,
+    );
+
+final passwordResetControllerProvider =
+    AsyncNotifierProvider.autoDispose<SubmitController, void>(
+      SubmitController.new,
+    );

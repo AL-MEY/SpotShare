@@ -15,6 +15,10 @@
         </array>
       </dict>
     </array>
+	<key>NSCameraUsageDescription</key>
+	<string>SpotShare uses the camera to take your profile and spot photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>SpotShare accesses your photos to pick your profile and spot pictures.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

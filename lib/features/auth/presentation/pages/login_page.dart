@@ -6,9 +6,9 @@ import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/core/widgets/error_bottom_sheet.dart';
 import 'package:spotshare/core/widgets/loading_button.dart';
-import 'package:spotshare/features/auth/presentation/providers/auth_form_controller.dart';
 import 'package:spotshare/features/auth/presentation/providers/auth_providers.dart';
-import 'package:spotshare/features/auth/presentation/widgets/auth_fields.dart';
+import 'package:spotshare/features/auth/presentation/widgets/email_field.dart';
+import 'package:spotshare/features/auth/presentation/widgets/password_field.dart';
 import 'package:spotshare/i18n/strings.g.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
