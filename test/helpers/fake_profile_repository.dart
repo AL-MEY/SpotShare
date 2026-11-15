@@ -4,8 +4,6 @@ import 'package:spotshare/core/error/failure.dart';
 import 'package:spotshare/features/profile/domain/entities/user_profile.dart';
 import 'package:spotshare/features/profile/domain/repositories/profile_repository.dart';
 
-import 'fake_auth_repository.dart';
-
 class FakeProfileRepository implements ProfileRepository {
   FakeProfileRepository([this._profile = profile]);
 
@@ -26,7 +24,6 @@ class FakeProfileRepository implements ProfileRepository {
 
   @override
   Stream<UserProfile?> watchProfile(String userId) async* {
-    assert(userId == FakeAuthRepository.user.id);
     final failure = this.failure;
     if (failure != null) throw failure;
     yield _profile;

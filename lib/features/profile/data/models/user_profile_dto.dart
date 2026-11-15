@@ -15,7 +15,7 @@ class UserProfileDto {
     return UserProfileDto(
       id: snapshot.id,
       displayName: data['displayName'] as String,
-      bio: data['bio'] as String? ?? '',
+      bio: data['bio'] as String,
       avatarUrl: data['avatarUrl'] as String?,
     );
   }
