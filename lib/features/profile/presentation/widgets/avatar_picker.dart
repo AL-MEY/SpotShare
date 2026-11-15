@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/profile/presentation/providers/profile_providers.dart';
+import 'package:spotshare/features/profile/presentation/widgets/image_source_sheet.dart';
 import 'package:spotshare/i18n/strings.g.dart';
 
 class AvatarPicker extends ConsumerWidget {
@@ -47,35 +48,9 @@ class AvatarPicker extends ConsumerWidget {
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
       showDragHandle: true,
-      builder: (_) => const _SourceSheet(),
+      builder: (_) => const ImageSourceSheet(),
     );
     if (source == null || !context.mounted) return;
     await ref.read(pickedAvatarProvider.notifier).pick(source);
-  }
-}
-
-class _SourceSheet extends StatelessWidget {
-  const _SourceSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.t.profile;
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.photo_camera_outlined),
-            title: Text(t.takePhoto),
-            onTap: () => Navigator.pop(context, ImageSource.camera),
-          ),
-          ListTile(
-            leading: const Icon(Icons.photo_library_outlined),
-            title: Text(t.chooseFromGallery),
-            onTap: () => Navigator.pop(context, ImageSource.gallery),
-          ),
-        ],
-      ),
-    );
   }
 }

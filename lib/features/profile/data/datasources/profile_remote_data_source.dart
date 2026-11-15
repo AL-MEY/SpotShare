@@ -13,10 +13,11 @@ class ProfileRemoteDataSource {
   DocumentReference<Map<String, dynamic>> _doc(String userId) =>
       _firestore.collection('users').doc(userId);
 
-  Stream<UserProfileDto?> watchProfile(String userId) => _doc(userId)
-      .snapshots()
-      .where((s) => s.exists || !s.metadata.isFromCache)
-      .map((s) => s.exists ? UserProfileDto.fromFirestore(s) : null);
+  Stream<UserProfileDto?> watchProfile(String userId) =>
+      _doc(userId)
+          .snapshots()
+          .where((s) => s.exists || !s.metadata.isFromCache)
+          .map((s) => s.exists ? UserProfileDto.fromFirestore(s) : null);
 
   Future<void> saveProfile(UserProfileDto profile) =>
       _doc(profile.id).set(profile.toFirestore(), SetOptions(merge: true));

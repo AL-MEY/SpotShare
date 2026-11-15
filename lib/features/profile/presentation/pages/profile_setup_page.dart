@@ -8,7 +8,8 @@ import 'package:spotshare/features/auth/presentation/providers/auth_providers.da
 import 'package:spotshare/features/profile/domain/entities/user_profile.dart';
 import 'package:spotshare/features/profile/presentation/providers/profile_providers.dart';
 import 'package:spotshare/features/profile/presentation/widgets/avatar_picker.dart';
-import 'package:spotshare/features/profile/presentation/widgets/profile_fields.dart';
+import 'package:spotshare/features/profile/presentation/widgets/bio_field.dart';
+import 'package:spotshare/features/profile/presentation/widgets/display_name_field.dart';
 import 'package:spotshare/i18n/strings.g.dart';
 
 class ProfileSetupPage extends ConsumerStatefulWidget {
