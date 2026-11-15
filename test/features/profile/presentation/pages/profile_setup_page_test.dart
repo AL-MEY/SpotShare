@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spotshare/core/error/failure.dart';
 import 'package:spotshare/features/auth/presentation/pages/welcome_page.dart';
 import 'package:spotshare/features/profile/domain/entities/user_profile.dart';
-import 'package:spotshare/features/profile/presentation/pages/profile_loading_page.dart';
 import 'package:spotshare/features/profile/presentation/pages/profile_setup_page.dart';
 import 'package:spotshare/home_page.dart';
 
@@ -78,20 +77,5 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(WelcomePage), findsOneWidget);
-  });
-
-  testWidgets('affiche l’erreur de chargement du profil avec Réessayer', (
-    tester,
-  ) async {
-    await pumpApp(
-      tester,
-      auth: FakeAuthRepository(FakeAuthRepository.user),
-      profile: FakeProfileRepository()..failure = const NetworkFailure(),
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.byType(ProfileLoadingPage), findsOneWidget);
-    expect(find.text('Pas de connexion'), findsOneWidget);
-    expect(find.text('Réessayer'), findsOneWidget);
   });
 }

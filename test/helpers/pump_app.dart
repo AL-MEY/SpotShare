@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotshare/app.dart';
 import 'package:spotshare/features/auth/presentation/providers/auth_providers.dart';
@@ -13,6 +14,7 @@ Future<ProviderContainer> pumpApp(
   AppLocale locale = AppLocale.fr,
   FakeAuthRepository? auth,
   FakeProfileRepository? profile,
+  List<Override> overrides = const [],
 }) async {
   final authRepository = auth ?? FakeAuthRepository();
   final profileRepository = profile ?? FakeProfileRepository();
@@ -24,6 +26,7 @@ Future<ProviderContainer> pumpApp(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
         profileRepositoryProvider.overrideWithValue(profileRepository),
+        ...overrides,
       ],
       child: TranslationProvider(child: const SpotShareApp()),
     ),
