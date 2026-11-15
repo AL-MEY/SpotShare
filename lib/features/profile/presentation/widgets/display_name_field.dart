@@ -17,10 +17,15 @@ class DisplayNameField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.words,
       autofillHints: const [AutofillHints.nickname],
-      validator: (value) =>
-          (value?.trim().length ?? 0) < UserProfile.displayNameMinLength
-          ? t.displayNameTooShort(min: UserProfile.displayNameMinLength)
-          : null,
+      validator: (value) => switch (UserProfile.lengthOf(value ?? '')) {
+        < UserProfile.displayNameMinLength => t.displayNameTooShort(
+          min: UserProfile.displayNameMinLength,
+        ),
+        > UserProfile.displayNameMaxLength => t.tooLong(
+          max: UserProfile.displayNameMaxLength,
+        ),
+        _ => null,
+      },
     );
   }
 }

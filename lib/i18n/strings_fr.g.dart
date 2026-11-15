@@ -229,6 +229,9 @@ class Translations$profile$fr {
 	/// fr: 'Au moins ${min} caractères.'
 	String displayNameTooShort({required Object min}) => 'Au moins ${min} caractères.';
 
+	/// fr: '${max} caractères maximum.'
+	String tooLong({required Object max}) => '${max} caractères maximum.';
+
 	/// fr: 'Bio'
 	String get bio => 'Bio';
 
@@ -434,6 +437,7 @@ extension on Translations {
 			'profile.setupSubmit' => 'C’est parti',
 			'profile.displayName' => 'Nom affiché',
 			'profile.displayNameTooShort' => ({required Object min}) => 'Au moins ${min} caractères.',
+			'profile.tooLong' => ({required Object max}) => '${max} caractères maximum.',
 			'profile.bio' => 'Bio',
 			'profile.bioHint' => 'Quelques mots sur toi (facultatif)',
 			'profile.changeAvatar' => 'Changer la photo de profil',

@@ -10,6 +10,8 @@ class UserProfile {
   static const displayNameMaxLength = 30;
   static const bioMaxLength = 160;
 
+  static int lengthOf(String text) => text.trim().runes.length;
+
   final String id;
   final String displayName;
   final String bio;
