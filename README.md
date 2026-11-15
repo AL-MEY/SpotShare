@@ -25,10 +25,11 @@ Les fichiers générés (`*.g.dart`, `*.tailor.dart`) sont versionnés : le proj
 
 ## Règles Firebase
 
-Les règles Firestore et Storage sont versionnées (`firestore.rules`, `storage.rules`). Après modification :
+Les règles Firestore et Storage sont versionnées (`firestore.rules`, `storage.rules`). Après modification, les déployer (prérequis : `firebase login`) :
 
 ```bash
-firebase deploy --only firestore:rules,storage --project dev
+./scripts/deploy-rules.sh dev            # ou prod, ou all pour les deux
+./scripts/deploy-rules.sh all --dry-run  # vérifie la compilation sans déployer
 ```
 
 Détails et modèle de données : [docs/backend-firebase.md](docs/backend-firebase.md).
