@@ -4,6 +4,7 @@
 
 - Toute méthode `build()` de plus de 80 lignes est découpée en widgets dédiés (critère éliminatoire de la grille).
 - Extraire en **classes** `StatelessWidget`, pas en méthodes `_buildXxx()` : les classes permettent `const` et des rebuilds isolés.
+- Un widget par fichier, nommé d'après lui (`BioField` → `bio_field.dart`), même pour un widget qui ne sert qu'à un seul parent. Seule la classe `State` d'un `StatefulWidget` reste dans le fichier de son widget.
 - `StatelessWidget` / `ConsumerWidget` par défaut. `StatefulWidget` seulement pour un état visuel local (contrôleurs d'animation, de texte, de scroll).
 - `const` sur tout constructeur et tout sous-arbre statique. L'analyseur le signale (`prefer_const_constructors`).
 
