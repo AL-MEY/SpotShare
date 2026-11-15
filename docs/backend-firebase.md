@@ -47,6 +47,7 @@ L'écriture est optimiste : `set` met à jour le cache local tout de suite, le f
 Limites connues :
 - avec un nouvel avatar, l'upload Storage passe avant l'écriture : hors-ligne, le bouton reste en chargement jusqu'au retour du réseau ou à l'échec de l'upload ;
 - si l'upload réussit mais que l'écriture échoue, le fichier reste orphelin dans Storage.
+- l'ancien avatar n'est jamais supprimé (et `storage.rules` n'autorise pas la suppression) : à ajouter avec la page d'édition du profil, seul endroit où un avatar peut être remplacé.
 
 ## Règles de sécurité Firestore / Storage
 

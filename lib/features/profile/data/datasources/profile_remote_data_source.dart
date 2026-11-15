@@ -35,6 +35,4 @@ class ProfileRemoteDataSource {
     );
     return ref.getDownloadURL();
   }
-
-  Future<void> deleteFile(String url) => _storage.refFromURL(url).delete();
 }

@@ -115,15 +115,14 @@ presentation/
          pages/profile_setup_page.dart         dernière étape de l'onboarding, après l'inscription
          pages/profile_loading_page.dart       attente / erreur du chargement du profil
          widgets/                              un widget par fichier : avatar_picker, image_source_sheet,
-                                               display_name_field, bio_field (réutilisables pour l'édition),
+                                               display_name_field, bio_field,
                                                profile_load_error
 ```
 
 - Le profil (`users/{uid}`) est distinct du compte (`AppUser`, Firebase Auth) : l'auth sait *qui* est connecté, le profil est ce que la communauté voit. L'e-mail n'est jamais copié dans le profil.
 - `currentProfileProvider` (`StreamProvider<UserProfile?>`) suit le document de l'utilisateur connecté en temps réel. `null` = profil pas encore créé, ce qui déclenche l'étape `ProfileSetupPage` (premier login e-mail **ou** Google).
-- Avatar : l'image choisie (`image_picker`, redimensionnée à 512 px) reste un chemin local dans `pickedAvatarProvider` jusqu'à la soumission. `saveProfile` la téléverse, écrit son URL dans le document, puis supprime l'ancien fichier. Chaque envoi a un nom unique, donc une nouvelle URL : `CachedNetworkImage` n'affiche jamais un avatar périmé.
+- Avatar : l'image choisie (`image_picker`, redimensionnée à 512 px) reste un chemin local dans `pickedAvatarProvider` jusqu'à la soumission. `saveProfile` la téléverse puis écrit son URL dans le document. Chaque envoi a un nom unique, donc une nouvelle URL : `CachedNetworkImage` n'affiche jamais un avatar périmé.
 - Le domaine ne voit qu'un `String` de chemin local, jamais `File`, `XFile` ni `Reference` Storage.
-- Pour l'édition depuis le profil : une page qui pré-remplit `DisplayNameField` / `BioField` avec `currentProfileProvider`, passe `currentUrl` à `AvatarPicker`, et appelle `saveProfileProvider` avec `profile.copyWith(...)`.
 
 ## Offline et persistance locale
 
