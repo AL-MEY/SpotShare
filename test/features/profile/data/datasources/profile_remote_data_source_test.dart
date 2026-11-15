@@ -57,7 +57,10 @@ void main() {
   late _MockDocument document;
   late ProfileRemoteDataSource dataSource;
 
-  setUpAll(() => registerFallbackValue(File('')));
+  setUpAll(() {
+    registerFallbackValue(File(''));
+    registerFallbackValue(SettableMetadata());
+  });
 
   setUp(() {
     firestore = _MockFirestore();
@@ -118,7 +121,7 @@ void main() {
   test('téléverse l’avatar sous un nom unique et renvoie son URL', () async {
     final reference = _MockReference();
     when(() => storage.ref(any())).thenReturn(reference);
-    when(() => reference.putFile(any()))
+    when(() => reference.putFile(any(), any()))
         .thenAnswer((_) => _CompletedUploadTask());
     when(reference.getDownloadURL).thenAnswer((_) async => 'https://a');
 
@@ -127,5 +130,9 @@ void main() {
     final path = verify(() => storage.ref(captureAny())).captured.single;
     expect(path, matches(RegExp(r'^users/uid/avatar_[0-9]+\.jpg$')));
     expect(url, 'https://a');
+    final metadata =
+        verify(() => reference.putFile(any(), captureAny())).captured.single
+            as SettableMetadata;
+    expect(metadata.contentType, 'image/jpeg');
   });
 }

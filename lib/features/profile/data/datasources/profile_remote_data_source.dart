@@ -27,7 +27,12 @@ class ProfileRemoteDataSource {
     final ref = _storage.ref(
       'users/$userId/avatar_${DateTime.now().millisecondsSinceEpoch}.$extension',
     );
-    await ref.putFile(File(filePath));
+    await ref.putFile(
+      File(filePath),
+      SettableMetadata(
+        contentType: 'image/${extension == 'jpg' ? 'jpeg' : extension}',
+      ),
+    );
     return ref.getDownloadURL();
   }
 
