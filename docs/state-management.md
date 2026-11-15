@@ -32,6 +32,8 @@ final class SubmitSuccess extends SubmitState { const SubmitSuccess(); }
 final class SubmitError extends SubmitState { const SubmitError(this.failure); final Failure failure; }
 ```
 
+Riverpod 3 relance automatiquement un provider en erreur (10 essais, environ 38 s en tout). Pendant les relances, l'état est un `AsyncLoading`, pas un `AsyncError` : un écran qui doit montrer l'erreur tout de suite (avec « Réessayer ») désactive ces relances avec `retry: (_, _) => null` sur son provider, comme `currentProfileProvider`.
+
 ## Afficher une erreur
 
 Les repositories lèvent des `Failure` (voir [architecture.md](architecture.md#erreurs)) : elles arrivent dans `AsyncValue.error`. Pour une erreur suite à une action, l'effet passe par `ref.listen`, jamais par `build` :
