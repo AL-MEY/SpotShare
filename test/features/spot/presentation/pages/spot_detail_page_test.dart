@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,6 +8,7 @@ import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/core/router/not_found_page.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_detail_layout.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_detail_skeleton.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_gallery.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_header.dart';
@@ -43,7 +46,9 @@ void main() {
     return container;
   }
 
-  testWidgets('affiche le squelette pendant le chargement', (tester) async {
+  testWidgets('affiche le squelette pendant le chargement d’un lien direct', (
+    tester,
+  ) async {
     spots = FakeSpotRepository();
     addTearDown(spots.dispose);
     final container = await pumpApp(
@@ -58,6 +63,47 @@ void main() {
     expect(find.byType(SpotDetailPage), findsOneWidget);
     expect(find.byType(SpotDetailSkeleton), findsOneWidget);
   });
+
+  testWidgets(
+    'pendant le chargement, affiche le spot transmis sans ses compteurs',
+    (tester) async {
+      spots = FakeSpotRepository();
+      addTearDown(spots.dispose);
+      final container = await pumpApp(
+        tester,
+        auth: FakeAuthRepository(FakeAuthRepository.user),
+        spots: spots,
+        overrides: [
+          ratingRepositoryProvider.overrideWithValue(FakeRatingRepository()),
+          commentRepositoryProvider.overrideWithValue(FakeCommentRepository()),
+          spotAuthorRepositoryProvider.overrideWithValue(
+            FakeSpotAuthorRepository(),
+          ),
+        ],
+      );
+      await tester.pumpAndSettle();
+      final withCounters = buildSpot(
+        averageRating: 4,
+        ratingCount: 3,
+        commentCount: 2,
+        favoriteCount: 1,
+        geohash: 'u09tvw0',
+      );
+      unawaited(
+        container
+            .read(routerProvider)
+            .push(AppRoutes.spotDetail(spotId), extra: withCounters),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(SpotDetailSkeleton), findsNothing);
+      final layout = tester.widget<SpotDetailLayout>(
+        find.byType(SpotDetailLayout),
+      );
+      expect(layout.spot, buildSpot());
+    },
+  );
 
   testWidgets('affiche le titre du spot une fois chargé', (tester) async {
     final container = await pumpSpotApp(tester);

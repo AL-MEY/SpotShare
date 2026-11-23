@@ -11,6 +11,7 @@ import 'package:spotshare/features/onboarding/presentation/pages/onboarding_page
 import 'package:spotshare/features/profile/presentation/pages/profile_loading_page.dart';
 import 'package:spotshare/features/profile/presentation/pages/profile_setup_page.dart';
 import 'package:spotshare/features/profile/presentation/providers/profile_providers.dart';
+import 'package:spotshare/features/spot/domain/entities/spot.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_media_viewer_page.dart';
 import 'package:spotshare/home_page.dart';
@@ -88,8 +89,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '${AppRoutes._spotsPrefix}/:spotId',
-        builder: (context, state) =>
-            SpotDetailPage(spotId: state.pathParameters['spotId']!),
+        builder: (context, state) => SpotDetailPage(
+          spotId: state.pathParameters['spotId']!,
+          // Spot de la liste d'origine, absent sur un lien direct.
+          initialSpot: switch (state.extra) {
+            final Spot spot => spot,
+            _ => null,
+          },
+        ),
         routes: [
           GoRoute(
             path: 'media',

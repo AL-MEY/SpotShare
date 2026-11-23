@@ -63,20 +63,18 @@ final spotProvider = StreamProvider.autoDispose.family<Spot, String>(
 );
 
 // Compteurs et geohash (écrits par le serveur) neutralisés : pas de rebuild quand seuls eux changent.
+Spot withoutServerFields(Spot spot) => spot.copyWith(
+  averageRating: 0,
+  ratingCount: 0,
+  commentCount: 0,
+  favoriteCount: 0,
+  clearGeohash: true,
+);
+
 final spotContentProvider = Provider.autoDispose
     .family<AsyncValue<Spot>, String>(
       (ref, spotId) => ref.watch(
-        spotProvider(spotId).select(
-          (s) => s.whenData(
-            (spot) => spot.copyWith(
-              averageRating: 0,
-              ratingCount: 0,
-              commentCount: 0,
-              favoriteCount: 0,
-              clearGeohash: true,
-            ),
-          ),
-        ),
+        spotProvider(spotId).select((s) => s.whenData(withoutServerFields)),
       ),
     );
 

@@ -5,6 +5,8 @@ import 'package:spotshare/features/spot/presentation/hero_tags.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/features/spot/presentation/widgets/recent_spots_list.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_detail_skeleton.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_list_tile.dart';
 
 import '../../../../helpers/fake_auth_repository.dart';
 import '../../../../helpers/fake_comment_repository.dart';
@@ -72,6 +74,37 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(SpotDetailPage), findsOneWidget);
+  });
+
+  testWidgets('le tap lance la transition Hero vers la galerie de la fiche', (
+    tester,
+  ) async {
+    // La fiche reste en chargement : seul le spot de la liste est disponible.
+    await pumpHome(tester, FakeSpotRepository(recent: [buildSpot()]));
+
+    await tester.tap(find.text('Café du coin'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    final heroInDetail = find.descendant(
+      of: find.byType(SpotDetailPage),
+      matching: find.byWidgetPredicate(
+        (w) => w is Hero && w.tag == spotMediaHeroTag(spotId, 0),
+      ),
+      skipOffstage: false,
+    );
+    expect(heroInDetail, findsOneWidget);
+    expect(find.byType(SpotDetailSkeleton), findsNothing);
+    // En vol, le Hero source n'affiche plus sa vignette.
+    expect(
+      find.descendant(
+        of: find.byType(SpotListTile),
+        matching: find.byType(ClipRRect),
+        skipOffstage: false,
+      ),
+      findsNothing,
+    );
+    await tester.pumpAndSettle();
   });
 
   testWidgets('affiche l’état vide', (tester) async {

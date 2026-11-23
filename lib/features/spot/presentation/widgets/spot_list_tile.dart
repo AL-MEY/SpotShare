@@ -24,7 +24,7 @@ class SpotListTile extends StatelessWidget {
       child: Icon(Icons.image_outlined, color: theme.colors.foregroundMuted),
     );
     return ListTile(
-      onTap: () => context.push(AppRoutes.spotDetail(spot.id)),
+      onTap: () => context.push(AppRoutes.spotDetail(spot.id), extra: spot),
       contentPadding: EdgeInsets.symmetric(horizontal: theme.spacing.spacingM),
       leading: Hero(
         tag: spotMediaHeroTag(spot.id, 0),
