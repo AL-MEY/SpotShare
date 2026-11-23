@@ -135,12 +135,12 @@ La prod est une étape de livraison : vérifier d'abord que le projet prod est e
 
 ## Données de démo
 
-Script : `functions/scripts/seed.ts` (`npm --prefix functions run seed -- --project spotshare-dev-b6185`, identifiants `gcloud auth application-default login`). Il écrit avec l'Admin SDK, donc sans passer par les règles.
+Script : `functions/scripts/seed.ts` (données dans `seed_data.ts`, testées par `npm test` : types de média reconnus par l'app) (`npm --prefix functions run seed -- --project spotshare-dev-b6185`, identifiants `gcloud auth application-default login`). Il écrit avec l'Admin SDK, donc sans passer par les règles.
 
 | Données | Contenu |
 |---|---|
 | `users/seed-user-{1..3}` | profils sans avatar |
-| `spots/seed-spot-{1..6}` | une catégorie chacun, adresses réelles à Paris ; `seed-spot-1` et `seed-spot-6` appartiennent à `seed-user-1` ; 3 spots avec une vidéo (clips libres de droits de 5 à 10 s, vignette picsum) |
+| `spots/seed-spot-{1..6}` | une catégorie chacun, adresses réelles à Paris ; `seed-spot-1` et `seed-spot-6` appartiennent à `seed-user-1` ; 3 spots avec une vidéo (clips libres de droits de 5 à 10 s, dont Big Buck Bunny en CC-BY (Blender Foundation), vignette picsum) |
 | `ratings/{uid}` | chaque utilisateur note les spots dont il n'est pas l'auteur |
 | `comments/seed-comment-<spot>-<n>` | de 3 à 25 par spot (`seed-spot-1` : 25) |
 
