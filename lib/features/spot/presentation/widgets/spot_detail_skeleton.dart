@@ -8,14 +8,15 @@ class SpotDetailSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = context.appTheme.spacing;
-    final color = context.appTheme.colors.surfaceMuted;
+    final theme = context.appTheme;
+    final spacing = theme.spacing;
+    final color = theme.colors.surfaceMuted;
     Widget block(double height, [double? width]) => Container(
       height: height,
       width: width,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(spacing.spacingXs),
+        borderRadius: BorderRadius.circular(theme.radius.rXs),
       ),
     );
     return ExcludeSemantics(
