@@ -10,6 +10,7 @@ class FakeSpotRepository implements SpotRepository {
   Spot? spot;
   List<Spot> recent;
   Failure? failure;
+  final requestedRecentLimits = <int>[];
   final spotController = StreamController<Spot>.broadcast();
   final _recentController = StreamController<List<Spot>>.broadcast();
 
@@ -45,6 +46,7 @@ class FakeSpotRepository implements SpotRepository {
 
   @override
   Stream<List<Spot>> watchRecentSpots({int limit = 20}) async* {
+    requestedRecentLimits.add(limit);
     final failure = this.failure;
     if (failure != null) throw failure;
     yield recent;

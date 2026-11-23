@@ -61,6 +61,14 @@ void main() {
     );
   });
 
+  test('recentSpotsProvider demande les 20 spots les plus récents', () async {
+    final container = makeContainer();
+    container.listen(recentSpotsProvider, (_, _) {});
+    await container.read(recentSpotsProvider.future);
+
+    expect(spots.requestedRecentLimits, [20]);
+  });
+
   test('myRatingProvider vaut null sans utilisateur connecté', () async {
     final container = makeContainer(userId: null);
     container.listen(myRatingProvider(spotId), (_, _) {});
