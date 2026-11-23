@@ -116,8 +116,11 @@ Code dans `functions/src` (TypeScript, 2nde génération, Node 22). Les compteur
 | `onRatingWritten` | écriture de `spots/{spotId}/ratings/{uid}` | recalcule `ratingCount` et `averageRating` (arrondi à 2 décimales, 0 sans note) |
 | `onCommentCreated` / `onCommentDeleted` | création / suppression de `spots/{spotId}/comments/{commentId}` | recalcule `commentCount` |
 | `onFavoriteCreated` / `onFavoriteDeleted` | création / suppression de `spots/{spotId}/favorites/{uid}` | recalcule `favoriteCount` |
+| `onSpotWritten` | écriture de `spots/{spotId}` | calcule `geohash` (précision 9) à partir de `location`, à la création ou quand `location` change ; rien si le spot est supprimé ou la position inchangée (évite la boucle d'écriture) |
 
 `favoriteCount` est réservé au serveur : le client crée ou supprime seulement son document `favorites/{uid}`, jamais le compteur.
+
+`geohash` est aussi réservé au serveur : calculé par `onSpotWritten` avec `geofire-common` (précision 9), il reste absent (`null` côté app) un court instant après la création. Il est destiné aux requêtes de proximité de la carte.
 
 Chaque Function **recompte** via une requête d'agrégation (`count()`, `average('value')`) au lieu d'incrémenter : le résultat reste juste même si un événement est rejoué ou arrive dans le désordre. Si le spot a été supprimé entre-temps (erreur gRPC `NOT_FOUND`, code 5), l'écriture est ignorée.
 
@@ -147,7 +150,7 @@ Script : `functions/scripts/seed.ts` (données dans `seed_data.ts`, testées par
 | `ratings/{uid}` | chaque utilisateur note les spots dont il n'est pas l'auteur |
 | `comments/seed-comment-<spot>-<n>` | de 3 à 25 par spot (`seed-spot-1` : 25) |
 
-Les compteurs `averageRating`, `ratingCount` et `commentCount` sont calculés dans le script avec `ratingStatsFrom` (le même calcul que les Functions), `favoriteCount` vaut 0. Les ids étant fixes, un second lancement réécrit les mêmes documents. Les commentaires d'un lancement précédent qui n'existent plus dans le script ne sont pas supprimés.
+Les compteurs `averageRating`, `ratingCount` et `commentCount` sont calculés dans le script avec `ratingStatsFrom` (le même calcul que les Functions), `favoriteCount` vaut 0 et `geohash` est calculé avec `geohashFor` (comme la Function). Les ids étant fixes, un second lancement réécrit les mêmes documents. Les commentaires d'un lancement précédent qui n'existent plus dans le script ne sont pas supprimés.
 
 Le script ne s'exécute que pour `spotshare-dev-b6185`. Pour le tester sans toucher au projet réel, le lancer dans l'émulateur Firestore (la variable `FIRESTORE_EMULATOR_HOST` est alors prise en compte par `firebase-admin`). Avec le binaire `firebase` autonome, appeler `node` explicitement :
 
