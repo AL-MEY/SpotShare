@@ -130,7 +130,7 @@ presentation/
 
 ## Spot
 
-Feature `spot` (fiche détail d'un spot). Seules les couches `domain` et `data` existent pour l'instant.
+Feature `spot` (fiche détail d'un spot). Les couches `domain`, `data` et les providers (`presentation/providers/spot_providers.dart`) existent ; les écrans viennent ensuite.
 
 ```
 domain/  entities/spot.dart                    Spot (titre, catégorie, position, médias, tags, auteur, compteurs, moyenne)
@@ -147,14 +147,29 @@ data/    models/                               spot_dto, spot_comment_dto, spot_
          repositories/firebase_*_repository.dart  orchestrent la source et convertissent en Failure
 ```
 
-- Lecture directe sur Firestore, avec son cache natif hors-ligne : pas de base locale pour l'instant (approche A du design `docs/superpowers/specs/2026-11-23-spot-detail-design.md`, §4). Tout est exposé en `Stream`.
+- Lecture directe sur Firestore, avec son cache natif hors-ligne : pas de base locale pour l'instant (approche A du design `docs/superpowers/specs/2026-11-23-spot-detail-design.md`, §4). Toutes les lectures sont exposées en `Stream` (les écritures sont des `Future`).
 - Spot absent : `NotFoundFailure` si la réponse vient du serveur, `NetworkFailure` si elle vient du cache (on ne sait pas encore s'il existe).
 - Média sans `type` ou sans champ requis : ignoré par le mapper, le reste du spot s'affiche. Catégorie inconnue : `SpotCategory.other`.
 - Notes : `spots/{id}/ratings/{uid}`, l'id du document est l'uid, donc une seule note par utilisateur par construction. Commentaires : `spots/{id}/comments`, du plus récent au plus ancien.
 - Auteur : lu dans `users/{uid}` par la source de données propre à `spot` (`SpotAuthorRemoteDataSource`), sans importer `profile`. Un profil absent du cache est ignoré jusqu'à la réponse du serveur.
 - `averageRating`, `ratingCount` et `commentCount` sont écrits côté serveur (Cloud Functions, à venir) : le client ne les modifie jamais.
 
+### Providers
+
+Fichier unique `presentation/providers/spot_providers.dart`, écrit à la main (pas de codegen).
+
+- **Infrastructure** : `spotRepositoryProvider`, `ratingRepositoryProvider`, `commentRepositoryProvider`, `spotAuthorRepositoryProvider` (construits sur `FirebaseFirestore.instance`), et les cas d'usage `rateSpotProvider`, `addCommentProvider`, `deleteCommentProvider`.
+- **Lectures** (`StreamProvider.autoDispose`) : `spotProvider(spotId)`, `recentSpotsProvider` (20 derniers spots), `spotAuthorProvider(userId)`, `myRatingProvider(spotId)` (`null` sans utilisateur connecté).
+- **Pagination des commentaires** : `commentsLimitProvider(spotId)` (`CommentsLimit`, 20 par page, `showMore()`) ; `commentsProvider(spotId)` le `watch`, donc le flux est rouvert avec une limite plus grande à chaque `showMore()`.
+- **Actions** (`AsyncNotifierProvider.autoDispose<SubmitController, void>`) : `rateSpotControllerProvider`, `commentComposerControllerProvider`, `deleteCommentControllerProvider`.
+
+**Mise à jour optimiste (latency compensation)** : Firestore émet l'écriture locale immédiatement dans les flux ouverts, puis l'annule si le serveur la rejette. `myRatingProvider` reste donc un simple `StreamProvider` : pas d'état optimiste géré à la main. L'erreur de l'écriture n'arrive pas par ce flux mais par `rateSpotControllerProvider` (`AsyncError`).
+
+**Lisibles par les autres features** (le feed notamment) : `spotRepositoryProvider`, `recentSpotsProvider` et `spotProvider`. Les autres providers sont propres à l'écran de détail.
+
 ## Offline et persistance locale
+
+> La feature `spot` s'appuie pour l'instant sur le cache natif de Firestore (voir la section Spot).
 
 Exigence : consultation hors-ligne des spots déjà chargés, navigation continue sans réseau, capture photo offline avec synchronisation différée.
 
