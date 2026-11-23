@@ -14,9 +14,15 @@ class SpotAuthorLabel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = context.appTheme;
-    final author = ref.watch(spotAuthorProvider(authorId)).value;
+    final state = ref.watch(spotAuthorProvider(authorId));
+    final author = state.value;
     final name = authorNameOf(author);
     final t = context.t.spot;
+    final label = switch (name) {
+      _ when name.isNotEmpty => t.by(name: name),
+      _ when isAuthorPending(state) => '',
+      _ => t.unknownAuthor,
+    };
     return Row(
       children: [
         AuthorAvatar(
@@ -26,7 +32,7 @@ class SpotAuthorLabel extends ConsumerWidget {
         SizedBox(width: theme.spacing.spacingS),
         Expanded(
           child: Text(
-            name.isEmpty ? t.unknownAuthor : t.by(name: name),
+            label,
             style: theme.textStyles.b2.copyWith(
               color: theme.colors.foregroundMuted,
             ),

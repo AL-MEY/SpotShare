@@ -22,7 +22,8 @@ class CommentTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = context.appTheme;
     final t = context.t;
-    final author = ref.watch(spotAuthorProvider(comment.authorId)).value;
+    final authorState = ref.watch(spotAuthorProvider(comment.authorId));
+    final author = authorState.value;
     final name = authorNameOf(author);
     final isMine = ref.watch(currentUserIdProvider) == comment.authorId;
     final muted = theme.textStyles.b2.copyWith(
@@ -43,7 +44,9 @@ class CommentTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name.isEmpty ? t.spot.unknownAuthor : name,
+                  name.isEmpty && !isAuthorPending(authorState)
+                      ? t.spot.unknownAuthor
+                      : name,
                   style: theme.textStyles.b2,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

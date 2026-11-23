@@ -15,17 +15,19 @@ import '../../../../helpers/spot_fixtures.dart';
 
 void main() {
   late FakeCommentRepository comments;
+  late FakeSpotAuthorRepository authors;
 
   Future<void> pumpSpot(
     WidgetTester tester, {
     List<SpotComment> initial = const [],
     SpotAuthor? author = FakeSpotAuthorRepository.author,
     int commentCount = 0,
+    bool authorPending = false,
   }) async {
     final spots = FakeSpotRepository(
       spot: buildSpot(commentCount: commentCount),
     );
-    final authors = FakeSpotAuthorRepository(author);
+    authors = FakeSpotAuthorRepository(author)..pending = authorPending;
     final ratings = FakeRatingRepository();
     comments = FakeCommentRepository(initial);
     addTearDown(spots.dispose);
@@ -86,6 +88,20 @@ void main() {
     await reveal(tester, find.text('Super endroit'));
     expect(find.text('Auteur inconnu'), findsWidgets);
   });
+
+  testWidgets(
+    'n’affiche pas Auteur inconnu pendant le chargement de l’auteur',
+    (tester) async {
+      await pumpSpot(tester, initial: [buildComment()], authorPending: true);
+
+      await reveal(tester, find.text('Super endroit'));
+      expect(find.text('Auteur inconnu'), findsNothing);
+
+      authors.emit(null);
+      await tester.pumpAndSettle();
+      expect(find.text('Auteur inconnu'), findsWidgets);
+    },
+  );
 
   testWidgets('Voir plus charge la page suivante', (tester) async {
     final page = List.generate(

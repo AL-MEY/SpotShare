@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:spotshare/core/error/failure.dart';
 import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/core/theme/app_theme_impl.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
@@ -25,9 +26,13 @@ void main() {
   late FakeSpotRepository spots;
   late FakeSpotAuthorRepository authors;
 
-  Future<void> pumpSpot(WidgetTester tester, Spot spot) async {
+  Future<void> pumpSpot(
+    WidgetTester tester,
+    Spot spot, {
+    bool authorPending = false,
+  }) async {
     spots = FakeSpotRepository(spot: spot);
-    authors = FakeSpotAuthorRepository();
+    authors = FakeSpotAuthorRepository()..pending = authorPending;
     addTearDown(spots.dispose);
     addTearDown(authors.dispose);
     final container = await pumpApp(
@@ -134,6 +139,30 @@ void main() {
   testWidgets('affiche Auteur inconnu sans profil', (tester) async {
     await pumpSpot(tester, buildSpot());
     authors.emit(null);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Auteur inconnu'), findsOneWidget);
+  });
+
+  testWidgets(
+    'n’affiche pas Auteur inconnu pendant le chargement de l’auteur',
+    (tester) async {
+      await pumpSpot(tester, buildSpot(), authorPending: true);
+
+      expect(find.text('Auteur inconnu'), findsNothing);
+      expect(find.textContaining('Par '), findsNothing);
+
+      authors.emit(FakeSpotAuthorRepository.author);
+      await tester.pumpAndSettle();
+      expect(find.text('Par Camille'), findsOneWidget);
+    },
+  );
+
+  testWidgets('affiche Auteur inconnu quand l’auteur ne peut être chargé', (
+    tester,
+  ) async {
+    await pumpSpot(tester, buildSpot(), authorPending: true);
+    authors.emitFailure(const NetworkFailure());
     await tester.pumpAndSettle();
 
     expect(find.text('Auteur inconnu'), findsOneWidget);

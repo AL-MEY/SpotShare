@@ -11,6 +11,8 @@ class FakeSpotAuthorRepository implements SpotAuthorRepository {
 
   SpotAuthor? _author;
   Failure? failure;
+  // true : aucun auteur émis avant un emit(), comme un profil encore en chargement.
+  bool pending = false;
   final _controller = StreamController<SpotAuthor?>.broadcast();
 
   Future<void> dispose() => _controller.close();
@@ -20,11 +22,13 @@ class FakeSpotAuthorRepository implements SpotAuthorRepository {
     _controller.add(author);
   }
 
+  void emitFailure(Failure failure) => _controller.addError(failure);
+
   @override
   Stream<SpotAuthor?> watchAuthor(String userId) async* {
     final failure = this.failure;
     if (failure != null) throw failure;
-    yield _author;
+    if (!pending) yield _author;
     yield* _controller.stream;
   }
 }
