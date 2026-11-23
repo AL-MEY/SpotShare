@@ -66,6 +66,40 @@ void main() {
     expect(find.text('1 sur 2'), findsOneWidget);
   });
 
+  testWidgets('un glissement sur une photo zoomée ne change pas de page', (
+    tester,
+  ) async {
+    await pumpViewer(tester, 0);
+
+    final viewer = tester.widget<InteractiveViewer>(
+      find.byType(InteractiveViewer),
+    );
+    viewer.transformationController!.value = Matrix4.diagonal3Values(2, 2, 1);
+    await tester.pump();
+    await tester.fling(find.byType(PageView), const Offset(-500, 0), 1000);
+    await tester.pumpAndSettle();
+
+    expect(find.text('1 sur 2'), findsOneWidget);
+  });
+
+  testWidgets('le défilement revient quand la photo est dézoomée', (
+    tester,
+  ) async {
+    await pumpViewer(tester, 0);
+    final viewer = tester.widget<InteractiveViewer>(
+      find.byType(InteractiveViewer),
+    );
+    viewer.transformationController!.value = Matrix4.diagonal3Values(2, 2, 1);
+    await tester.pump();
+
+    viewer.transformationController!.value = Matrix4.identity();
+    await tester.pump();
+    await tester.fling(find.byType(PageView), const Offset(-500, 0), 1000);
+    await tester.pumpAndSettle();
+
+    expect(find.text('2 sur 2'), findsOneWidget);
+  });
+
   testWidgets('affiche l’erreur quand le spot est introuvable', (tester) async {
     await pumpViewer(tester, 0, failure: const NotFoundFailure());
 

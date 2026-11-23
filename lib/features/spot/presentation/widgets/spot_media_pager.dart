@@ -28,6 +28,8 @@ class _SpotMediaPagerState extends State<SpotMediaPager> {
   );
   late final PageController _controller = PageController(initialPage: _initial);
   late int _current = _initial;
+  // Photo zoomée : le pager est bloqué, le glissement déplace la photo.
+  bool _zoomed = false;
 
   @override
   void dispose() {
@@ -44,12 +46,16 @@ class _SpotMediaPagerState extends State<SpotMediaPager> {
       children: [
         PageView.builder(
           controller: _controller,
+          physics: _zoomed ? const NeverScrollableScrollPhysics() : null,
           itemCount: media.length,
           onPageChanged: (i) => setState(() => _current = i),
           itemBuilder: (context, i) => Hero(
             tag: spotMediaHeroTag(widget.spot.id, i),
             child: switch (media[i]) {
-              SpotPhoto(:final url) => ZoomablePhoto(url: url),
+              SpotPhoto(:final url) => ZoomablePhoto(
+                url: url,
+                onZoomChanged: (zoomed) => setState(() => _zoomed = zoomed),
+              ),
               final SpotVideo video => SpotVideoPlayer(
                 video: video,
                 isActive: i == _current,
