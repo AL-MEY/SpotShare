@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotshare/core/error/failure.dart';
-import 'package:spotshare/core/network/connectivity_provider.dart';
 import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/features/spot/domain/entities/rating.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
+import 'package:spotshare/features/spot/presentation/widgets/my_rating_stars.dart';
 
 import '../../../../helpers/fake_auth_repository.dart';
 import '../../../../helpers/fake_comment_repository.dart';
@@ -35,12 +35,12 @@ void main() {
     final container = await pumpApp(
       tester,
       auth: FakeAuthRepository(FakeAuthRepository.user),
+      online: online,
       overrides: [
         spotRepositoryProvider.overrideWithValue(spots),
         ratingRepositoryProvider.overrideWithValue(ratings),
         commentRepositoryProvider.overrideWithValue(FakeCommentRepository()),
         spotAuthorRepositoryProvider.overrideWithValue(authors),
-        isOnlineProvider.overrideWith((ref) => Stream.value(online)),
       ],
     );
     await tester.pumpAndSettle();
@@ -103,6 +103,18 @@ void main() {
 
     expect(offline, findsOneWidget);
     expect(find.byTooltip('Donner 4 étoiles'), findsNothing);
+    final stars = find.descendant(
+      of: find.byType(MyRatingStars),
+      matching: find.byIcon(Icons.star_border),
+    );
+    expect(stars, findsNWidgets(5));
+    expect(
+      find.descendant(
+        of: find.byType(MyRatingStars),
+        matching: find.byType(IconButton),
+      ),
+      findsNothing,
+    );
     expect(ratings.rated, isEmpty);
   });
 
