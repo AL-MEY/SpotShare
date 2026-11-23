@@ -107,6 +107,32 @@ Le script `test:rules` appelle `"$npm_node_execpath"` car le binaire autonome de
 
 Limites des chaînes dans les règles : `size()` compte des unités UTF-16 (comme `String.length` de Dart, utilisé par le composeur de commentaires : cohérent) et `trim()` ne retire que les espaces ASCII ; l'app trime avec Dart avant d'envoyer. `npm test` ne lance que les tests unitaires des Functions (le job CI `functions` fait `npm ci`, `npm run build`, `npm test`) ; les tests de règles, qui démarrent l'émulateur, restent en local.
 
+## Cloud Functions
+
+Code dans `functions/src` (TypeScript, 2nde génération, Node 22). Les compteurs d'un spot sont **dénormalisés** : seules les Functions les écrivent (les règles n'accordent au client aucune écriture sur ces champs du spot).
+
+| Function | Déclencheur | Effet |
+|---|---|---|
+| `onRatingWritten` | écriture de `spots/{spotId}/ratings/{uid}` | recalcule `ratingCount` et `averageRating` (arrondi à 2 décimales, 0 sans note) |
+| `onCommentCreated` / `onCommentDeleted` | création / suppression de `spots/{spotId}/comments/{commentId}` | recalcule `commentCount` |
+
+Chaque Function **recompte** via une requête d'agrégation (`count()`, `average('value')`) au lieu d'incrémenter : le résultat reste juste même si un événement est rejoué ou arrive dans le désordre. Si le spot a été supprimé entre-temps (erreur gRPC `NOT_FOUND`, code 5), l'écriture est ignorée.
+
+**Région** : `REGION` dans `functions/src/index.ts` (`europe-west1`) doit correspondre à la localisation de la base Firestore (`eur3` → `europe-west1`). À vérifier dans la Console : Firestore → onglet Base de données. Une région différente fonctionne mais ajoute de la latence et peut échouer au déploiement.
+
+### Déploiement et vérification
+
+Le déploiement des Functions exige le plan Blaze et `firebase login` sur le compte de l'équipe.
+
+```bash
+./scripts/deploy-rules.sh dev
+./scripts/deploy-functions.sh dev     # attendu : « Deploy complete! »
+```
+
+Vérification manuelle sur dev : noter un spot depuis l'app, puis dans la Console (Firestore → `spots/{id}`) contrôler que `ratingCount` et `averageRating` sont à jour ; ajouter puis supprimer un commentaire et contrôler `commentCount`.
+
+La prod est une étape de livraison : vérifier d'abord que le projet prod est en plan Blaze, puis `./scripts/deploy-rules.sh prod` et `./scripts/deploy-functions.sh prod`.
+
 ## Secrets et variables d'environnement
 
 - **Aucune clé d'API dans le code Flutter** ni dans git. La clé cartographique est stockée côté serveur (secret Cloud Functions) et l'app appelle une Function qui relaie la requête.
