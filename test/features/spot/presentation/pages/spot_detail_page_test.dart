@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotshare/core/error/failure.dart';
@@ -82,6 +83,17 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Café du coin'), findsOneWidget);
+  });
+
+  testWidgets('l’état d’erreur propose un bouton retour', (tester) async {
+    final container = await pumpSpotApp(
+      tester,
+      failure: const NetworkFailure(),
+    );
+    container.read(routerProvider).go(AppRoutes.spotDetail(spotId));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(BackButton), findsOneWidget);
   });
 
   testWidgets(

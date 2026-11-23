@@ -4,10 +4,12 @@ import 'package:spotshare/core/theme/app_theme.dart';
 class SpotDetailSkeleton extends StatelessWidget {
   const SpotDetailSkeleton({super.key});
 
+  static const _galleryHeight = 240.0;
+
   @override
   Widget build(BuildContext context) {
     final spacing = context.appTheme.spacing;
-    final color = Theme.of(context).colorScheme.surfaceContainerHighest;
+    final color = context.appTheme.colors.surfaceMuted;
     Widget block(double height, [double? width]) => Container(
       height: height,
       width: width,
@@ -18,17 +20,18 @@ class SpotDetailSkeleton extends StatelessWidget {
     );
     return ExcludeSemantics(
       child: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.all(spacing.spacingM),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: spacing.spacingM,
             children: [
-              block(240),
-              block(28, 220),
-              block(16, 140),
-              block(16),
-              block(16),
+              block(_galleryHeight),
+              block(spacing.spacingXl, spacing.spacing4xl * 4),
+              block(spacing.spacingM, spacing.spacing4xl * 3),
+              block(spacing.spacingM),
+              block(spacing.spacingM),
             ],
           ),
         ),

@@ -27,7 +27,13 @@ class SpotLoadError extends StatelessWidget {
             spacing: theme.spacing.spacingS,
             children: [
               Text(failure.title(t), style: theme.textStyles.h3),
-              Text(failure.message(t), textAlign: TextAlign.center),
+              Text(
+                failure.message(t),
+                textAlign: TextAlign.center,
+                style: theme.textStyles.b2.copyWith(
+                  color: theme.colors.foregroundMuted,
+                ),
+              ),
               FilledButton(onPressed: onRetry, child: Text(t.errors.retry)),
             ],
           ),
