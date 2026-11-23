@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/features/auth/presentation/pages/welcome_page.dart';
-import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/home_page.dart';
 
 import '../../helpers/fake_auth_repository.dart';
@@ -22,11 +21,7 @@ void main() {
     final auth = FakeAuthRepository();
     final spots = FakeSpotRepository();
     addTearDown(spots.dispose);
-    await pumpApp(
-      tester,
-      auth: auth,
-      overrides: [spotRepositoryProvider.overrideWithValue(spots)],
-    );
+    await pumpApp(tester, auth: auth, spots: spots);
 
     auth.emit(FakeAuthRepository.user);
     await tester.pumpAndSettle();
@@ -45,7 +40,7 @@ void main() {
     final container = await pumpApp(
       tester,
       auth: FakeAuthRepository(FakeAuthRepository.user),
-      overrides: [spotRepositoryProvider.overrideWithValue(spots)],
+      spots: spots,
     );
 
     container.read(routerProvider).go('/route-inconnue');

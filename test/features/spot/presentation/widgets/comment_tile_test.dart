@@ -28,9 +28,9 @@ void main() {
     addTearDown(comments.dispose);
     final container = await pumpApp(
       tester,
+      spots: spots,
       auth: FakeAuthRepository(FakeAuthRepository.user),
       overrides: [
-        spotRepositoryProvider.overrideWithValue(spots),
         ratingRepositoryProvider.overrideWithValue(ratings),
         commentRepositoryProvider.overrideWithValue(comments),
         spotAuthorRepositoryProvider.overrideWithValue(authors),

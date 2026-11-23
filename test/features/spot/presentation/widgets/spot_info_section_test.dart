@@ -33,8 +33,8 @@ void main() {
     final container = await pumpApp(
       tester,
       auth: FakeAuthRepository(FakeAuthRepository.user),
+      spots: spots,
       overrides: [
-        spotRepositoryProvider.overrideWithValue(spots),
         ratingRepositoryProvider.overrideWithValue(FakeRatingRepository()),
         commentRepositoryProvider.overrideWithValue(FakeCommentRepository()),
         spotAuthorRepositoryProvider.overrideWithValue(authors),

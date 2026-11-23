@@ -5,17 +5,20 @@ import 'package:spotshare/app.dart';
 import 'package:spotshare/core/network/connectivity_provider.dart';
 import 'package:spotshare/features/auth/presentation/providers/auth_providers.dart';
 import 'package:spotshare/features/profile/presentation/providers/profile_providers.dart';
+import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/i18n/strings.g.dart';
 
 import 'fake_auth_repository.dart';
 import 'fake_connectivity.dart';
 import 'fake_profile_repository.dart';
+import 'fake_spot_repository.dart';
 
 Future<ProviderContainer> pumpApp(
   WidgetTester tester, {
   AppLocale locale = AppLocale.fr,
   FakeAuthRepository? auth,
   FakeProfileRepository? profile,
+  FakeSpotRepository? spots,
   bool online = true,
   List<Override> overrides = const [],
 }) async {
@@ -23,12 +26,15 @@ Future<ProviderContainer> pumpApp(
   final profileRepository = profile ?? FakeProfileRepository();
   addTearDown(authRepository.dispose);
   addTearDown(profileRepository.dispose);
+  final spotRepository = spots ?? FakeSpotRepository();
+  addTearDown(spotRepository.dispose);
   await tester.runAsync(() => LocaleSettings.setLocale(locale));
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
         profileRepositoryProvider.overrideWithValue(profileRepository),
+        spotRepositoryProvider.overrideWithValue(spotRepository),
         connectivityProvider.overrideWithValue(
           FakeConnectivity(online: online),
         ),

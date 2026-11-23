@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotshare/core/error/failure.dart';
+import 'package:spotshare/features/spot/presentation/hero_tags.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/features/spot/presentation/widgets/recent_spots_list.dart';
@@ -23,9 +24,9 @@ void main() {
     addTearDown(authors.dispose);
     await pumpApp(
       tester,
+      spots: spots,
       auth: FakeAuthRepository(FakeAuthRepository.user),
       overrides: [
-        spotRepositoryProvider.overrideWithValue(spots),
         ratingRepositoryProvider.overrideWithValue(FakeRatingRepository()),
         commentRepositoryProvider.overrideWithValue(FakeCommentRepository()),
         spotAuthorRepositoryProvider.overrideWithValue(authors),
@@ -50,6 +51,15 @@ void main() {
     expect(find.text('Spots récents'), findsOneWidget);
     expect(find.text('Café du coin'), findsOneWidget);
     expect(find.text('Vue sur la ville'), findsOneWidget);
+  });
+
+  testWidgets('la vignette est enveloppée dans le Hero de la galerie', (
+    tester,
+  ) async {
+    await pumpHome(tester, FakeSpotRepository(recent: [buildSpot()]));
+
+    final hero = tester.widget<Hero>(find.byType(Hero));
+    expect(hero.tag, spotMediaHeroTag(spotId, 0));
   });
 
   testWidgets('ouvre la fiche au tap', (tester) async {
