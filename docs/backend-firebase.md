@@ -122,7 +122,7 @@ Code dans `functions/src` (TypeScript, 2nde génération, Node 22). Les compteur
 
 `geohash` est aussi réservé au serveur : calculé par `onSpotWritten` avec `geofire-common` (précision 9), il reste absent (`null` côté app) un court instant après la création. Il est destiné aux requêtes de proximité de la carte.
 
-Chaque Function **recompte** via une requête d'agrégation (`count()`, `average('value')`) au lieu d'incrémenter : le résultat reste juste même si un événement est rejoué ou arrive dans le désordre. Si le spot a été supprimé entre-temps (erreur gRPC `NOT_FOUND`, code 5), l'écriture est ignorée.
+Chaque Function **recompte** via une requête d'agrégation (`count()`, `average('value')`) au lieu d'incrémenter : un événement rejoué ne compte jamais deux fois. Deux déclenchements concurrents peuvent toutefois écrire dans le désordre : le compteur peut alors rester légèrement périmé jusqu'au prochain événement sur le même spot, qui le recalcule. Si le spot a été supprimé entre-temps (erreur gRPC `NOT_FOUND`, code 5), l'écriture est ignorée.
 
 **Région** : `REGION` dans `functions/src/index.ts` (`europe-west1`) doit correspondre à la localisation de la base Firestore (`eur3` → `europe-west1`). À vérifier dans la Console : Firestore → onglet Base de données. Une région différente fonctionne mais ajoute de la latence et peut échouer au déploiement.
 
