@@ -62,4 +62,26 @@ void main() {
 
     expect(values, [true, false, true]);
   });
+
+  test(
+    'ne perd pas un changement survenu pendant la vérification initiale',
+    () async {
+      final initial = Completer<List<ConnectivityResult>>();
+      when(() => connectivity.checkConnectivity())
+          .thenAnswer((_) => initial.future);
+      final values = <bool>[];
+      container.listen(isOnlineProvider, (_, next) {
+        final value = next.value;
+        if (value != null) values.add(value);
+      });
+      await Future<void>.delayed(Duration.zero);
+
+      changes.add([ConnectivityResult.none]);
+      await Future<void>.delayed(Duration.zero);
+      initial.complete([ConnectivityResult.wifi]);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(values, [false]);
+    },
+  );
 }
