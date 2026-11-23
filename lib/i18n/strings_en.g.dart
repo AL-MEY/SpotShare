@@ -70,7 +70,6 @@ class _Translations$home$en extends Translations$home$fr {
 
 	// Translations
 	@override String get welcome => 'Welcome to SpotShare';
-	@override String get subtitle => 'Share your best spots';
 	@override String get signOut => 'Sign out';
 }
 
@@ -400,7 +399,6 @@ extension on TranslationsEn {
 		return switch (path) {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Welcome to SpotShare',
-			'home.subtitle' => 'Share your best spots',
 			'home.signOut' => 'Sign out',
 			'welcome.tagline' => 'Share your best spots',
 			'welcome.start' => 'Get started',

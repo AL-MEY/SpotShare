@@ -2,7 +2,6 @@ app:
   title: SpotShare
 home:
   welcome: Welcome to SpotShare
-  subtitle: Share your best spots
   signOut: Sign out
 welcome:
   tagline: Share your best spots

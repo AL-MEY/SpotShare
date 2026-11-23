@@ -44,7 +44,12 @@ class SpotListTile extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(spot.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+      title: Text(
+        spot.title,
+        style: theme.textStyles.b1,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       subtitle: Align(
         alignment: Alignment.centerLeft,
         child: RatingStars(

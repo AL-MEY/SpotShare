@@ -2,7 +2,6 @@ app:
   title: SpotShare
 home:
   welcome: Bienvenue sur SpotShare
-  subtitle: Partage tes meilleurs spots
   signOut: Se déconnecter
 welcome:
   tagline: Partage tes meilleurs spots

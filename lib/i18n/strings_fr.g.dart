@@ -77,9 +77,6 @@ class Translations$home$fr {
 	/// fr: 'Bienvenue sur SpotShare'
 	String get welcome => 'Bienvenue sur SpotShare';
 
-	/// fr: 'Partage tes meilleurs spots'
-	String get subtitle => 'Partage tes meilleurs spots';
-
 	/// fr: 'Se déconnecter'
 	String get signOut => 'Se déconnecter';
 }
@@ -605,7 +602,6 @@ extension on Translations {
 		return switch (path) {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Bienvenue sur SpotShare',
-			'home.subtitle' => 'Partage tes meilleurs spots',
 			'home.signOut' => 'Se déconnecter',
 			'welcome.tagline' => 'Partage tes meilleurs spots',
 			'welcome.start' => 'Commencer',
