@@ -38,11 +38,16 @@ class FakeRatingRepository implements RatingRepository {
     required Rating rating,
   }) async {
     rated.add(rating);
+    final previous = _rating;
     // Imite la compensation de latence de Firestore.
     emit(rating);
     final pending = this.pending;
     if (pending != null) await pending.future;
     final failure = this.failure;
-    if (failure != null) throw failure;
+    if (failure != null) {
+      // Firestore annule l'écriture refusée : la valeur précédente revient.
+      emit(previous);
+      throw failure;
+    }
   }
 }
