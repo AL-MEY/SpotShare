@@ -129,7 +129,6 @@ spot:
     unmute: Activer le son
     videoError: Impossible de lire cette vidéo.
     close: Fermer
-    video: Vidéo
   recent:
     title: Spots récents
     empty: Aucun spot pour le moment.

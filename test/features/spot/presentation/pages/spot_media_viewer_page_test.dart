@@ -161,5 +161,21 @@ void main() {
         expect(video.value.isPlaying, isTrue);
       },
     );
+
+    testWidgets('en lecture, la zone vidéo est annoncée Mettre en pause', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      await pumpVideo(tester);
+      video.completeInitialization();
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('Mettre en pause'), findsNothing);
+
+      await tester.tap(find.byType(SpotVideoPlayer));
+      await tester.pumpAndSettle();
+
+      expect(find.bySemanticsLabel('Mettre en pause'), findsOneWidget);
+      semantics.dispose();
+    });
   });
 }

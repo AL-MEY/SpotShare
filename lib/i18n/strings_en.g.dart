@@ -375,7 +375,6 @@ class _Translations$spot$media$en extends Translations$spot$media$fr {
 	@override String get unmute => 'Unmute';
 	@override String get videoError => 'This video can’t be played.';
 	@override String get close => 'Close';
-	@override String get video => 'Video';
 }
 
 // Path: spot.recent
@@ -494,7 +493,6 @@ extension on TranslationsEn {
 			'spot.media.unmute' => 'Unmute',
 			'spot.media.videoError' => 'This video can’t be played.',
 			'spot.media.close' => 'Close',
-			'spot.media.video' => 'Video',
 			'spot.recent.title' => 'Recent spots',
 			'spot.recent.empty' => 'No spots yet.',
 			_ => null,

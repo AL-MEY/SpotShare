@@ -129,7 +129,6 @@ spot:
     unmute: Unmute
     videoError: This video can’t be played.
     close: Close
-    video: Video
   recent:
     title: Recent spots
     empty: No spots yet.

@@ -112,20 +112,30 @@ class _SpotVideoPlayerState extends ConsumerState<SpotVideoPlayer> {
         ),
       );
     }
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _togglePlay,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Center(
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
+    return ValueListenableBuilder<VideoPlayerValue>(
+      valueListenable: _controller,
+      // En lecture, toute la zone est le bouton pause pour les lecteurs d'écran.
+      builder: (context, value, child) => Semantics(
+        container: true,
+        button: value.isPlaying,
+        label: value.isPlaying ? context.t.spot.media.pause : null,
+        child: child,
+      ),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _togglePlay,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Center(
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
             ),
-          ),
-          SpotVideoControls(controller: _controller),
-        ],
+            SpotVideoControls(controller: _controller),
+          ],
+        ),
       ),
     );
   }

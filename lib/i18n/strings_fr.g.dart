@@ -572,9 +572,6 @@ class Translations$spot$media$fr {
 
 	/// fr: 'Fermer'
 	String get close => 'Fermer';
-
-	/// fr: 'Vidéo'
-	String get video => 'Vidéo';
 }
 
 // Path: spot.recent
@@ -697,7 +694,6 @@ extension on Translations {
 			'spot.media.unmute' => 'Activer le son',
 			'spot.media.videoError' => 'Impossible de lire cette vidéo.',
 			'spot.media.close' => 'Fermer',
-			'spot.media.video' => 'Vidéo',
 			'spot.recent.title' => 'Spots récents',
 			'spot.recent.empty' => 'Aucun spot pour le moment.',
 			_ => null,
