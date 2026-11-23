@@ -7,6 +7,8 @@ import 'package:spotshare/core/router/not_found_page.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_detail_skeleton.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_gallery.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_header.dart';
 
 import '../../../../helpers/fake_auth_repository.dart';
 import '../../../../helpers/fake_comment_repository.dart';
@@ -120,5 +122,40 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(NotFoundPage), findsOneWidget);
+  });
+
+  void setSurface(WidgetTester tester, Size size) {
+    tester.view.physicalSize = size;
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+  }
+
+  testWidgets('à 1024 px de large, la galerie et les infos sont côte à côte', (
+    tester,
+  ) async {
+    setSurface(tester, const Size(1024, 768));
+    final container = await pumpSpotApp(tester);
+    container.read(routerProvider).go(AppRoutes.spotDetail(spotId));
+    await tester.pumpAndSettle();
+
+    final gallery = tester.getTopLeft(find.byType(SpotGallery));
+    final header = tester.getTopLeft(find.byType(SpotHeader));
+    expect(gallery.dx, lessThan(header.dx));
+    final galleryBottom = tester.getBottomLeft(find.byType(SpotGallery)).dy;
+    expect(header.dy, lessThan(galleryBottom));
+  });
+
+  testWidgets('à 390 px de large, la galerie est au-dessus des infos', (
+    tester,
+  ) async {
+    setSurface(tester, const Size(390, 844));
+    final container = await pumpSpotApp(tester);
+    container.read(routerProvider).go(AppRoutes.spotDetail(spotId));
+    await tester.pumpAndSettle();
+
+    final gallery = tester.getTopLeft(find.byType(SpotGallery));
+    final header = tester.getTopLeft(find.byType(SpotHeader));
+    expect(gallery.dy, lessThan(header.dy));
   });
 }
