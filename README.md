@@ -44,6 +44,7 @@ Détails et modèle de données : [docs/backend-firebase.md](docs/backend-fireba
 | `firebase_core`, `firebase_auth`, `cloud_firestore`, `firebase_storage`, `cloud_functions` | Backend : authentification, données temps réel, photos, logique serveur et proxy des API tierces |
 | `image_picker` | Photo depuis l'appareil photo ou la galerie, redimensionnée à la source (avatar, photos de spots) : plugin officiel de l'équipe Flutter, sans dépendance de compression en plus |
 | `cached_network_image` | Cache disque des images distantes (consultation hors-ligne) |
+| `video_player` | Lecture des vidéos de spots en plein écran : package officiel de l'équipe Flutter, aucun lecteur natif à écrire |
 | `connectivity_plus` | Détection du réseau pour le mode hors-ligne et la synchronisation différée |
 | `shared_preferences` | Persistance locale des préférences (langue choisie) |
 | `slang`, `slang_flutter`, `intl`, `flutter_localizations` | Traductions FR/EN typées, générées depuis des fichiers YAML |
