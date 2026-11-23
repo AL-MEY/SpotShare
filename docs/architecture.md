@@ -161,6 +161,7 @@ Fichier unique `presentation/providers/spot_providers.dart`, écrit à la main (
 
 - **Infrastructure** : `spotRepositoryProvider`, `ratingRepositoryProvider`, `commentRepositoryProvider`, `spotAuthorRepositoryProvider` (construits sur `FirebaseFirestore.instance`), et les cas d'usage `rateSpotProvider`, `addCommentProvider`, `deleteCommentProvider`.
 - **Lectures** (`StreamProvider.autoDispose`) : `spotProvider(spotId)`, `recentSpotsProvider` (20 derniers spots), `spotAuthorProvider(userId)`, `myRatingProvider(spotId)` (`null` sans utilisateur connecté).
+- **Contenu sans compteurs** : `spotContentProvider(spotId)` (`Provider.autoDispose`) est ce que `SpotDetailPage` observe ; il met note et compteurs à 0 pour ne notifier que si le contenu change. Les widgets qui affichent les compteurs les lisent via `.select` sur `spotProvider`.
 - **Pagination des commentaires** : `commentsLimitProvider(spotId)` (`CommentsLimit`, 20 par page, `showMore()`) ; `commentsProvider(spotId)` le `watch`, donc le flux est rouvert avec une limite plus grande à chaque `showMore()`.
 - **Actions** (`AsyncNotifierProvider.autoDispose<SubmitController, void>`) : `rateSpotControllerProvider`, `commentComposerControllerProvider`, `deleteCommentControllerProvider`.
 
