@@ -60,7 +60,7 @@ L'id d'une note ou d'un favori est l'uid : une seule note par personne par const
 
 Firestore garde un cache local (activé par défaut sur mobile) : le profil s'affiche hors-ligne s'il a déjà été chargé.
 
-L'écriture est optimiste : `set` met à jour le cache local tout de suite, le flux du profil émet et le routeur part sur l'accueil sans attendre le serveur (hors-ligne compris : l'envoi se fait au retour du réseau). Si le serveur refuse ensuite l'écriture, le document disparaît du cache et le routeur ramène vers la création du profil, sans message d'erreur. D'où une validation client identique aux règles : longueurs comptées en points de code (`UserProfile.lengthOf`), comme `size()` dans les règles.
+L'écriture est optimiste : `set` met à jour le cache local tout de suite, le flux du profil émet et le routeur part sur l'accueil sans attendre le serveur (hors-ligne compris : l'envoi se fait au retour du réseau). Si le serveur refuse ensuite l'écriture, le document disparaît du cache et le routeur ramène vers la création du profil, sans message d'erreur. D'où une validation client identique aux règles : longueurs vérifiées côté client (`UserProfile.lengthOf`, qui compte des points de code). Attention : `size()` dans les règles compte des unités UTF-16, donc un emoji vaut 2 côté règles et 1 côté client ; un texte proche de la limite avec des emojis peut passer la validation client et être refusé par le serveur.
 
 Limites connues :
 - avec un nouvel avatar, l'upload Storage passe avant l'écriture : hors-ligne, le bouton reste en chargement jusqu'au retour du réseau ou à l'échec de l'upload ;
@@ -81,8 +81,9 @@ Déployer d'abord sur dev et vérifier sur l'app avant prod. Prérequis par proj
 
 - Tout est refusé par défaut, puis ouvert explicitement collection par collection.
 - `spots/{spotId}` : lecture pour tout utilisateur connecté, **aucune écriture client** (la création relèvera du formulaire §2.4).
+- `spots/{spotId}/favorites/{uid}` : fermé (lecture et écriture refusées) tant que ses règles ne sont pas écrites.
 - `spots/{spotId}/ratings/{uid}` : lecture pour tout connecté ; création/modification seulement si `uid == request.auth.uid`, clés exactes `value` et `updatedAt`, `value` entier de 1 à 5, `updatedAt == request.time`, et l'auteur du spot ne peut pas noter son propre spot (lecture du spot par `get()`). Pas de suppression.
-- `spots/{spotId}/comments/{commentId}` : lecture pour tout connecté ; création si `authorId == request.auth.uid`, clés exactes `authorId`, `text`, `createdAt`, texte de 1 à 500 caractères et non vide après `trim()`, `createdAt == request.time` ; suppression de son propre commentaire seulement ; pas de modification.
+- `spots/{spotId}/comments/{commentId}` : lecture pour tout connecté ; création si le spot existe, `authorId == request.auth.uid`, clés exactes `authorId`, `text`, `createdAt`, texte de 1 à 500 caractères et non vide après `trim()`, `createdAt == request.time` ; suppression de son propre commentaire seulement ; pas de modification.
 - Les règles sont versionnées et testées avec l'émulateur Firestore (voir ci-dessous).
 
 ### Tester les règles
@@ -96,7 +97,15 @@ npm run build
 npm run test:rules
 ```
 
-Prérequis : Java 21 ou plus (exigé par `firebase-tools`) et `firebase-tools` installé. `npm test` ne lance que les tests unitaires des Functions (le job CI `functions` fait `npm ci`, `npm run build`, `npm test`) ; les tests de règles, qui démarrent l'émulateur, restent en local.
+Prérequis : `firebase-tools` installé et un JDK 21 ou plus **dans le `PATH`** (pas seulement `JAVA_HOME`), par exemple :
+
+```bash
+export PATH="$(/usr/libexec/java_home -v 21)/bin:$PATH"
+```
+
+Le script `test:rules` appelle `"$npm_node_execpath"` car le binaire autonome de `firebase` injecte son propre `node` dans la commande lancée : il faut donc passer par `npm run test:rules`, pas copier la commande à la main.
+
+Limites des chaînes dans les règles : `size()` compte des unités UTF-16 (comme `String.length` de Dart, utilisé par le composeur de commentaires : cohérent) et `trim()` ne retire que les espaces ASCII ; l'app trime avec Dart avant d'envoyer. `npm test` ne lance que les tests unitaires des Functions (le job CI `functions` fait `npm ci`, `npm run build`, `npm test`) ; les tests de règles, qui démarrent l'émulateur, restent en local.
 
 ## Secrets et variables d'environnement
 
