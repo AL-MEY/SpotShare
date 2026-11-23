@@ -30,3 +30,19 @@ export async function recomputeRatingStats(db: Firestore, spotId: string): Promi
   const { count, average } = snapshot.data();
   await updateSpot(db, spotId, ratingStatsFrom(count, average));
 }
+
+// Paires collection/champ autorisées ; la tâche 22 y ajoute les favoris.
+type CountTarget = { collection: 'comments'; field: 'commentCount' };
+
+export async function recomputeCount(
+  db: Firestore,
+  spotId: string,
+  collection: CountTarget['collection'],
+  field: CountTarget['field'],
+): Promise<void> {
+  const snapshot = await db
+    .collection(`spots/${spotId}/${collection}`)
+    .count()
+    .get();
+  await updateSpot(db, spotId, { [field]: snapshot.data().count });
+}
