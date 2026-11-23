@@ -7,7 +7,7 @@
   "main": "lib/src/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "node --test \"lib/src/**/*.test.js\"",
+    "test": "node --test \"lib/test/!(rules).test.js\"",
     "test:rules": "firebase emulators:exec --only firestore --project demo-spotshare '\"$npm_node_execpath\" --test lib/test/rules.test.js'",
     "seed": "tsx scripts/seed.ts"
   },
