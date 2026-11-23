@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase-admin/app';
 import { GeoPoint, getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { ratingStatsFrom } from '../src/aggregates.js';
+import { geohashFor } from '../src/geohash.js';
 import {
   BASE_DATE,
   commentPool,
@@ -77,6 +78,7 @@ async function main() {
       ...ratingStatsFrom(values.length, average),
       commentCount: spot.commentCount,
       favoriteCount: 0,
+      geohash: geohashFor(spot.lat, spot.lng),
     });
   });
 
