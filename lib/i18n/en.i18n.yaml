@@ -74,3 +74,63 @@ errors:
   retry: Try again
   close: Close
   backHome: Back to home
+spot:
+  category:
+    cafe: Café
+    viewpoint: Viewpoint
+    streetArt: Street art
+    restaurant: Restaurant
+    park: Park
+    other: Other
+  noRating: No rating yet
+  ratingCount:
+    one: ${n} review
+    other: ${n} reviews
+  by: By ${name}
+  unknownAuthor: Unknown author
+  copyAddress: Copy address
+  addressCopied: Address copied
+  readMore: Read more
+  readLess: Show less
+  yourRating: Your rating
+  rateTooltip:
+    one: Give ${n} star
+    other: Give ${n} stars
+  ownSpot: You can’t rate your own spot.
+  offline: Offline, some data may be out of date.
+  comments:
+    title:
+      one: ${n} comment
+      other: ${n} comments
+    hint: Add a comment
+    send: Send
+    tooLong: ${max} characters maximum.
+    empty: Write something before sending.
+    none: No comments yet. Start the conversation!
+    showMore: Show more comments
+    delete: Delete
+    deleteTitle: Delete this comment?
+    deleteMessage: This can’t be undone.
+    cancel: Cancel
+    justNow: Just now
+    minutesAgo:
+      one: ${n} minute ago
+      other: ${n} minutes ago
+    hoursAgo:
+      one: ${n} hour ago
+      other: ${n} hours ago
+    daysAgo:
+      one: ${n} day ago
+      other: ${n} days ago
+  media:
+    position: ${current} of ${total}
+    play: Play video
+    pause: Pause
+    mute: Mute
+    unmute: Unmute
+    videoError: This video can’t be played.
+    close: Close
+    video: Video
+  recent:
+    title: Recent spots
+    empty: No spots yet.

@@ -49,6 +49,7 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$onboarding$en onboarding = _Translations$onboarding$en._(_root);
 	@override late final _Translations$profile$en profile = _Translations$profile$en._(_root);
 	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
+	@override late final _Translations$spot$en spot = _Translations$spot$en._(_root);
 }
 
 // Path: app
@@ -191,6 +192,37 @@ class _Translations$errors$en extends Translations$errors$fr {
 	@override String get backHome => 'Back to home';
 }
 
+// Path: spot
+class _Translations$spot$en extends Translations$spot$fr {
+	_Translations$spot$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$spot$category$en category = _Translations$spot$category$en._(_root);
+	@override String get noRating => 'No rating yet';
+	@override String ratingCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} review',
+		other: '${n} reviews',
+	);
+	@override String by({required Object name}) => 'By ${name}';
+	@override String get unknownAuthor => 'Unknown author';
+	@override String get copyAddress => 'Copy address';
+	@override String get addressCopied => 'Address copied';
+	@override String get readMore => 'Read more';
+	@override String get readLess => 'Show less';
+	@override String get yourRating => 'Your rating';
+	@override String rateTooltip({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: 'Give ${n} star',
+		other: 'Give ${n} stars',
+	);
+	@override String get ownSpot => 'You can’t rate your own spot.';
+	@override String get offline => 'Offline, some data may be out of date.';
+	@override late final _Translations$spot$comments$en comments = _Translations$spot$comments$en._(_root);
+	@override late final _Translations$spot$media$en media = _Translations$spot$media$en._(_root);
+	@override late final _Translations$spot$recent$en recent = _Translations$spot$recent$en._(_root);
+}
+
 // Path: errors.network
 class _Translations$errors$network$en extends Translations$errors$network$fr {
 	_Translations$errors$network$en._(TranslationsEn root) : this._root = root, super.internal(root);
@@ -279,6 +311,85 @@ class _Translations$errors$unknown$en extends Translations$errors$unknown$fr {
 	@override String get message => 'Something went wrong. Try again.';
 }
 
+// Path: spot.category
+class _Translations$spot$category$en extends Translations$spot$category$fr {
+	_Translations$spot$category$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get cafe => 'Café';
+	@override String get viewpoint => 'Viewpoint';
+	@override String get streetArt => 'Street art';
+	@override String get restaurant => 'Restaurant';
+	@override String get park => 'Park';
+	@override String get other => 'Other';
+}
+
+// Path: spot.comments
+class _Translations$spot$comments$en extends Translations$spot$comments$fr {
+	_Translations$spot$comments$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} comment',
+		other: '${n} comments',
+	);
+	@override String get hint => 'Add a comment';
+	@override String get send => 'Send';
+	@override String tooLong({required Object max}) => '${max} characters maximum.';
+	@override String get empty => 'Write something before sending.';
+	@override String get none => 'No comments yet. Start the conversation!';
+	@override String get showMore => 'Show more comments';
+	@override String get delete => 'Delete';
+	@override String get deleteTitle => 'Delete this comment?';
+	@override String get deleteMessage => 'This can’t be undone.';
+	@override String get cancel => 'Cancel';
+	@override String get justNow => 'Just now';
+	@override String minutesAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} minute ago',
+		other: '${n} minutes ago',
+	);
+	@override String hoursAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} hour ago',
+		other: '${n} hours ago',
+	);
+	@override String daysAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} day ago',
+		other: '${n} days ago',
+	);
+}
+
+// Path: spot.media
+class _Translations$spot$media$en extends Translations$spot$media$fr {
+	_Translations$spot$media$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String position({required Object current, required Object total}) => '${current} of ${total}';
+	@override String get play => 'Play video';
+	@override String get pause => 'Pause';
+	@override String get mute => 'Mute';
+	@override String get unmute => 'Unmute';
+	@override String get videoError => 'This video can’t be played.';
+	@override String get close => 'Close';
+	@override String get video => 'Video';
+}
+
+// Path: spot.recent
+class _Translations$spot$recent$en extends Translations$spot$recent$fr {
+	_Translations$spot$recent$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Recent spots';
+	@override String get empty => 'No spots yet.';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -345,6 +456,49 @@ extension on TranslationsEn {
 			'errors.retry' => 'Try again',
 			'errors.close' => 'Close',
 			'errors.backHome' => 'Back to home',
+			'spot.category.cafe' => 'Café',
+			'spot.category.viewpoint' => 'Viewpoint',
+			'spot.category.streetArt' => 'Street art',
+			'spot.category.restaurant' => 'Restaurant',
+			'spot.category.park' => 'Park',
+			'spot.category.other' => 'Other',
+			'spot.noRating' => 'No rating yet',
+			'spot.ratingCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} review', other: '${n} reviews', ), 
+			'spot.by' => ({required Object name}) => 'By ${name}',
+			'spot.unknownAuthor' => 'Unknown author',
+			'spot.copyAddress' => 'Copy address',
+			'spot.addressCopied' => 'Address copied',
+			'spot.readMore' => 'Read more',
+			'spot.readLess' => 'Show less',
+			'spot.yourRating' => 'Your rating',
+			'spot.rateTooltip' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Give ${n} star', other: 'Give ${n} stars', ), 
+			'spot.ownSpot' => 'You can’t rate your own spot.',
+			'spot.offline' => 'Offline, some data may be out of date.',
+			'spot.comments.title' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} comment', other: '${n} comments', ), 
+			'spot.comments.hint' => 'Add a comment',
+			'spot.comments.send' => 'Send',
+			'spot.comments.tooLong' => ({required Object max}) => '${max} characters maximum.',
+			'spot.comments.empty' => 'Write something before sending.',
+			'spot.comments.none' => 'No comments yet. Start the conversation!',
+			'spot.comments.showMore' => 'Show more comments',
+			'spot.comments.delete' => 'Delete',
+			'spot.comments.deleteTitle' => 'Delete this comment?',
+			'spot.comments.deleteMessage' => 'This can’t be undone.',
+			'spot.comments.cancel' => 'Cancel',
+			'spot.comments.justNow' => 'Just now',
+			'spot.comments.minutesAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} minute ago', other: '${n} minutes ago', ), 
+			'spot.comments.hoursAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} hour ago', other: '${n} hours ago', ), 
+			'spot.comments.daysAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n} day ago', other: '${n} days ago', ), 
+			'spot.media.position' => ({required Object current, required Object total}) => '${current} of ${total}',
+			'spot.media.play' => 'Play video',
+			'spot.media.pause' => 'Pause',
+			'spot.media.mute' => 'Mute',
+			'spot.media.unmute' => 'Unmute',
+			'spot.media.videoError' => 'This video can’t be played.',
+			'spot.media.close' => 'Close',
+			'spot.media.video' => 'Video',
+			'spot.recent.title' => 'Recent spots',
+			'spot.recent.empty' => 'No spots yet.',
 			_ => null,
 		};
 	}
