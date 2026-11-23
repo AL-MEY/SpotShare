@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotshare/core/error/failure.dart';
 import 'package:spotshare/core/error/failure_message.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
+import 'package:spotshare/core/widgets/error_bottom_sheet.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/features/spot/presentation/widgets/comment_tile.dart';
 import 'package:spotshare/i18n/strings.g.dart';
@@ -18,6 +19,11 @@ class CommentList extends ConsumerWidget {
     final t = context.t;
     final comments = ref.watch(commentsProvider(spotId));
     final limit = ref.watch(commentsLimitProvider(spotId));
+    // Une seule écoute ici : sinon chaque tuile ouvrirait sa propre bottom sheet.
+    ref.listen(deleteCommentControllerProvider, (_, next) {
+      final error = next.error;
+      if (error is Failure) showErrorBottomSheet(context, error);
+    });
 
     return comments.when(
       loading: () => const SliverToBoxAdapter(

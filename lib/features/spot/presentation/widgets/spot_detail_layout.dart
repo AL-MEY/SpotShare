@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
+import 'package:spotshare/features/spot/presentation/widgets/comment_composer.dart';
 import 'package:spotshare/features/spot/presentation/widgets/comment_list.dart';
 import 'package:spotshare/features/spot/presentation/widgets/comments_title.dart';
 import 'package:spotshare/features/spot/presentation/widgets/my_rating_stars.dart';
@@ -51,6 +52,8 @@ class SpotDetailLayout extends StatelessWidget {
                 MyRatingStars(spot: spot),
                 gap,
                 CommentsTitle(spotId: spot.id),
+                gap,
+                CommentComposer(spotId: spot.id),
                 gap,
               ],
             ),

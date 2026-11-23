@@ -95,8 +95,11 @@ void main() {
   testWidgets('désactive les étoiles hors ligne', (tester) async {
     await pumpSpot(tester, buildSpot(), online: false);
 
-    final offline = find.text(
-      'Hors connexion, certaines données peuvent être anciennes.',
+    final offline = find.descendant(
+      of: find.byType(MyRatingStars),
+      matching: find.text(
+        'Hors connexion, certaines données peuvent être anciennes.',
+      ),
     );
     await tester.ensureVisible(offline);
     await tester.pumpAndSettle();

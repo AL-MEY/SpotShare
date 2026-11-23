@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:spotshare/core/error/failure.dart';
 import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/features/spot/domain/entities/spot_comment.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
+import 'package:spotshare/features/spot/presentation/widgets/comment_tile.dart';
 
 import '../../../../helpers/fake_auth_repository.dart';
 import '../../../../helpers/fake_comment_repository.dart';
@@ -63,4 +65,61 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  Finder deleteButtons() => find.byTooltip('Supprimer');
+
+  testWidgets('le bouton supprimer n’apparaît que sur mes commentaires', (
+    tester,
+  ) async {
+    await pumpSpot(tester, [
+      buildComment(authorId: 'uid', text: 'Le mien'),
+      buildComment(id: 'c2', text: 'Celui d’un autre'),
+    ]);
+
+    await reveal(tester, find.text('Celui d’un autre'));
+
+    expect(deleteButtons(), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.widgetWithText(CommentTile, 'Le mien'),
+        matching: deleteButtons(),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('supprime après confirmation, rien après annulation', (
+    tester,
+  ) async {
+    await pumpSpot(tester, [buildComment(authorId: 'uid')]);
+    await reveal(tester, deleteButtons());
+
+    await tester.tap(deleteButtons());
+    await tester.pumpAndSettle();
+    expect(find.text('Supprimer le commentaire ?'), findsOneWidget);
+    await tester.tap(find.text('Annuler'));
+    await tester.pumpAndSettle();
+    expect(comments.deleted, isEmpty);
+
+    await tester.tap(deleteButtons());
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(TextButton, 'Supprimer'));
+    await tester.pumpAndSettle();
+    expect(comments.deleted, ['c1']);
+  });
+
+  testWidgets('affiche la bottom sheet quand la suppression échoue', (
+    tester,
+  ) async {
+    await pumpSpot(tester, [buildComment(authorId: 'uid')]);
+    await reveal(tester, deleteButtons());
+    comments.failure = const PermissionFailure();
+
+    await tester.tap(deleteButtons());
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(TextButton, 'Supprimer'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(BottomSheet), findsOneWidget);
+  });
 }
