@@ -31,18 +31,19 @@ export async function recomputeRatingStats(db: Firestore, spotId: string): Promi
   await updateSpot(db, spotId, ratingStatsFrom(count, average));
 }
 
-// Paires collection/champ autorisées ; la tâche 22 y ajoute les favoris.
-type CountTarget = { collection: 'comments'; field: 'commentCount' };
+// Un seul objet pour que la paire collection/champ reste cohérente.
+export type CountTarget =
+  | { collection: 'comments'; field: 'commentCount' }
+  | { collection: 'favorites'; field: 'favoriteCount' };
 
 export async function recomputeCount(
   db: Firestore,
   spotId: string,
-  collection: CountTarget['collection'],
-  field: CountTarget['field'],
+  target: CountTarget,
 ): Promise<void> {
   const snapshot = await db
-    .collection(`spots/${spotId}/${collection}`)
+    .collection(`spots/${spotId}/${target.collection}`)
     .count()
     .get();
-  await updateSpot(db, spotId, { [field]: snapshot.data().count });
+  await updateSpot(db, spotId, { [target.field]: snapshot.data().count });
 }

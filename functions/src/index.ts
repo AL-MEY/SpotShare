@@ -16,14 +16,25 @@ initializeApp();
 
 const db = getFirestore();
 
+const comments = { collection: 'comments', field: 'commentCount' } as const;
+const favorites = { collection: 'favorites', field: 'favoriteCount' } as const;
+
 export const onRatingWritten = onDocumentWritten('spots/{spotId}/ratings/{uid}', (event) =>
   recomputeRatingStats(db, event.params.spotId),
 );
 
 export const onCommentCreated = onDocumentCreated('spots/{spotId}/comments/{commentId}', (event) =>
-  recomputeCount(db, event.params.spotId, 'comments', 'commentCount'),
+  recomputeCount(db, event.params.spotId, comments),
 );
 
 export const onCommentDeleted = onDocumentDeleted('spots/{spotId}/comments/{commentId}', (event) =>
-  recomputeCount(db, event.params.spotId, 'comments', 'commentCount'),
+  recomputeCount(db, event.params.spotId, comments),
+);
+
+export const onFavoriteCreated = onDocumentCreated('spots/{spotId}/favorites/{uid}', (event) =>
+  recomputeCount(db, event.params.spotId, favorites),
+);
+
+export const onFavoriteDeleted = onDocumentDeleted('spots/{spotId}/favorites/{uid}', (event) =>
+  recomputeCount(db, event.params.spotId, favorites),
 );
