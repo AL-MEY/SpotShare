@@ -78,7 +78,7 @@ class _CommentComposerState extends ConsumerState<CommentComposer> {
         children: [
           TextFormField(
             controller: _controller,
-            enabled: online,
+            enabled: online && !sending,
             minLines: 1,
             maxLines: 4,
             textCapitalization: TextCapitalization.sentences,

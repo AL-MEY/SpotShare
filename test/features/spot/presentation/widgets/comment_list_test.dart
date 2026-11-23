@@ -119,4 +119,36 @@ void main() {
     await reveal(tester, title);
     expect(title, findsOneWidget);
   });
+
+  testWidgets('seul un nouveau commentaire est animé', (tester) async {
+    final animations = find.byType(
+      TweenAnimationBuilder<double>,
+      skipOffstage: false,
+    );
+    final page = List.generate(
+      20,
+      (i) => buildComment(id: 'c$i', text: 'Commentaire $i'),
+    );
+    await pumpSpot(tester, initial: page);
+    await reveal(tester, find.text('Commentaire 0'));
+    expect(animations, findsNothing);
+
+    comments.emit([buildComment(id: 'new', text: 'Tout neuf'), ...page]);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(animations, findsOneWidget);
+    await tester.pumpAndSettle();
+
+    final more = find.text('Voir plus de commentaires');
+    await reveal(tester, more);
+    comments.emit([
+      buildComment(id: 'new', text: 'Tout neuf'),
+      ...page,
+      ...List.generate(20, (i) => buildComment(id: 'p$i', text: 'Page $i')),
+    ]);
+    await tester.tap(more);
+    await tester.pump();
+    await tester.pump();
+    expect(animations, findsNothing);
+  });
 }

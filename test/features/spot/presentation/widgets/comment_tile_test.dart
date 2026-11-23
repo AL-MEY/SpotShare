@@ -106,6 +106,9 @@ void main() {
     await tester.tap(find.widgetWithText(TextButton, 'Supprimer'));
     await tester.pumpAndSettle();
     expect(comments.deleted, ['c1']);
+    comments.emit([]);
+    await tester.pumpAndSettle();
+    expect(find.text('Super endroit'), findsNothing);
   });
 
   testWidgets('affiche la bottom sheet quand la suppression échoue', (
