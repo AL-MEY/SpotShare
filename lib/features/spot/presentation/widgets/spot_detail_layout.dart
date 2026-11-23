@@ -5,7 +5,7 @@ import 'package:spotshare/core/layout/breakpoints.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_back_button.dart';
-import 'package:spotshare/features/spot/presentation/widgets/spot_detail_content_slivers.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_detail_content.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_gallery.dart';
 
 class SpotDetailLayout extends StatelessWidget {
@@ -58,7 +58,7 @@ class _Stacked extends StatelessWidget {
               background: SpotGallery(spot: spot, height: galleryHeight),
             ),
           ),
-          ...spotDetailContentSlivers(context, spot),
+          SpotDetailContent(spot: spot),
         ],
       ),
     );
@@ -97,9 +97,7 @@ class _SideBySide extends StatelessWidget {
         Expanded(
           child: SafeArea(
             left: false,
-            child: CustomScrollView(
-              slivers: spotDetailContentSlivers(context, spot),
-            ),
+            child: CustomScrollView(slivers: [SpotDetailContent(spot: spot)]),
           ),
         ),
       ],

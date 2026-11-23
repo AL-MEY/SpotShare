@@ -158,4 +158,15 @@ void main() {
     final header = tester.getTopLeft(find.byType(SpotHeader));
     expect(gallery.dy, lessThan(header.dy));
   });
+
+  testWidgets('à 700 px de large, la fiche reste empilée', (tester) async {
+    setSurface(tester, const Size(700, 900));
+    final container = await pumpSpotApp(tester);
+    container.read(routerProvider).go(AppRoutes.spotDetail(spotId));
+    await tester.pumpAndSettle();
+
+    final gallery = tester.getTopLeft(find.byType(SpotGallery));
+    final header = tester.getTopLeft(find.byType(SpotHeader));
+    expect(gallery.dy, lessThan(header.dy));
+  });
 }
