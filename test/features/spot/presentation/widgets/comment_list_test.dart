@@ -103,6 +103,46 @@ void main() {
     expect(comments.requestedLimits, [20, 40]);
   });
 
+  testWidgets(
+    'Voir plus garde les commentaires affichés pendant le chargement',
+    (tester) async {
+      final page = List.generate(
+        20,
+        (i) => buildComment(id: 'c$i', text: 'Commentaire $i'),
+      );
+      await pumpSpot(tester, initial: page);
+
+      final more = find.text('Voir plus de commentaires');
+      await reveal(tester, more);
+      await tester.tap(more);
+      await tester.pump();
+
+      expect(find.text('Commentaire 19'), findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+      await tester.pumpAndSettle();
+    },
+  );
+
+  testWidgets('la page chargée par Voir plus ne s’anime pas', (tester) async {
+    final all = List.generate(
+      40,
+      (i) => buildComment(id: 'c$i', text: 'Commentaire $i'),
+    );
+    await pumpSpot(tester, initial: all);
+
+    final more = find.text('Voir plus de commentaires');
+    await reveal(tester, more);
+    await tester.tap(more);
+    await tester.pump();
+    await tester.pump();
+
+    expect(
+      find.byType(TweenAnimationBuilder<double>, skipOffstage: false),
+      findsNothing,
+    );
+    await tester.pumpAndSettle();
+  });
+
   testWidgets('masque Voir plus quand la page n’est pas pleine', (
     tester,
   ) async {

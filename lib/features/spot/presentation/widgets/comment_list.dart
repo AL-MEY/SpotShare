@@ -53,6 +53,8 @@ class _CommentListState extends ConsumerState<CommentList> {
     });
 
     return comments.when(
+      // Voir plus rouvre le flux : la liste reste affichée pendant le chargement.
+      skipLoadingOnReload: true,
       loading: () => const SliverToBoxAdapter(
         child: Center(child: CircularProgressIndicator()),
       ),
@@ -63,7 +65,8 @@ class _CommentListState extends ConsumerState<CommentList> {
         ),
       ),
       data: (list) {
-        _track(list, limit);
+        // Pendant un rechargement, la liste affichée est l'ancienne : rien à suivre.
+        if (!comments.isLoading) _track(list, limit);
         if (list.isEmpty) {
           return SliverToBoxAdapter(
             child: Text(t.spot.comments.none, style: theme.textStyles.b1),

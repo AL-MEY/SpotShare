@@ -30,8 +30,9 @@ class FakeCommentRepository implements CommentRepository {
     requestedLimits.add(limit);
     final failure = this.failure;
     if (failure != null) throw failure;
-    yield _comments;
-    yield* _controller.stream;
+    // Comme Firestore, chaque émission est tronquée à la limite demandée.
+    yield _comments.take(limit).toList();
+    yield* _controller.stream.map((c) => c.take(limit).toList());
   }
 
   @override
