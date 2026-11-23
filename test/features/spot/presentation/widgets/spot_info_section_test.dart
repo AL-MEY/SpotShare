@@ -107,6 +107,8 @@ void main() {
     );
     expect(description().maxLines, 5);
 
+    await tester.ensureVisible(find.text('Lire la suite'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Lire la suite'));
     await tester.pumpAndSettle();
 

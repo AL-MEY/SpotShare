@@ -12,6 +12,7 @@ import 'package:spotshare/features/profile/presentation/pages/profile_loading_pa
 import 'package:spotshare/features/profile/presentation/pages/profile_setup_page.dart';
 import 'package:spotshare/features/profile/presentation/providers/profile_providers.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
+import 'package:spotshare/features/spot/presentation/pages/spot_media_viewer_page.dart';
 import 'package:spotshare/home_page.dart';
 
 abstract final class AppRoutes {
@@ -89,6 +90,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '${AppRoutes._spotsPrefix}/:spotId',
         builder: (context, state) =>
             SpotDetailPage(spotId: state.pathParameters['spotId']!),
+        routes: [
+          GoRoute(
+            path: 'media',
+            builder: (context, state) => SpotMediaViewerPage(
+              spotId: state.pathParameters['spotId']!,
+              initialIndex:
+                  int.tryParse(state.uri.queryParameters['index'] ?? '') ?? 0,
+            ),
+          ),
+        ],
       ),
       GoRoute(
         path: AppRoutes.onboarding,
