@@ -29,7 +29,7 @@ Architecture côté app : [architecture.md](architecture.md#authentification).
 
 - Un projet Firebase par flavor (`spotshare-dev-b6185` pour dev, `spotshare-b7f94` pour prod). La config de chaque flavor se génère avec `scripts/flutterfire-config.sh <flavor>`, jamais à la main : voir [flavors.md](flavors.md).
 - Ces fichiers contiennent des identifiants **publics** de projet Firebase : ils sont versionnés pour que le correcteur puisse builder. La sécurité repose sur les règles et l'App Check, pas sur leur secret.
-- Code des Functions et règles dans un dossier `firebase/` (ou `functions/` à la racine) versionné avec l'app.
+- Code des Cloud Functions (TypeScript, Node 22) dans `functions/`, règles à la racine (`firestore.rules`, `storage.rules`), le tout versionné avec l'app.
 
 ## Modèle de données
 
@@ -39,6 +39,24 @@ Architecture côté app : [architecture.md](architecture.md#authentification).
 | Storage `users/{uid}/avatar_<timestamp>.<ext>` | avatar : `jpg`, `jpeg`, `png`, `webp` ou `heic`, type MIME correspondant envoyé explicitement, < 5 Mo | l'utilisateur lui-même |
 
 Le document de profil est public pour tout utilisateur connecté (auteur d'un spot, d'un commentaire) : il ne contient donc rien de privé. L'écriture se fait en `merge` pour ne pas écraser de futurs champs gérés côté serveur (compteurs…), qu'il faudra ajouter à la liste `hasOnly` des règles.
+
+### Spots, notes, commentaires, favoris
+
+| Emplacement | Contenu | Écrit par |
+|---|---|---|
+| Firestore `spots/{spotId}` | `title` (3–80), `description` (0–2000, texte brut), `category` (`cafe`, `viewpoint`, `streetArt`, `restaurant`, `park`, `other`), `address` (1–200), `location` (geopoint), `media` (1–10 éléments `type`, `url`, `thumbnailUrl?`, `durationMs?`), `tags` (0–10), `authorId`, `createdAt` | formulaire de création (§2.4), pas encore écrit |
+| idem, champs serveur | `geohash`, `averageRating`, `ratingCount`, `commentCount`, `favoriteCount` | Cloud Functions uniquement |
+| Firestore `spots/{spotId}/ratings/{uid}` | `value` (entier 1–5), `updatedAt` (horodatage serveur) | l'utilisateur `uid` |
+| Firestore `spots/{spotId}/comments/{commentId}` | `authorId`, `text` (1–500, non vide après trim), `createdAt` (horodatage serveur) | l'auteur du commentaire |
+| Firestore `spots/{spotId}/favorites/{uid}` | `createdAt` | le propriétaire (règles à écrire avec les favoris) |
+
+L'id d'une note ou d'un favori est l'uid : une seule note par personne par construction. Nom et avatar des auteurs sont lus dans `users/{uid}`, jamais recopiés.
+
+#### Contrat pour le formulaire de création (§2.4)
+
+- À la création d'un spot, les compteurs `averageRating`, `ratingCount`, `commentCount` et `favoriteCount` valent `0`.
+- `geohash` est absent : la Cloud Function `onSpotWritten` le calcule à partir de `location`.
+- Un client n'écrit jamais `geohash` ni les compteurs, et ne peut pas les modifier : `spots` est aujourd'hui fermé en écriture, les règles de création devront garder cette interdiction.
 
 Firestore garde un cache local (activé par défaut sur mobile) : le profil s'affiche hors-ligne s'il a déjà été chargé.
 
@@ -62,9 +80,23 @@ Déployer d'abord sur dev et vérifier sur l'app avant prod. Prérequis par proj
 
 
 - Tout est refusé par défaut, puis ouvert explicitement collection par collection.
-- Lecture des spots publique pour un utilisateur authentifié ; écriture/suppression réservées à l'auteur (`request.auth.uid == resource.data.authorId`).
-- Validation des champs côté règles (types, longueurs, note entre 1 et 5).
-- Les règles sont versionnées (`firestore.rules`, `storage.rules`) et testées avec l'émulateur quand c'est possible.
+- `spots/{spotId}` : lecture pour tout utilisateur connecté, **aucune écriture client** (la création relèvera du formulaire §2.4).
+- `spots/{spotId}/ratings/{uid}` : lecture pour tout connecté ; création/modification seulement si `uid == request.auth.uid`, clés exactes `value` et `updatedAt`, `value` entier de 1 à 5, `updatedAt == request.time`, et l'auteur du spot ne peut pas noter son propre spot (lecture du spot par `get()`). Pas de suppression.
+- `spots/{spotId}/comments/{commentId}` : lecture pour tout connecté ; création si `authorId == request.auth.uid`, clés exactes `authorId`, `text`, `createdAt`, texte de 1 à 500 caractères et non vide après `trim()`, `createdAt == request.time` ; suppression de son propre commentaire seulement ; pas de modification.
+- Les règles sont versionnées et testées avec l'émulateur Firestore (voir ci-dessous).
+
+### Tester les règles
+
+`functions/test/rules.test.ts` (`@firebase/rules-unit-testing`, `node --test`) vérifie chaque règle ci-dessus, cas autorisés et refusés. Aucun projet réel n'est touché : l'émulateur tourne sous l'id `demo-spotshare`.
+
+```bash
+cd functions
+npm ci
+npm run build
+npm run test:rules
+```
+
+Prérequis : Java 21 ou plus (exigé par `firebase-tools`) et `firebase-tools` installé. `npm test` ne lance que les tests unitaires des Functions (le job CI `functions` fait `npm ci`, `npm run build`, `npm test`) ; les tests de règles, qui démarrent l'émulateur, restent en local.
 
 ## Secrets et variables d'environnement
 
