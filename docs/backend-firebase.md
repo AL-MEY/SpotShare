@@ -133,6 +133,27 @@ Vérification manuelle sur dev : noter un spot depuis l'app, puis dans la Consol
 
 La prod est une étape de livraison : vérifier d'abord que le projet prod est en plan Blaze, puis `./scripts/deploy-rules.sh prod` et `./scripts/deploy-functions.sh prod`.
 
+## Données de démo
+
+Script : `functions/scripts/seed.ts` (`npm --prefix functions run seed -- --project spotshare-dev-b6185`, identifiants `gcloud auth application-default login`). Il écrit avec l'Admin SDK, donc sans passer par les règles.
+
+| Données | Contenu |
+|---|---|
+| `users/seed-user-{1..3}` | profils sans avatar |
+| `spots/seed-spot-{1..6}` | une catégorie chacun, adresses réelles à Paris ; `seed-spot-1` et `seed-spot-6` appartiennent à `seed-user-1` ; 3 spots avec une vidéo (clips libres de droits de 5 à 10 s, vignette picsum) |
+| `ratings/{uid}` | chaque utilisateur note les spots dont il n'est pas l'auteur |
+| `comments/seed-comment-<spot>-<n>` | de 3 à 25 par spot (`seed-spot-1` : 25) |
+
+Les compteurs `averageRating`, `ratingCount` et `commentCount` sont calculés dans le script avec `ratingStatsFrom` (le même calcul que les Functions), `favoriteCount` vaut 0. Les ids étant fixes, un second lancement réécrit les mêmes documents. Les commentaires d'un lancement précédent qui n'existent plus dans le script ne sont pas supprimés.
+
+Le script ne s'exécute que pour `spotshare-dev-b6185`. Pour le tester sans toucher au projet réel, le lancer dans l'émulateur Firestore (la variable `FIRESTORE_EMULATOR_HOST` est alors prise en compte par `firebase-admin`). Avec le binaire `firebase` autonome, appeler `node` explicitement :
+
+```bash
+cd functions
+firebase emulators:exec --only firestore --project spotshare-dev-b6185 \
+  "$(which node) node_modules/tsx/dist/cli.mjs scripts/seed.ts --project spotshare-dev-b6185"
+```
+
 ## Secrets et variables d'environnement
 
 - **Aucune clé d'API dans le code Flutter** ni dans git. La clé cartographique est stockée côté serveur (secret Cloud Functions) et l'app appelle une Function qui relaie la requête.

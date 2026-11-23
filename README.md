@@ -34,6 +34,22 @@ Les règles Firestore et Storage sont versionnées (`firestore.rules`, `storage.
 
 Détails et modèle de données : [docs/backend-firebase.md](docs/backend-firebase.md).
 
+## Données de démo
+
+Un script remplit le projet **dev** (`spotshare-dev-b6185`) avec 3 profils, 6 spots à Paris (les 6 catégories, dont 3 avec vidéo), des notes et des commentaires (un spot en compte 25, pour la pagination). `seed-user-1` est l'auteur de deux spots.
+
+Prérequis : Node 22, `npm --prefix functions ci`, et des identifiants Google locaux : `gcloud auth application-default login` avec un compte ayant accès au projet dev.
+
+```bash
+npm --prefix functions run seed -- --project spotshare-dev-b6185
+```
+
+- Le script refuse tout autre id de projet (la prod ne peut pas être touchée).
+- Les ids sont fixes (`seed-spot-1..6`, `seed-user-1..3`, `seed-comment-<spot>-<n>`) : relancer le script écrase les mêmes documents, sans doublon.
+- Aucun identifiant n'est versionné : tout passe par les identifiants locaux de `gcloud`.
+
+Détails : [docs/backend-firebase.md](docs/backend-firebase.md#données-de-démo).
+
 ## Packages retenus
 
 | Package | Rôle |
