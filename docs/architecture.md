@@ -80,6 +80,7 @@ Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Resul
 
 - Chemins déclarés dans `AppRoutes` ; naviguer avec `context.go(AppRoutes.xxx)`, jamais avec une chaîne en dur.
 - Ajouter un écran = une constante dans `AppRoutes` + un `GoRoute` dans `routerProvider`.
+- Fiche spot : `AppRoutes.spotDetail(spotId)` (`/spots/:spotId`, `SpotDetailPage`), réservée aux connectés comme toute route hors `AppRoutes.public`. Chargement : `SpotDetailSkeleton`, erreur (dont spot supprimé) : `SpotLoadError` avec « Réessayer ». `AppRoutes.spotMedia(spotId, index)` pointe vers la route enfant `media` (visionneuse plein écran), ajoutée avec la visionneuse. `spotMediaHeroTag` (`hero_tags.dart`) fournit le tag `Hero` partagé entre liste et fiche.
 - Route inconnue : `NotFoundPage` (`core/router/not_found_page.dart`).
 - Garde dans le `redirect` du `GoRouter`, réévaluée à chaque changement de `authStateProvider` ou de `currentProfileProvider` :
   - visiteur : seulement les routes de `AppRoutes.public` (sinon retour à `welcome`). Une route accessible sans compte s'ajoute à `AppRoutes.public` ;
