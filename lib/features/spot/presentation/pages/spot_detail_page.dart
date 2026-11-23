@@ -15,7 +15,7 @@ class SpotDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(spotProvider(spotId));
+    final state = ref.watch(spotContentProvider(spotId));
     return Scaffold(
       // Retour seulement hors données : la fiche aura sa propre barre.
       appBar: state is AsyncData

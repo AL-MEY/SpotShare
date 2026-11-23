@@ -111,4 +111,38 @@ void main() {
       expect(state.error, isA<PermissionFailure>());
     },
   );
+
+  group('spotContentProvider', () {
+    test('ne notifie pas quand seuls note et compteurs changent', () async {
+      final container = makeContainer();
+      var notified = 0;
+      container.listen(spotContentProvider(spotId), (_, _) => notified++);
+      await container.read(spotProvider(spotId).future);
+      await pumpEventQueue();
+      notified = 0;
+
+      spots.emit(buildSpot(averageRating: 4, ratingCount: 3, commentCount: 5));
+      await pumpEventQueue();
+
+      expect(notified, 0);
+    });
+
+    test('notifie quand le contenu change', () async {
+      final container = makeContainer();
+      var notified = 0;
+      container.listen(spotContentProvider(spotId), (_, _) => notified++);
+      await container.read(spotProvider(spotId).future);
+      await pumpEventQueue();
+      notified = 0;
+
+      spots.emit(buildSpot(title: 'Nouveau titre'));
+      await pumpEventQueue();
+
+      expect(notified, 1);
+      expect(
+        container.read(spotContentProvider(spotId)).value?.title,
+        'Nouveau titre',
+      );
+    });
+  });
 }

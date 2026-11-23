@@ -163,46 +163,64 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('la note moyenne se met à jour sans reconstruire l’en-tête', (
+  testWidgets('une nouvelle note moyenne ne reconstruit pas l’en-tête', (
     tester,
   ) async {
-    // Instance const : seuls les changements du provider peuvent la reconstruire.
-    const summary = SpotRatingSummary(spotId: spotId);
-    var builds = 0;
-    final previous = debugOnRebuildDirtyWidget;
-    debugOnRebuildDirtyWidget = (element, _) {
-      if (element.widget is SpotRatingSummary) builds++;
-    };
-    addTearDown(() => debugOnRebuildDirtyWidget = previous);
-    spots = FakeSpotRepository(
-      spot: buildSpot(averageRating: 4, ratingCount: 2),
-    );
-    addTearDown(spots.dispose);
-    await tester.runAsync(() => LocaleSettings.setLocale(AppLocale.fr));
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [spotRepositoryProvider.overrideWithValue(spots)],
-        child: TranslationProvider(
-          child: MaterialApp(
-            theme: lightTheme,
-            locale: AppLocale.fr.flutterLocale,
-            supportedLocales: AppLocaleUtils.supportedLocales,
-            localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            home: const Scaffold(body: summary),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    builds = 0;
-
-    spots.emit(buildSpot(averageRating: 4, ratingCount: 2, commentCount: 9));
-    await tester.pumpAndSettle();
-    expect(builds, 0);
+    await pumpSpot(tester, buildSpot(averageRating: 4, ratingCount: 2));
+    final title = tester.widget<Text>(find.text('Café du coin'));
+    expect(find.text('4,0 (2 avis)'), findsOneWidget);
 
     spots.emit(buildSpot(averageRating: 3, ratingCount: 3, commentCount: 9));
     await tester.pumpAndSettle();
-    expect(builds, 1);
+
     expect(find.text('3,0 (3 avis)'), findsOneWidget);
+    expect(
+      identical(tester.widget<Text>(find.text('Café du coin')), title),
+      isTrue,
+    );
   });
+
+  testWidgets(
+    'SpotRatingSummary ne se reconstruit que pour la note et le compteur',
+    (tester) async {
+      // Instance const : seuls les changements du provider peuvent la reconstruire.
+      const summary = SpotRatingSummary(spotId: spotId);
+      var builds = 0;
+      final previous = debugOnRebuildDirtyWidget;
+      debugOnRebuildDirtyWidget = (element, _) {
+        if (element.widget is SpotRatingSummary) builds++;
+      };
+      addTearDown(() => debugOnRebuildDirtyWidget = previous);
+      spots = FakeSpotRepository(
+        spot: buildSpot(averageRating: 4, ratingCount: 2),
+      );
+      addTearDown(spots.dispose);
+      await tester.runAsync(() => LocaleSettings.setLocale(AppLocale.fr));
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [spotRepositoryProvider.overrideWithValue(spots)],
+          child: TranslationProvider(
+            child: MaterialApp(
+              theme: lightTheme,
+              locale: AppLocale.fr.flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+              home: const Scaffold(body: summary),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      builds = 0;
+
+      spots.emit(buildSpot(averageRating: 4, ratingCount: 2, commentCount: 9));
+      await tester.pumpAndSettle();
+      expect(builds, 0);
+
+      spots.emit(buildSpot(averageRating: 3, ratingCount: 3, commentCount: 9));
+      await tester.pumpAndSettle();
+      expect(builds, 1);
+      expect(find.text('3,0 (3 avis)'), findsOneWidget);
+    },
+  );
 }

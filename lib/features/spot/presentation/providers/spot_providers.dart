@@ -62,6 +62,22 @@ final spotProvider = StreamProvider.autoDispose.family<Spot, String>(
   retry: (_, _) => null,
 );
 
+// Compteurs remis à 0 : la page ne se reconstruit pas quand seule la note ou un compteur change.
+final spotContentProvider = Provider.autoDispose
+    .family<AsyncValue<Spot>, String>(
+      (ref, spotId) => ref.watch(
+        spotProvider(spotId).select(
+          (s) => s.whenData(
+            (spot) => spot.copyWith(
+              averageRating: 0,
+              ratingCount: 0,
+              commentCount: 0,
+            ),
+          ),
+        ),
+      ),
+    );
+
 final recentSpotsProvider = StreamProvider.autoDispose<List<Spot>>(
   (ref) => ref.watch(spotRepositoryProvider).watchRecentSpots(),
   retry: (_, _) => null,

@@ -41,6 +41,23 @@ class Spot {
   final int ratingCount;
   final int commentCount;
 
+  Spot copyWith({double? averageRating, int? ratingCount, int? commentCount}) =>
+      Spot(
+        id: id,
+        title: title,
+        description: description,
+        category: category,
+        address: address,
+        location: location,
+        media: media,
+        tags: tags,
+        authorId: authorId,
+        createdAt: createdAt,
+        averageRating: averageRating ?? this.averageRating,
+        ratingCount: ratingCount ?? this.ratingCount,
+        commentCount: commentCount ?? this.commentCount,
+      );
+
   String? get coverImageUrl => media.isEmpty ? null : media.first.previewUrl;
 
   @override
