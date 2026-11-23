@@ -63,7 +63,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(SpotMediaViewerPage), findsOneWidget);
-    expect(find.text('2 sur 3'), findsWidgets);
+    expect(
+      find.descendant(
+        of: find.byType(SpotMediaViewerPage),
+        matching: find.text('2 sur 3'),
+      ),
+      findsOneWidget,
+    );
     expect(find.byTooltip('Fermer'), findsOneWidget);
   });
 

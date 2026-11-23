@@ -39,6 +39,7 @@ class _SpotGalleryState extends State<SpotGallery> {
         ),
       );
     }
+    final current = _current.clamp(0, media.length - 1);
     final width = MediaQuery.sizeOf(context).width;
     return SizedBox(
       height: widget.height,
@@ -71,7 +72,7 @@ class _SpotGalleryState extends State<SpotGallery> {
                 ),
                 child: Text(
                   context.t.spot.media.position(
-                    current: _current + 1,
+                    current: current + 1,
                     total: media.length,
                   ),
                   style: theme.textStyles.b3.copyWith(

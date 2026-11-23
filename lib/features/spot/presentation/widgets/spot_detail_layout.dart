@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_back_button.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_description.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_gallery.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_header.dart';
@@ -29,15 +28,7 @@ class SpotDetailLayout extends StatelessWidget {
             backgroundColor: theme.colors.inverse,
             leading: Padding(
               padding: EdgeInsets.all(theme.spacing.spacingXs),
-              child: BackButton(
-                style: IconButton.styleFrom(
-                  backgroundColor: theme.colors.mediaButton,
-                  foregroundColor: theme.colors.onMedia,
-                ),
-                onPressed: () => context.canPop()
-                    ? context.pop()
-                    : context.go(AppRoutes.home),
-              ),
+              child: const SpotBackButton(onMedia: true),
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: SpotGallery(spot: spot, height: _galleryHeight),
