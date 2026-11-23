@@ -14,13 +14,23 @@ final isOnlineProvider = StreamProvider<bool>((ref) {
   var changed = false;
 
   // Abonnement avant la vérification : un changement entre les deux serait perdu.
-  final subscription = connectivity.onConnectivityChanged.listen((results) {
-    changed = true;
-    controller.add(_isOnline(results));
-  });
-  connectivity.checkConnectivity().then((results) {
-    if (!changed && !controller.isClosed) controller.add(_isOnline(results));
-  }, onError: controller.addError);
+  final subscription = connectivity.onConnectivityChanged.listen(
+    (results) {
+      changed = true;
+      if (!controller.isClosed) controller.add(_isOnline(results));
+    },
+    onError: (Object error, StackTrace stack) {
+      if (!controller.isClosed) controller.addError(error, stack);
+    },
+  );
+  connectivity.checkConnectivity().then(
+    (results) {
+      if (!changed && !controller.isClosed) controller.add(_isOnline(results));
+    },
+    onError: (Object error, StackTrace stack) {
+      if (!controller.isClosed) controller.addError(error, stack);
+    },
+  );
 
   ref.onDispose(() {
     subscription.cancel();

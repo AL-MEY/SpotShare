@@ -84,4 +84,15 @@ void main() {
       expect(values, [false]);
     },
   );
+
+  test('propage une erreur du flux de connectivité', () async {
+    givenInitial([ConnectivityResult.wifi]);
+    container.listen(isOnlineProvider, (_, _) {});
+    await container.read(isOnlineProvider.future);
+
+    changes.addError(StateError('boom'));
+    await Future<void>.delayed(Duration.zero);
+
+    expect(container.read(isOnlineProvider).hasError, isTrue);
+  });
 }
