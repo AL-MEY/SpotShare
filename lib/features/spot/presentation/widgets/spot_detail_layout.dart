@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
+import 'package:spotshare/features/spot/presentation/widgets/comment_list.dart';
+import 'package:spotshare/features/spot/presentation/widgets/comments_title.dart';
 import 'package:spotshare/features/spot/presentation/widgets/my_rating_stars.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_back_button.dart';
 import 'package:spotshare/features/spot/presentation/widgets/spot_description.dart';
@@ -47,8 +49,20 @@ class SpotDetailLayout extends StatelessWidget {
                 if (spot.tags.isNotEmpty) ...[gap, SpotTags(tags: spot.tags)],
                 gap,
                 MyRatingStars(spot: spot),
+                gap,
+                CommentsTitle(spotId: spot.id),
+                gap,
               ],
             ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              theme.spacing.spacingM,
+              0,
+              theme.spacing.spacingM,
+              theme.spacing.spacingL,
+            ),
+            sliver: CommentList(spotId: spot.id),
           ),
         ],
       ),

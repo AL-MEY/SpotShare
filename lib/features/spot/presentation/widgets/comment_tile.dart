@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spotshare/core/theme/app_theme.dart';
+import 'package:spotshare/features/spot/domain/entities/spot_comment.dart';
+import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
+import 'package:spotshare/features/spot/presentation/widgets/author_avatar.dart';
+import 'package:spotshare/features/spot/presentation/widgets/author_name.dart';
+import 'package:spotshare/features/spot/presentation/widgets/relative_time.dart';
+import 'package:spotshare/i18n/strings.g.dart';
+
+class CommentTile extends ConsumerWidget {
+  const CommentTile({super.key, required this.comment, required this.spotId});
+
+  final SpotComment comment;
+  final String spotId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = context.appTheme;
+    final t = context.t;
+    final author = ref.watch(spotAuthorProvider(comment.authorId)).value;
+    final name = authorNameOf(author);
+    final muted = theme.textStyles.b2.copyWith(
+      color: theme.colors.foregroundMuted,
+    );
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: theme.spacing.spacingS),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: theme.spacing.spacingS,
+        children: [
+          AuthorAvatar(
+            avatarUrl: author?.avatarUrl,
+            size: theme.spacing.spacingXl,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name.isEmpty ? t.spot.unknownAuthor : name,
+                  style: theme.textStyles.b2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  formatRelativeTime(
+                    comment.createdAt,
+                    DateTime.now(),
+                    t,
+                    TranslationProvider.of(context).locale.languageCode,
+                  ),
+                  style: muted,
+                ),
+                SizedBox(height: theme.spacing.spacing2xs),
+                Text(comment.text, style: theme.textStyles.b1),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

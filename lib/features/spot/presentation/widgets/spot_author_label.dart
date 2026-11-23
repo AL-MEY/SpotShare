@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/features/spot/presentation/widgets/author_avatar.dart';
+import 'package:spotshare/features/spot/presentation/widgets/author_name.dart';
 import 'package:spotshare/i18n/strings.g.dart';
 
 class SpotAuthorLabel extends ConsumerWidget {
@@ -14,7 +15,7 @@ class SpotAuthorLabel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = context.appTheme;
     final author = ref.watch(spotAuthorProvider(authorId)).value;
-    final name = author?.displayName.trim() ?? '';
+    final name = authorNameOf(author);
     final t = context.t.spot;
     return Row(
       children: [
