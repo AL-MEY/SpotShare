@@ -17,6 +17,7 @@ class Spot {
     required this.averageRating,
     required this.ratingCount,
     required this.commentCount,
+    required this.favoriteCount,
   });
 
   static const titleMinLength = 3;
@@ -40,23 +41,29 @@ class Spot {
   final double averageRating;
   final int ratingCount;
   final int commentCount;
+  final int favoriteCount;
 
-  Spot copyWith({double? averageRating, int? ratingCount, int? commentCount}) =>
-      Spot(
-        id: id,
-        title: title,
-        description: description,
-        category: category,
-        address: address,
-        location: location,
-        media: media,
-        tags: tags,
-        authorId: authorId,
-        createdAt: createdAt,
-        averageRating: averageRating ?? this.averageRating,
-        ratingCount: ratingCount ?? this.ratingCount,
-        commentCount: commentCount ?? this.commentCount,
-      );
+  Spot copyWith({
+    double? averageRating,
+    int? ratingCount,
+    int? commentCount,
+    int? favoriteCount,
+  }) => Spot(
+    id: id,
+    title: title,
+    description: description,
+    category: category,
+    address: address,
+    location: location,
+    media: media,
+    tags: tags,
+    authorId: authorId,
+    createdAt: createdAt,
+    averageRating: averageRating ?? this.averageRating,
+    ratingCount: ratingCount ?? this.ratingCount,
+    commentCount: commentCount ?? this.commentCount,
+    favoriteCount: favoriteCount ?? this.favoriteCount,
+  );
 
   String? get coverImageUrl => media.isEmpty ? null : media.first.previewUrl;
 
@@ -75,7 +82,8 @@ class Spot {
       other.createdAt == createdAt &&
       other.averageRating == averageRating &&
       other.ratingCount == ratingCount &&
-      other.commentCount == commentCount;
+      other.commentCount == commentCount &&
+      other.favoriteCount == favoriteCount;
 
   @override
   int get hashCode => Object.hash(
@@ -92,6 +100,7 @@ class Spot {
     averageRating,
     ratingCount,
     commentCount,
+    favoriteCount,
   );
 }
 

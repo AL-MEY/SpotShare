@@ -21,6 +21,7 @@ SpotDto _dto({String category = 'cafe', List<SpotMediaDto> media = const []}) =>
       averageRating: 4.5,
       ratingCount: 2,
       commentCount: 1,
+      favoriteCount: 4,
     );
 
 void main() {
@@ -37,6 +38,7 @@ void main() {
     expect(spot.averageRating, 4.5);
     expect(spot.ratingCount, 2);
     expect(spot.commentCount, 1);
+    expect(spot.favoriteCount, 4);
   });
 
   test('une catégorie inconnue devient other', () {

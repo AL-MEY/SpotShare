@@ -39,6 +39,7 @@ void main() {
         'averageRating': 4,
         'ratingCount': 3,
         'commentCount': 2,
+        'favoriteCount': 7,
       }),
     );
 
@@ -55,6 +56,7 @@ void main() {
     expect(dto.averageRating, 4.0);
     expect(dto.ratingCount, 3);
     expect(dto.commentCount, 2);
+    expect(dto.favoriteCount, 7);
   });
 
   test('les compteurs absents valent 0', () async {
@@ -63,6 +65,7 @@ void main() {
     expect(dto.averageRating, 0);
     expect(dto.ratingCount, 0);
     expect(dto.commentCount, 0);
+    expect(dto.favoriteCount, 0);
   });
 
   test('un média sans type ni url ne fait pas planter la lecture', () async {

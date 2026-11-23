@@ -121,7 +121,14 @@ void main() {
       await pumpEventQueue();
       notified = 0;
 
-      spots.emit(buildSpot(averageRating: 4, ratingCount: 3, commentCount: 5));
+      spots.emit(
+        buildSpot(
+          averageRating: 4,
+          ratingCount: 3,
+          commentCount: 5,
+          favoriteCount: 6,
+        ),
+      );
       await pumpEventQueue();
 
       expect(notified, 0);

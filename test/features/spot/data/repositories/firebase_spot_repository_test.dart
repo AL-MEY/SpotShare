@@ -23,6 +23,7 @@ final _dto = SpotDto(
   averageRating: 0,
   ratingCount: 0,
   commentCount: 0,
+  favoriteCount: 0,
 );
 
 void main() {

@@ -18,6 +18,7 @@ Spot buildSpot({List<SpotMedia>? media, List<String>? tags}) => Spot(
   averageRating: 4.5,
   ratingCount: 2,
   commentCount: 1,
+  favoriteCount: 2,
 );
 
 void main() {
@@ -48,5 +49,12 @@ void main() {
     expect(a, b);
     expect(a.hashCode, b.hashCode);
     expect(a, isNot(buildSpot(tags: ['calme'])));
+  });
+
+  test('copyWith remplace favoriteCount et garde le reste', () {
+    final spot = buildSpot().copyWith(favoriteCount: 9);
+    expect(spot.favoriteCount, 9);
+    expect(spot.commentCount, 1);
+    expect(spot, isNot(buildSpot()));
   });
 }

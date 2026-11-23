@@ -23,6 +23,7 @@ Spot buildSpot({
   double averageRating = 0,
   int ratingCount = 0,
   int commentCount = 0,
+  int favoriteCount = 0,
 }) => Spot(
   id: id,
   title: title,
@@ -42,6 +43,7 @@ Spot buildSpot({
   averageRating: averageRating,
   ratingCount: ratingCount,
   commentCount: commentCount,
+  favoriteCount: favoriteCount,
 );
 
 SpotComment buildComment({

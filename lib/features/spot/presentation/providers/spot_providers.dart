@@ -72,6 +72,7 @@ final spotContentProvider = Provider.autoDispose
               averageRating: 0,
               ratingCount: 0,
               commentCount: 0,
+              favoriteCount: 0,
             ),
           ),
         ),

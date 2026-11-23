@@ -25,6 +25,7 @@ extension SpotDtoMapper on SpotDto {
     averageRating: averageRating,
     ratingCount: ratingCount,
     commentCount: commentCount,
+    favoriteCount: favoriteCount,
   );
 }
 

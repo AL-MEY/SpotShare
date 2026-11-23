@@ -34,6 +34,7 @@ class SpotDto {
     required this.averageRating,
     required this.ratingCount,
     required this.commentCount,
+    required this.favoriteCount,
   });
 
   factory SpotDto.fromFirestore(
@@ -57,6 +58,7 @@ class SpotDto {
       averageRating: (data['averageRating'] as num?)?.toDouble() ?? 0,
       ratingCount: (data['ratingCount'] as num?)?.toInt() ?? 0,
       commentCount: (data['commentCount'] as num?)?.toInt() ?? 0,
+      favoriteCount: (data['favoriteCount'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -73,4 +75,5 @@ class SpotDto {
   final double averageRating;
   final int ratingCount;
   final int commentCount;
+  final int favoriteCount;
 }
