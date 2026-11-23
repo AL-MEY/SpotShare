@@ -19,7 +19,10 @@
 ## Responsive
 
 - Layout adaptatif téléphone et tablette via `LayoutBuilder`, `OrientationBuilder` ou `MediaQuery.sizeOf(context)`.
-- Breakpoints centralisés dans `core/` (ex. compact < 600, medium < 840, expanded ≥ 840).
+- Breakpoints centralisés dans `core/layout/breakpoints.dart` : `WindowSize.fromWidth(constraints.maxWidth)` (largeur disponible via `LayoutBuilder`), jamais de seuil en dur dans une page.
+  - `compact` : largeur < 600 (téléphone)
+  - `medium` : 600 ≤ largeur < 840
+  - `expanded` : largeur ≥ 840 (tablette), mise en page en deux colonnes (ex. fiche spot : galerie à gauche, infos à droite)
 - Tester au moins un écran clé en largeur tablette.
 
 ## Animations et fluidité

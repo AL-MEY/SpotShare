@@ -10,6 +10,7 @@ lib/
 ├── app.dart                   # MaterialApp.router, thèmes, localisation
 ├── core/                      # transverse, sans logique métier de feature
 │   ├── error/                 # Failure, exceptions typées
+│   ├── layout/                # WindowSize (breakpoints compact / medium / expanded)
 │   ├── network/               # connectivityProvider, isOnlineProvider
 │   ├── providers/             # notifiers génériques (SubmitController)
 │   ├── router/                # go_router + routes
