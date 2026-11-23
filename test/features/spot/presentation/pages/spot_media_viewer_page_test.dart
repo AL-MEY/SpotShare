@@ -13,6 +13,7 @@ import '../../../../helpers/fake_comment_repository.dart';
 import '../../../../helpers/fake_rating_repository.dart';
 import '../../../../helpers/fake_spot_author_repository.dart';
 import '../../../../helpers/fake_spot_repository.dart';
+import '../../../../helpers/fake_video_player_controller.dart';
 import '../../../../helpers/pump_app.dart';
 import '../../../../helpers/spot_fixtures.dart';
 
@@ -96,5 +97,69 @@ void main() {
     );
 
     expect(find.byType(SpotVideoPlayer), findsOneWidget);
+  });
+
+  group('vidéo', () {
+    late FakeVideoPlayerController video;
+
+    Future<void> pumpVideo(WidgetTester tester) async {
+      video = FakeVideoPlayerController();
+      final spots = FakeSpotRepository(
+        spot: buildSpot(
+          media: const [
+            SpotVideo(
+              url: 'https://example.com/video.mp4',
+              thumbnailUrl: 'https://example.com/thumb.jpg',
+              duration: Duration(seconds: 12),
+            ),
+          ],
+        ),
+      );
+      addTearDown(spots.dispose);
+      final container = await pumpApp(
+        tester,
+        spots: spots,
+        auth: FakeAuthRepository(FakeAuthRepository.user),
+        overrides: [
+          ratingRepositoryProvider.overrideWithValue(FakeRatingRepository()),
+          commentRepositoryProvider.overrideWithValue(FakeCommentRepository()),
+          spotAuthorRepositoryProvider.overrideWithValue(
+            FakeSpotAuthorRepository(),
+          ),
+          videoControllerFactoryProvider.overrideWithValue((_) => video),
+        ],
+      );
+      await tester.pumpAndSettle();
+      container.read(routerProvider).go(AppRoutes.spotMedia(spotId, 0));
+      await tester.pump();
+      await tester.pump();
+    }
+
+    testWidgets('affiche un indicateur pendant l’initialisation', (
+      tester,
+    ) async {
+      await pumpVideo(tester);
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      video.completeInitialization();
+      await tester.pumpAndSettle();
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+    });
+
+    testWidgets(
+      'un tap avant l’initialisation lance la lecture une fois prête',
+      (tester) async {
+        await pumpVideo(tester);
+
+        await tester.tap(find.byType(SpotVideoPlayer));
+        await tester.pump();
+        expect(video.value.isPlaying, isFalse);
+
+        video.completeInitialization();
+        await tester.pumpAndSettle();
+        expect(video.value.isPlaying, isTrue);
+      },
+    );
   });
 }

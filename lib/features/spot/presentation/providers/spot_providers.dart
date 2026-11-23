@@ -21,6 +21,7 @@ import 'package:spotshare/features/spot/domain/repositories/spot_repository.dart
 import 'package:spotshare/features/spot/domain/usecases/add_comment.dart';
 import 'package:spotshare/features/spot/domain/usecases/delete_comment.dart';
 import 'package:spotshare/features/spot/domain/usecases/rate_spot.dart';
+import 'package:video_player/video_player.dart';
 
 final spotRepositoryProvider = Provider<SpotRepository>(
   (ref) =>
@@ -44,6 +45,12 @@ final spotAuthorRepositoryProvider = Provider<SpotAuthorRepository>(
     SpotAuthorRemoteDataSource(FirebaseFirestore.instance),
   ),
 );
+
+// Fabrique du lecteur vidéo, surchargée en test (pas de lecteur natif sous flutter test).
+final videoControllerFactoryProvider =
+    Provider<VideoPlayerController Function(Uri url)>(
+      (ref) => VideoPlayerController.networkUrl,
+    );
 
 final rateSpotProvider = Provider(
   (ref) => RateSpot(ref.watch(ratingRepositoryProvider)),
