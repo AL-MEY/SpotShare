@@ -48,7 +48,7 @@ Le document de profil est public pour tout utilisateur connecté (auteur d'un sp
 | idem, champs serveur | `geohash`, `averageRating`, `ratingCount`, `commentCount`, `favoriteCount` | Cloud Functions uniquement |
 | Firestore `spots/{spotId}/ratings/{uid}` | `value` (entier 1–5), `updatedAt` (horodatage serveur) | l'utilisateur `uid` |
 | Firestore `spots/{spotId}/comments/{commentId}` | `authorId`, `text` (1–500, non vide après trim), `createdAt` (horodatage serveur) | l'auteur du commentaire |
-| Firestore `spots/{spotId}/favorites/{uid}` | `createdAt` | le propriétaire (règles à écrire avec les favoris) |
+| Firestore `spots/{spotId}/favorites/{uid}` | `createdAt` | le propriétaire `uid` (fonctionnalité favoris, règles encore fermées) |
 
 L'id d'une note ou d'un favori est l'uid : une seule note par personne par construction. Nom et avatar des auteurs sont lus dans `users/{uid}`, jamais recopiés.
 
@@ -115,6 +115,9 @@ Code dans `functions/src` (TypeScript, 2nde génération, Node 22). Les compteur
 |---|---|---|
 | `onRatingWritten` | écriture de `spots/{spotId}/ratings/{uid}` | recalcule `ratingCount` et `averageRating` (arrondi à 2 décimales, 0 sans note) |
 | `onCommentCreated` / `onCommentDeleted` | création / suppression de `spots/{spotId}/comments/{commentId}` | recalcule `commentCount` |
+| `onFavoriteCreated` / `onFavoriteDeleted` | création / suppression de `spots/{spotId}/favorites/{uid}` | recalcule `favoriteCount` |
+
+`favoriteCount` est réservé au serveur : le client crée ou supprime seulement son document `favorites/{uid}`, jamais le compteur.
 
 Chaque Function **recompte** via une requête d'agrégation (`count()`, `average('value')`) au lieu d'incrémenter : le résultat reste juste même si un événement est rejoué ou arrive dans le désordre. Si le spot a été supprimé entre-temps (erreur gRPC `NOT_FOUND`, code 5), l'écriture est ignorée.
 
