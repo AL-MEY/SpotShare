@@ -5,6 +5,7 @@ import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/features/spot/domain/entities/spot_media.dart';
 import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
 import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_video_player.dart';
 import 'package:spotshare/features/spot/presentation/widgets/zoomable_photo.dart';
 
 import '../../../../helpers/fake_auth_repository.dart';
@@ -20,13 +21,16 @@ void main() {
     WidgetTester tester,
     int index, {
     Failure? failure,
+    List<SpotMedia>? media,
   }) async {
     final spots = FakeSpotRepository(
       spot: buildSpot(
-        media: const [
-          SpotPhoto(url: 'https://example.com/photo1.jpg'),
-          SpotPhoto(url: 'https://example.com/photo2.jpg'),
-        ],
+        media:
+            media ??
+            const [
+              SpotPhoto(url: 'https://example.com/photo1.jpg'),
+              SpotPhoto(url: 'https://example.com/photo2.jpg'),
+            ],
       ),
     );
     spots.failure = failure;
@@ -76,5 +80,21 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(SpotDetailPage), findsOneWidget);
+  });
+
+  testWidgets('le plein écran d’une vidéo affiche son lecteur', (tester) async {
+    await pumpViewer(
+      tester,
+      0,
+      media: const [
+        SpotVideo(
+          url: 'https://example.com/video.mp4',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          duration: Duration(seconds: 12),
+        ),
+      ],
+    );
+
+    expect(find.byType(SpotVideoPlayer), findsOneWidget);
   });
 }

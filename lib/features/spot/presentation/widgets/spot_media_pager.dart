@@ -3,7 +3,7 @@ import 'package:spotshare/core/theme/app_theme.dart';
 import 'package:spotshare/features/spot/domain/entities/spot.dart';
 import 'package:spotshare/features/spot/domain/entities/spot_media.dart';
 import 'package:spotshare/features/spot/presentation/hero_tags.dart';
-import 'package:spotshare/features/spot/presentation/widgets/spot_media_thumbnail.dart';
+import 'package:spotshare/features/spot/presentation/widgets/spot_video_player.dart';
 import 'package:spotshare/features/spot/presentation/widgets/zoomable_photo.dart';
 import 'package:spotshare/i18n/strings.g.dart';
 
@@ -39,7 +39,6 @@ class _SpotMediaPagerState extends State<SpotMediaPager> {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final media = widget.spot.media;
-    final width = MediaQuery.sizeOf(context).width;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -51,9 +50,9 @@ class _SpotMediaPagerState extends State<SpotMediaPager> {
             tag: spotMediaHeroTag(widget.spot.id, i),
             child: switch (media[i]) {
               SpotPhoto(:final url) => ZoomablePhoto(url: url),
-              final SpotVideo video => SpotMediaThumbnail(
-                media: video,
-                width: width,
+              final SpotVideo video => SpotVideoPlayer(
+                video: video,
+                isActive: i == _current,
               ),
             },
           ),
