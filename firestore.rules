@@ -46,7 +46,8 @@ service cloud.firestore {
 
       match /comments/{commentId} {
         allow read: if request.auth != null;
-        allow create: if isOwner(request.resource.data.authorId)
+        allow create: if exists(/databases/$(database)/documents/spots/$(spotId))
+          && isOwner(request.resource.data.authorId)
           && request.resource.data.keys().hasOnly(['authorId', 'text', 'createdAt'])
           && request.resource.data.keys().hasAll(['authorId', 'text', 'createdAt'])
           && request.resource.data.text is string

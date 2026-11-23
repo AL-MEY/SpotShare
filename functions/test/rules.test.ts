@@ -15,11 +15,15 @@ import {
   getDoc,
   serverTimestamp,
   setDoc,
+  setLogLevel,
   updateDoc,
 } from 'firebase/firestore';
 
+setLogLevel('error');
+
 const AUTHOR = 'author';
 const ME = 'me';
+const NEWBIE = 'newbie';
 const OTHER = 'other';
 const SPOT = 'spot1';
 
@@ -96,29 +100,41 @@ describe('ratings', () => {
     ...extra,
   });
 
-  it('autorise à noter 5 sur sa propre note', async () => {
-    await assertSucceeds(setDoc(ratingRef(asMe(), ME), rating(5)));
+  const asNewbie = () => env.authenticatedContext(NEWBIE).firestore();
+
+  it('autorise une première note de 5', async () => {
+    await assertSucceeds(setDoc(ratingRef(asNewbie(), NEWBIE), rating(5)));
   });
 
   it('autorise à modifier sa note existante', async () => {
     await assertSucceeds(setDoc(ratingRef(asMe(), ME), rating(2)));
   });
 
-  it('refuse de noter sous le document d\'un autre utilisateur', async () => {
-    await assertFails(setDoc(ratingRef(asMe(), OTHER), rating(5)));
+  it('refuse une note de 0 ou de 6 (création et modification)', async () => {
+    for (const v of [0, 6]) {
+      await assertFails(setDoc(ratingRef(asNewbie(), NEWBIE), rating(v)));
+      await assertFails(setDoc(ratingRef(asMe(), ME), rating(v)));
+    }
   });
 
-  it('refuse une note de 0 ou de 6', async () => {
-    await assertFails(setDoc(ratingRef(asMe(), ME), rating(0)));
-    await assertFails(setDoc(ratingRef(asMe(), ME), rating(6)));
-  });
-
-  it('refuse une note non entière', async () => {
+  it('refuse une note non entière (création et modification)', async () => {
+    await assertFails(setDoc(ratingRef(asNewbie(), NEWBIE), rating(3.5)));
     await assertFails(setDoc(ratingRef(asMe(), ME), rating(3.5)));
   });
 
-  it('refuse une clé en trop', async () => {
-    await assertFails(setDoc(ratingRef(asMe(), ME), rating(5, { extra: 1 })));
+  it('refuse une clé en trop (création et modification)', async () => {
+    const extra = rating(5, { extra: 1 });
+    await assertFails(setDoc(ratingRef(asNewbie(), NEWBIE), extra));
+    await assertFails(setDoc(ratingRef(asMe(), ME), extra));
+  });
+
+  it('refuse de noter un spot inexistant', async () => {
+    const ref = doc(asNewbie(), 'spots', 'ghost', 'ratings', NEWBIE);
+    await assertFails(setDoc(ref, rating(5)));
+  });
+
+  it('refuse de noter sous le document d\'un autre utilisateur', async () => {
+    await assertFails(setDoc(ratingRef(asMe(), OTHER), rating(5)));
   });
 
   it('refuse un updatedAt qui n\'est pas l\'heure serveur', async () => {
@@ -144,6 +160,11 @@ describe('comments', () => {
 
   it('autorise un commentaire de 500 caractères', async () => {
     await assertSucceeds(addDoc(comments(asMe()), comment('a'.repeat(500))));
+  });
+
+  it('refuse un commentaire sur un spot inexistant', async () => {
+    const ref = collection(asMe(), 'spots', 'ghost', 'comments');
+    await assertFails(addDoc(ref, comment('Hello')));
   });
 
   it('refuse un authorId qui est celui d\'un autre', async () => {
@@ -192,5 +213,13 @@ describe('comments', () => {
     await assertSucceeds(getDoc(doc(asMe(), 'spots', SPOT, 'comments', 'mine')));
     const db = env.unauthenticatedContext().firestore();
     await assertFails(getDoc(doc(db, 'spots', SPOT, 'comments', 'mine')));
+  });
+});
+
+describe('favorites', () => {
+  it('refuse lecture et écriture tant que leurs règles ne sont pas écrites', async () => {
+    const ref = doc(asMe(), 'spots', SPOT, 'favorites', ME);
+    await assertFails(getDoc(ref));
+    await assertFails(setDoc(ref, { createdAt: serverTimestamp() }));
   });
 });
