@@ -5,13 +5,21 @@ import 'package:spotshare/core/router/app_router.dart';
 import 'package:spotshare/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:spotshare/features/auth/presentation/pages/login_page.dart';
 import 'package:spotshare/features/auth/presentation/pages/welcome_page.dart';
+import 'package:spotshare/features/spot/presentation/providers/spot_providers.dart';
 import 'package:spotshare/home_page.dart';
 
 import '../../../../helpers/fake_auth_repository.dart';
+import '../../../../helpers/fake_spot_repository.dart';
 import '../../../../helpers/pump_app.dart';
 
 Future<void> _openLogin(WidgetTester tester, FakeAuthRepository auth) async {
-  final container = await pumpApp(tester, auth: auth);
+  final spots = FakeSpotRepository();
+  addTearDown(spots.dispose);
+  final container = await pumpApp(
+    tester,
+    auth: auth,
+    overrides: [spotRepositoryProvider.overrideWithValue(spots)],
+  );
   container.read(routerProvider).go(AppRoutes.login);
   await tester.pumpAndSettle();
 }
@@ -66,7 +74,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(HomePage), findsOneWidget);
 
-    await tester.tap(find.text('Se déconnecter'));
+    await tester.tap(find.byTooltip('Se déconnecter'));
     await tester.pumpAndSettle();
     expect(find.byType(WelcomePage), findsOneWidget);
   });
