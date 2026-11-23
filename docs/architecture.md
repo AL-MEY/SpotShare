@@ -165,7 +165,7 @@ Fichier unique `presentation/providers/spot_providers.dart`, écrit à la main (
 
 **Mise à jour optimiste (latency compensation)** : Firestore émet l'écriture locale immédiatement dans les flux ouverts, puis l'annule si le serveur la rejette. `myRatingProvider` reste donc un simple `StreamProvider` : pas d'état optimiste géré à la main. L'erreur de l'écriture n'arrive pas par ce flux mais par `rateSpotControllerProvider` (`AsyncError`).
 
-**Lisibles par les autres features** (le feed notamment) : `spotRepositoryProvider`, `recentSpotsProvider` et `spotProvider`. Les autres providers sont propres à l'écran de détail.
+**Lisibles par les autres features** (le feed par exemple) : uniquement les providers d'infrastructure `spotRepositoryProvider`, `ratingRepositoryProvider`, `commentRepositoryProvider`, `spotAuthorRepositoryProvider`, `rateSpotProvider`, `addCommentProvider`, `deleteCommentProvider`. Les providers d'état d'écran et les contrôleurs (`spotProvider`, `recentSpotsProvider`, `myRatingProvider`, `commentsLimitProvider`, `commentsProvider`, `spotAuthorProvider`, les trois `*ControllerProvider`) appartiennent aux écrans de `spot`.
 
 ## Offline et persistance locale
 
