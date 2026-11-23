@@ -96,4 +96,26 @@ void main() {
 
     expect(dto.media, hasLength(3));
   });
+
+  test(
+    'une vignette ou une durée mal typée ne fait pas planter la lecture',
+    () async {
+      final dto = SpotDto.fromFirestore(
+        await _snapshot({
+          ...base,
+          'media': [
+            {
+              'type': 'video',
+              'url': 'https://example.com/v.mp4',
+              'thumbnailUrl': 42,
+              'durationMs': '12000',
+            },
+          ],
+        }),
+      );
+
+      expect(dto.media.single.thumbnailUrl, isNull);
+      expect(dto.media.single.durationMs, isNull);
+    },
+  );
 }

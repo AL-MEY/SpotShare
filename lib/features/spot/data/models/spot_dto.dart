@@ -9,8 +9,11 @@ class SpotMediaDto {
   factory SpotMediaDto.fromMap(Map<String, dynamic> map) => SpotMediaDto(
     type: _string(map['type']),
     url: _string(map['url']),
-    thumbnailUrl: map['thumbnailUrl'] as String?,
-    durationMs: (map['durationMs'] as num?)?.toInt(),
+    thumbnailUrl: _string(map['thumbnailUrl']),
+    durationMs: switch (map['durationMs']) {
+      final num ms => ms.toInt(),
+      _ => null,
+    },
   );
 
   final String? type;
