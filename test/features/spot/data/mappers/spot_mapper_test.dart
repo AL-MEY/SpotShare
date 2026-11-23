@@ -97,4 +97,27 @@ void main() {
 
     expect(spot.media, isEmpty);
   });
+
+  test('ignore un média sans type', () {
+    final spot = _dto(
+      media: const [
+        SpotMediaDto(url: 'x'),
+        SpotMediaDto(type: 'photo', url: 'p1'),
+      ],
+    ).toEntity();
+
+    expect(spot.media, const [SpotPhoto(url: 'p1')]);
+  });
+
+  test('ignore un média sans url', () {
+    final spot = _dto(
+      media: const [
+        SpotMediaDto(type: 'photo'),
+        SpotMediaDto(type: 'video', thumbnailUrl: 't', durationMs: 1000),
+        SpotMediaDto(type: 'photo', url: 'p1'),
+      ],
+    ).toEntity();
+
+    expect(spot.media, const [SpotPhoto(url: 'p1')]);
+  });
 }

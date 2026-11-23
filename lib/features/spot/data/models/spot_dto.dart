@@ -1,22 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Valeur non textuelle traitée comme absente, le mapper ignorera le média.
+String? _string(Object? value) => value is String ? value : null;
+
 class SpotMediaDto {
-  const SpotMediaDto({
-    required this.type,
-    required this.url,
-    this.thumbnailUrl,
-    this.durationMs,
-  });
+  const SpotMediaDto({this.type, this.url, this.thumbnailUrl, this.durationMs});
 
   factory SpotMediaDto.fromMap(Map<String, dynamic> map) => SpotMediaDto(
-    type: map['type'] as String,
-    url: map['url'] as String,
+    type: _string(map['type']),
+    url: _string(map['url']),
     thumbnailUrl: map['thumbnailUrl'] as String?,
     durationMs: (map['durationMs'] as num?)?.toInt(),
   );
 
-  final String type;
-  final String url;
+  final String? type;
+  final String? url;
   final String? thumbnailUrl;
   final int? durationMs;
 }

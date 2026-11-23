@@ -64,4 +64,19 @@ void main() {
     expect(dto.ratingCount, 0);
     expect(dto.commentCount, 0);
   });
+
+  test('un média sans type ni url ne fait pas planter la lecture', () async {
+    final dto = SpotDto.fromFirestore(
+      await _snapshot({
+        ...base,
+        'media': [
+          {'url': 'x'},
+          {'type': 'photo'},
+          {'type': 3, 'url': 4},
+        ],
+      }),
+    );
+
+    expect(dto.media, hasLength(3));
+  });
 }

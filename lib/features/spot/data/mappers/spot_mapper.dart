@@ -30,10 +30,15 @@ extension SpotDtoMapper on SpotDto {
 
 // Un média mal formé est ignoré plutôt que de casser tout le spot.
 SpotMedia? _mediaToEntity(SpotMediaDto dto) => switch (dto) {
-  SpotMediaDto(type: 'photo') => SpotPhoto(url: dto.url),
-  SpotMediaDto(type: 'video', :final thumbnailUrl?, :final durationMs?) =>
+  SpotMediaDto(type: 'photo', :final url?) => SpotPhoto(url: url),
+  SpotMediaDto(
+    type: 'video',
+    :final url?,
+    :final thumbnailUrl?,
+    :final durationMs?,
+  ) =>
     SpotVideo(
-      url: dto.url,
+      url: url,
       thumbnailUrl: thumbnailUrl,
       duration: Duration(milliseconds: durationMs),
     ),
