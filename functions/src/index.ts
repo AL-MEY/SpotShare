@@ -6,7 +6,8 @@ import {
   onDocumentDeleted,
   onDocumentWritten,
 } from 'firebase-functions/v2/firestore';
-import { recomputeCount, recomputeRatingStats } from './aggregates.js';
+import { recomputeCount, recomputeRatingStats, updateSpot } from './aggregates.js';
+import { geohashFor, locationChanged } from './geohash.js';
 
 // Doit correspondre à la localisation de la base Firestore (eur3 → europe-west1).
 export const REGION = 'europe-west1';
@@ -38,3 +39,13 @@ export const onFavoriteCreated = onDocumentCreated('spots/{spotId}/favorites/{ui
 export const onFavoriteDeleted = onDocumentDeleted('spots/{spotId}/favorites/{uid}', (event) =>
   recomputeCount(db, event.params.spotId, favorites),
 );
+
+// Ne réécrit rien si la position est inchangée : sans cette garde, l'écriture du geohash relancerait la function.
+export const onSpotWritten = onDocumentWritten('spots/{spotId}', (event) => {
+  const before = event.data?.before.data()?.location;
+  const after = event.data?.after.data()?.location;
+  if (!locationChanged(before, after)) return;
+  return updateSpot(db, event.params.spotId, {
+    geohash: geohashFor(after.latitude, after.longitude),
+  });
+});

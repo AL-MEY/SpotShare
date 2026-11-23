@@ -11,7 +11,7 @@ export function ratingStatsFrom(count: number, average: number | null) {
 }
 
 // Met à jour le spot ; s'il a été supprimé entre-temps, on ignore l'erreur.
-async function updateSpot(db: Firestore, spotId: string, data: Record<string, number>) {
+export async function updateSpot(db: Firestore, spotId: string, data: Record<string, unknown>) {
   try {
     await db.doc(`spots/${spotId}`).update(data);
   } catch (err) {
