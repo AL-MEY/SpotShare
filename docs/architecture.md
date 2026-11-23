@@ -124,6 +124,32 @@ presentation/
 - Avatar : l'image choisie (`image_picker`, redimensionnée à 512 px) reste un chemin local dans `pickedAvatarProvider` jusqu'à la soumission. `saveProfile` la téléverse puis écrit son URL dans le document. Chaque envoi a un nom unique, donc une nouvelle URL : `CachedNetworkImage` n'affiche jamais un avatar périmé.
 - Le domaine ne voit qu'un `String` de chemin local, jamais `File`, `XFile` ni `Reference` Storage.
 
+## Spot
+
+Feature `spot` (fiche détail d'un spot). Seules les couches `domain` et `data` existent pour l'instant.
+
+```
+domain/  entities/spot.dart                    Spot (titre, catégorie, position, médias, tags, auteur, compteurs, moyenne)
+         entities/spot_media.dart              SpotMedia scellé : SpotPhoto | SpotVideo
+         entities/                             geo_position, spot_category, rating, spot_comment, spot_author
+         repositories/spot_repository.dart     watchSpot(id), watchRecentSpots(limit:)
+         repositories/rating_repository.dart   watchMyRating(spotId, userId), rate(...)
+         repositories/comment_repository.dart  watchComments(spotId, limit:), addComment, deleteComment
+         repositories/spot_author_repository.dart  watchAuthor(userId)
+         usecases/                             add_comment (trim du texte), delete_comment, rate_spot
+data/    models/                               spot_dto, spot_comment_dto, spot_author_dto (format Firestore)
+         mappers/                              DTO -> entité ; spot_mapper ignore les médias mal formés
+         datasources/                          un fichier par collection : spot, rating, comment, spot_author
+         repositories/firebase_*_repository.dart  orchestrent la source et convertissent en Failure
+```
+
+- Lecture directe sur Firestore, avec son cache natif hors-ligne : pas de base locale pour l'instant (approche A du design `docs/superpowers/specs/2026-11-23-spot-detail-design.md`, §4). Tout est exposé en `Stream`.
+- Spot absent : `NotFoundFailure` si la réponse vient du serveur, `NetworkFailure` si elle vient du cache (on ne sait pas encore s'il existe).
+- Média sans `type` ou sans champ requis : ignoré par le mapper, le reste du spot s'affiche. Catégorie inconnue : `SpotCategory.other`.
+- Notes : `spots/{id}/ratings/{uid}`, l'id du document est l'uid, donc une seule note par utilisateur par construction. Commentaires : `spots/{id}/comments`, du plus récent au plus ancien.
+- Auteur : lu dans `users/{uid}` par la source de données propre à `spot` (`SpotAuthorRemoteDataSource`), sans importer `profile`. Un profil absent du cache est ignoré jusqu'à la réponse du serveur.
+- `averageRating`, `ratingCount` et `commentCount` sont écrits côté serveur (Cloud Functions, à venir) : le client ne les modifie jamais.
+
 ## Offline et persistance locale
 
 Exigence : consultation hors-ligne des spots déjà chargés, navigation continue sans réseau, capture photo offline avec synchronisation différée.
