@@ -81,7 +81,7 @@ Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Resul
 
 - Chemins déclarés dans `AppRoutes` ; naviguer avec `context.go(AppRoutes.xxx)`, jamais avec une chaîne en dur.
 - Ajouter un écran = une constante dans `AppRoutes` + un `GoRoute` dans `routerProvider`.
-- Fiche spot : `AppRoutes.spotDetail(spotId)` (`/spots/:spotId`, `SpotDetailPage`), réservée aux connectés comme toute route hors `AppRoutes.public`. Chargement : `SpotDetailSkeleton`, erreur (dont spot supprimé) : `SpotLoadError` avec « Réessayer ». `AppRoutes.spotMedia(spotId, index)` pointe vers la route enfant `media` (visionneuse plein écran), ajoutée avec la visionneuse. `spotMediaHeroTag` (`hero_tags.dart`) fournit le tag `Hero` partagé entre liste et fiche.
+- Fiche spot : `AppRoutes.spotDetail(spotId)` (`/spots/:spotId`, `SpotDetailPage`), réservée aux connectés comme toute route hors `AppRoutes.public`. Le spot de la liste est passé en `extra` (`context.push(..., extra: spot)`) et reçu en `initialSpot` : affiché pendant le chargement, il donne sa cible à la transition `Hero`. Sans `extra` (lien direct), chargement : `SpotDetailSkeleton`. Erreur (dont spot supprimé) : `SpotLoadError` avec « Réessayer ». `AppRoutes.spotMedia(spotId, index)` pointe vers la route enfant `media` (visionneuse plein écran). `spotMediaHeroTag` (`hero_tags.dart`) fournit le tag `Hero` partagé entre liste, fiche et visionneuse.
 - Route inconnue : `NotFoundPage` (`core/router/not_found_page.dart`).
 - Garde dans le `redirect` du `GoRouter`, réévaluée à chaque changement de `authStateProvider` ou de `currentProfileProvider` :
   - visiteur : seulement les routes de `AppRoutes.public` (sinon retour à `welcome`). Une route accessible sans compte s'ajoute à `AppRoutes.public` ;
@@ -132,7 +132,7 @@ presentation/
 
 ## Spot
 
-Feature `spot` (fiche détail d'un spot). Les couches `domain`, `data` et les providers (`presentation/providers/spot_providers.dart`) existent ; les écrans viennent ensuite.
+Feature `spot` (fiche détail d'un spot) : `domain`, `data` et `presentation` (fiche, visionneuse plein écran, liste temporaire des spots récents).
 
 ```
 domain/  entities/spot.dart                    Spot (titre, catégorie, position, médias, tags, auteur, compteurs, moyenne)
@@ -147,6 +147,17 @@ data/    models/                               spot_dto, spot_comment_dto, spot_
          mappers/                              DTO -> entité ; spot_mapper ignore les médias mal formés
          datasources/                          un fichier par collection : spot, rating, comment, spot_author
          repositories/firebase_*_repository.dart  orchestrent la source et convertissent en Failure
+presentation/
+         providers/spot_providers.dart         tous les providers de la feature (voir ci-dessous)
+         pages/spot_detail_page.dart           SpotDetailPage : squelette / erreur / SpotDetailLayout
+         pages/spot_media_viewer_page.dart     SpotMediaViewerPage : visionneuse plein écran
+         hero_tags.dart                        spotMediaHeroTag(spotId, index)
+         widgets/                              un widget par fichier : spot_detail_layout (galerie au-dessus
+                                               ou à côté selon la largeur), spot_detail_content (en-tête,
+                                               description, tags, note, commentaires), spot_gallery,
+                                               spot_media_pager, zoomable_photo, spot_video_player,
+                                               my_rating_stars, comment_composer, comment_list,
+                                               comment_tile, recent_spots_list, spot_list_tile…
 ```
 
 - Lecture directe sur Firestore, avec son cache natif hors-ligne : pas de base locale pour l'instant (approche A du design `docs/superpowers/specs/2026-11-23-spot-detail-design.md`, §4). Toutes les lectures sont exposées en `Stream` (les écritures sont des `Future`).
@@ -154,7 +165,15 @@ data/    models/                               spot_dto, spot_comment_dto, spot_
 - Média sans `type` ou sans champ requis : ignoré par le mapper, le reste du spot s'affiche. Catégorie inconnue : `SpotCategory.other`.
 - Notes : `spots/{id}/ratings/{uid}`, l'id du document est l'uid, donc une seule note par utilisateur par construction. Commentaires : `spots/{id}/comments`, du plus récent au plus ancien.
 - Auteur : lu dans `users/{uid}` par la source de données propre à `spot` (`SpotAuthorRemoteDataSource`), sans importer `profile`. Un profil absent du cache est ignoré jusqu'à la réponse du serveur.
-- `averageRating`, `ratingCount` et `commentCount` sont écrits côté serveur (Cloud Functions, à venir) : le client ne les modifie jamais.
+- `averageRating`, `ratingCount`, `commentCount`, `favoriteCount` et `geohash` sont écrits côté serveur par les Cloud Functions (recomptage des notes, commentaires et favoris ; geohash calculé depuis `location`) : le client ne les modifie jamais. Voir [backend-firebase.md](backend-firebase.md#cloud-functions).
+
+### Écrans
+
+- **Fiche** : `SpotDetailLayout` empile la galerie (`SliverAppBar` repliable) et `SpotDetailContent` ; en largeur `expanded`, galerie à gauche et contenu à droite.
+- **Galerie** : `SpotGallery` (`PageView` de vignettes, compteur « 1 sur N ») ; un tap ouvre `SpotMediaViewerPage`, dont `SpotMediaPager` affiche `ZoomablePhoto` (pager bloqué tant que la photo est zoomée) ou `SpotVideoPlayer` (`video_player`, indicateur pendant l'initialisation, contrôles dans `SpotVideoControls`).
+- **Note** : `SpotRatingSummary` (moyenne et nombre de notes) et `MyRatingStars` (ma note, 1 à 5, via `rateSpotControllerProvider`).
+- **Commentaires** : `CommentComposer` (1 à 500 caractères), `CommentList` (« Voir plus » par 20, liste conservée pendant le chargement, seuls les nouveaux commentaires s'animent), `CommentTile` (suppression de ses propres commentaires après confirmation).
+- **Spots récents** : `RecentSpotsList` sur `HomePage`, point d'entrée temporaire vers la fiche en attendant le feed. `SpotListTile` porte le même `Hero` que la première image de la galerie.
 
 ### Providers
 
@@ -162,9 +181,10 @@ Fichier unique `presentation/providers/spot_providers.dart`, écrit à la main (
 
 - **Infrastructure** : `spotRepositoryProvider`, `ratingRepositoryProvider`, `commentRepositoryProvider`, `spotAuthorRepositoryProvider` (construits sur `FirebaseFirestore.instance`), et les cas d'usage `rateSpotProvider`, `addCommentProvider`, `deleteCommentProvider`.
 - **Lectures** (`StreamProvider.autoDispose`) : `spotProvider(spotId)`, `recentSpotsProvider` (20 derniers spots), `spotAuthorProvider(userId)`, `myRatingProvider(spotId)` (`null` sans utilisateur connecté).
-- **Contenu sans compteurs** : `spotContentProvider(spotId)` (`Provider.autoDispose`) est ce que `SpotDetailPage` observe ; il met note et compteurs à 0 pour ne notifier que si le contenu change. Les widgets qui affichent les compteurs les lisent via `.select` sur `spotProvider`.
+- **Contenu sans compteurs** : `spotContentProvider(spotId)` (`Provider.autoDispose`) est ce que `SpotDetailPage` observe ; il met note et compteurs à 0 et retire le geohash (`withoutServerFields`, appliqué aussi au spot reçu en `extra`) pour ne notifier que si le contenu change. Les widgets qui affichent les compteurs les lisent via `.select` sur `spotProvider`.
 - **Pagination des commentaires** : `commentsLimitProvider(spotId)` (`CommentsLimit`, 20 par page, `showMore()`) ; `commentsProvider(spotId)` le `watch`, donc le flux est rouvert avec une limite plus grande à chaque `showMore()`.
 - **Actions** (`AsyncNotifierProvider.autoDispose<SubmitController, void>`) : `rateSpotControllerProvider`, `commentComposerControllerProvider`, `deleteCommentControllerProvider`.
+- **Lecteur vidéo** : `videoControllerFactoryProvider` crée le `VideoPlayerController` ; surchargé en test, où aucun lecteur natif n'existe.
 
 **Mise à jour optimiste (latency compensation)** : Firestore émet l'écriture locale immédiatement dans les flux ouverts, puis l'annule si le serveur la rejette. `myRatingProvider` reste donc un simple `StreamProvider` : pas d'état optimiste géré à la main. L'erreur de l'écriture n'arrive pas par ce flux mais par `rateSpotControllerProvider` (`AsyncError`).
 
