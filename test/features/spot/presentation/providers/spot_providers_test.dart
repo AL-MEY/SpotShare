@@ -127,6 +127,7 @@ void main() {
           ratingCount: 3,
           commentCount: 5,
           favoriteCount: 6,
+          geohash: 'u09tunq6q',
         ),
       );
       await pumpEventQueue();

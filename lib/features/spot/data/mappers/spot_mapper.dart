@@ -26,6 +26,7 @@ extension SpotDtoMapper on SpotDto {
     ratingCount: ratingCount,
     commentCount: commentCount,
     favoriteCount: favoriteCount,
+    geohash: geohash,
   );
 }
 

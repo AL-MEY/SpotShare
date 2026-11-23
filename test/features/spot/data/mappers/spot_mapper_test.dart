@@ -22,6 +22,7 @@ SpotDto _dto({String category = 'cafe', List<SpotMediaDto> media = const []}) =>
       ratingCount: 2,
       commentCount: 1,
       favoriteCount: 4,
+      geohash: 'u09tunq6q',
     );
 
 void main() {
@@ -39,6 +40,7 @@ void main() {
     expect(spot.ratingCount, 2);
     expect(spot.commentCount, 1);
     expect(spot.favoriteCount, 4);
+    expect(spot.geohash, 'u09tunq6q');
   });
 
   test('une catégorie inconnue devient other', () {

@@ -59,6 +59,20 @@ void main() {
     expect(dto.favoriteCount, 7);
   });
 
+  test('lit le geohash', () async {
+    final dto = SpotDto.fromFirestore(
+      await _snapshot({...base, 'geohash': 'u09tunq6q'}),
+    );
+
+    expect(dto.geohash, 'u09tunq6q');
+  });
+
+  test('geohash absent vaut null', () async {
+    final dto = SpotDto.fromFirestore(await _snapshot(base));
+
+    expect(dto.geohash, isNull);
+  });
+
   test('les compteurs absents valent 0', () async {
     final dto = SpotDto.fromFirestore(await _snapshot(base));
 

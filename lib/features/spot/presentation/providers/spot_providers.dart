@@ -62,7 +62,7 @@ final spotProvider = StreamProvider.autoDispose.family<Spot, String>(
   retry: (_, _) => null,
 );
 
-// Compteurs remis à 0 : la page ne se reconstruit pas quand seule la note ou un compteur change.
+// Compteurs et geohash (écrits par le serveur) neutralisés : pas de rebuild quand seuls eux changent.
 final spotContentProvider = Provider.autoDispose
     .family<AsyncValue<Spot>, String>(
       (ref, spotId) => ref.watch(
@@ -73,6 +73,7 @@ final spotContentProvider = Provider.autoDispose
               ratingCount: 0,
               commentCount: 0,
               favoriteCount: 0,
+              clearGeohash: true,
             ),
           ),
         ),

@@ -18,6 +18,7 @@ class Spot {
     required this.ratingCount,
     required this.commentCount,
     required this.favoriteCount,
+    this.geohash,
   });
 
   static const titleMinLength = 3;
@@ -42,12 +43,15 @@ class Spot {
   final int ratingCount;
   final int commentCount;
   final int favoriteCount;
+  // Écrit par la Cloud Function ; null tant qu'elle ne l'a pas calculé.
+  final String? geohash;
 
   Spot copyWith({
     double? averageRating,
     int? ratingCount,
     int? commentCount,
     int? favoriteCount,
+    bool clearGeohash = false,
   }) => Spot(
     id: id,
     title: title,
@@ -63,6 +67,7 @@ class Spot {
     ratingCount: ratingCount ?? this.ratingCount,
     commentCount: commentCount ?? this.commentCount,
     favoriteCount: favoriteCount ?? this.favoriteCount,
+    geohash: clearGeohash ? null : geohash,
   );
 
   String? get coverImageUrl => media.isEmpty ? null : media.first.previewUrl;
@@ -83,7 +88,8 @@ class Spot {
       other.averageRating == averageRating &&
       other.ratingCount == ratingCount &&
       other.commentCount == commentCount &&
-      other.favoriteCount == favoriteCount;
+      other.favoriteCount == favoriteCount &&
+      other.geohash == geohash;
 
   @override
   int get hashCode => Object.hash(
@@ -101,6 +107,7 @@ class Spot {
     ratingCount,
     commentCount,
     favoriteCount,
+    geohash,
   );
 }
 

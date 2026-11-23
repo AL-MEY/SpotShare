@@ -35,6 +35,7 @@ class SpotDto {
     required this.ratingCount,
     required this.commentCount,
     required this.favoriteCount,
+    this.geohash,
   });
 
   factory SpotDto.fromFirestore(
@@ -59,6 +60,7 @@ class SpotDto {
       ratingCount: (data['ratingCount'] as num?)?.toInt() ?? 0,
       commentCount: (data['commentCount'] as num?)?.toInt() ?? 0,
       favoriteCount: (data['favoriteCount'] as num?)?.toInt() ?? 0,
+      geohash: data['geohash'] as String?,
     );
   }
 
@@ -76,4 +78,5 @@ class SpotDto {
   final int ratingCount;
   final int commentCount;
   final int favoriteCount;
+  final String? geohash;
 }

@@ -24,6 +24,7 @@ Spot buildSpot({
   int ratingCount = 0,
   int commentCount = 0,
   int favoriteCount = 0,
+  String? geohash,
 }) => Spot(
   id: id,
   title: title,
@@ -44,6 +45,7 @@ Spot buildSpot({
   ratingCount: ratingCount,
   commentCount: commentCount,
   favoriteCount: favoriteCount,
+  geohash: geohash,
 );
 
 SpotComment buildComment({
