@@ -67,5 +67,17 @@ Détails : [docs/backend-firebase.md](docs/backend-firebase.md#données-de-démo
 | `theme_tailor_annotation` | Tokens de thème typés (espacements, rayons, couleurs hors Material) via `ThemeExtension` |
 | dev : `build_runner`, `theme_tailor` | Génération de code du thème (les traductions sont générées par la CLI de `slang`) |
 | dev : `mocktail` | Mocks de test sans génération de code |
+| dev : `fake_cloud_firestore` | Firestore en mémoire pour tester DTO, sources de données et repositories sans vrai Firebase |
+
+Cloud Functions (`functions/package.json`) :
+
+| Package | Rôle |
+|---|---|
+| `firebase-functions` | Déclencheurs Firestore 2nde génération (recomptage des compteurs, geohash) |
+| `firebase-admin` | Accès serveur à Firestore depuis les Functions, hors règles de sécurité |
+| `geofire-common` | Calcul du geohash d'un spot (précision 9), base des futures requêtes de proximité de la carte |
+| dev : `typescript` | Compilation du code des Functions (`npm run build`) |
+| dev : `tsx` | Exécution directe du script TypeScript de seed (`npm run seed`) |
+| dev : `@firebase/rules-unit-testing`, `firebase` | Tests des règles Firestore contre l'émulateur (`npm run test:rules`) |
 
 Choix écartés : `riverpod_generator` (incompatible avec `theme_tailor` 3.x, providers écrits à la main) ; moteur de base locale (Drift, Isar…) encore à trancher.
