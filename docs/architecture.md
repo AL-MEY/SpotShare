@@ -10,7 +10,7 @@ lib/
 ├── app.dart                   # MaterialApp.router, thèmes, localisation
 ├── core/                      # transverse, sans logique métier de feature
 │   ├── error/                 # Failure, exceptions typées
-│   ├── network/               # état de connectivité
+│   ├── network/               # connectivityProvider, isOnlineProvider
 │   ├── providers/             # notifiers génériques (SubmitController)
 │   ├── router/                # go_router + routes
 │   ├── theme/                 # ThemeData clair/sombre + AppTheme (theme_tailor)
@@ -69,6 +69,10 @@ Tout est dans `core/error/` :
 - `core/widgets/error_bottom_sheet.dart` : `showErrorBottomSheet(context, failure, onRetry: …)` affiche l'erreur à l'utilisateur (icône, titre et message selon le type de `Failure`, bouton « Réessayer » si `onRetry` est fourni). À déclencher depuis un `ref.listen`, pas depuis `build`.
 
 Les `Failure` sont **levées** (`throw`), pas renvoyées dans un `Either`/`Result` : Riverpod les capture dans `AsyncValue.error`, sans package supplémentaire.
+
+## Réseau
+
+- `core/network/connectivity_provider.dart` : `connectivityProvider` expose `Connectivity` (surchargeable en test) et `isOnlineProvider` (`StreamProvider<bool>`) émet l'état initial puis chaque changement. En ligne = au moins un résultat différent de `ConnectivityResult.none`.
 
 ## Navigation
 
