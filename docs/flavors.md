@@ -74,6 +74,15 @@ Ces fichiers contiennent des identifiants publics : ils sont versionnés. Ne jam
 - Pour builder iOS : Xcode 26.2 ou plus (exigé par Firebase iOS 13), et `fvm dart pub global activate flutterfire_cli`, puisque la build phase FlutterFire l'appelle.
 - Pour relancer `scripts/flutterfire-config.sh` : en plus, `firebase login` avec un compte qui a accès aux deux projets.
 
+## Lancer sur un iPhone physique
+
+Le projet ne fixe aucune équipe de signature : chacun signe avec la sienne, sans toucher au `project.pbxproj` partagé.
+
+1. Copier `ios/Flutter/Signing.xcconfig.example` en `ios/Flutter/Signing.xcconfig` (ignoré par git) et y mettre son Team ID Apple (Xcode → Settings → Accounts, ou `security find-identity -v -p codesigning`). Les 6 xcconfig de flavor l'incluent s'il existe.
+2. Être connecté à son compte Apple dans Xcode → Settings → Accounts. Au premier build, Xcode crée le certificat de développement, enregistre l'iPhone et l'App ID.
+3. Sur l'iPhone : Réglages → Confidentialité et sécurité → Mode développeur activé, et faire confiance au Mac.
+4. `fvm flutter run --flavor dev -t lib/main_dev.dart -d <id>` (id donné par `fvm flutter devices`, USB ou Wi-Fi).
+
 ## Problèmes connus
 
 | Symptôme | Cause et solution |
