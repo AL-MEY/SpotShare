@@ -124,7 +124,7 @@ Code dans `functions/src` (TypeScript, 2nde génération, Node 22). Les compteur
 
 Chaque Function **recompte** via une requête d'agrégation (`count()`, `average('value')`) au lieu d'incrémenter : un événement rejoué ne compte jamais deux fois. Deux déclenchements concurrents peuvent toutefois écrire dans le désordre : le compteur peut alors rester légèrement périmé jusqu'au prochain événement sur le même spot, qui le recalcule. Si le spot a été supprimé entre-temps (erreur gRPC `NOT_FOUND`, code 5), l'écriture est ignorée.
 
-**Région** : `REGION` dans `functions/src/index.ts` (`europe-west1`) doit correspondre à la localisation de la base Firestore (`eur3` → `europe-west1`). À vérifier dans la Console : Firestore → onglet Base de données. Une région différente fonctionne mais ajoute de la latence et peut échouer au déploiement.
+**Région** : `REGION` dans `functions/src/index.ts` (`us-central1`) doit correspondre à la localisation de la base Firestore : `nam5` sur le projet dev, donc `us-central1` (`eur3` aurait donné `europe-west1`). À vérifier dans la Console : Firestore → onglet Base de données. Une région différente fonctionne mais ajoute de la latence et peut échouer au déploiement.
 
 ### Déploiement et vérification
 

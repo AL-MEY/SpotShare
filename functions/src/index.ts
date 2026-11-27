@@ -9,8 +9,8 @@ import {
 import { recomputeCount, recomputeRatingStats, updateSpot } from './aggregates.js';
 import { geohashFor, locationChanged } from './geohash.js';
 
-// Doit correspondre à la localisation de la base Firestore (eur3 → europe-west1).
-export const REGION = 'europe-west1';
+// Doit correspondre à la localisation de la base Firestore (nam5 → us-central1).
+export const REGION = 'us-central1';
 
 setGlobalOptions({ region: REGION });
 initializeApp();
