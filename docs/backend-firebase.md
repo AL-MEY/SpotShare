@@ -130,6 +130,8 @@ Chaque Function **recompte** via une requête d'agrégation (`count()`, `average
 
 Le déploiement des Functions exige le plan Blaze et `firebase login` sur le compte de l'équipe.
 
+Utiliser `firebase-tools` installé via npm (`npm install -g firebase-tools`), pas le binaire autonome (`/usr/local/bin/firebase`, installé par `curl -sL firebase.tools | bash`) : son Node 20 / npm 8 embarqué plante sur l'étape `predeploy` (`Cannot read properties of undefined (reading 'stdin')`). Vérifier avec `which firebase`.
+
 ```bash
 ./scripts/deploy-rules.sh dev
 ./scripts/deploy-functions.sh dev     # attendu : « Deploy complete! »
