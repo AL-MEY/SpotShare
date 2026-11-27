@@ -34,6 +34,22 @@ Les règles Firestore et Storage sont versionnées (`firestore.rules`, `storage.
 
 Détails et modèle de données : [docs/backend-firebase.md](docs/backend-firebase.md).
 
+## Données de démo
+
+Un script remplit le projet **dev** (`spotshare-dev-b6185`) avec 3 profils, 6 spots à Paris (les 6 catégories, dont 3 avec vidéo), des notes et des commentaires (un spot en compte 25, pour la pagination). `seed-user-1` est l'auteur de deux spots.
+
+Prérequis : Node 22, `npm --prefix functions ci`, et des identifiants Google locaux : `gcloud auth application-default login` avec un compte ayant accès au projet dev.
+
+```bash
+npm --prefix functions run seed -- --project spotshare-dev-b6185
+```
+
+- Le script refuse tout autre id de projet (la prod ne peut pas être touchée).
+- Les ids sont fixes (`seed-spot-1..6`, `seed-user-1..3`, `seed-comment-<spot>-<n>`) : relancer le script écrase les mêmes documents, sans doublon.
+- Aucun identifiant n'est versionné : tout passe par les identifiants locaux de `gcloud`.
+
+Détails : [docs/backend-firebase.md](docs/backend-firebase.md#données-de-démo).
+
 ## Packages retenus
 
 | Package | Rôle |
@@ -44,11 +60,24 @@ Détails et modèle de données : [docs/backend-firebase.md](docs/backend-fireba
 | `firebase_core`, `firebase_auth`, `cloud_firestore`, `firebase_storage`, `cloud_functions` | Backend : authentification, données temps réel, photos, logique serveur et proxy des API tierces |
 | `image_picker` | Photo depuis l'appareil photo ou la galerie, redimensionnée à la source (avatar, photos de spots) : plugin officiel de l'équipe Flutter, sans dépendance de compression en plus |
 | `cached_network_image` | Cache disque des images distantes (consultation hors-ligne) |
+| `video_player` | Lecture des vidéos de spots en plein écran : package officiel de l'équipe Flutter, aucun lecteur natif à écrire |
 | `connectivity_plus` | Détection du réseau pour le mode hors-ligne et la synchronisation différée |
 | `shared_preferences` | Persistance locale des préférences (langue choisie) |
 | `slang`, `slang_flutter`, `intl`, `flutter_localizations` | Traductions FR/EN typées, générées depuis des fichiers YAML |
 | `theme_tailor_annotation` | Tokens de thème typés (espacements, rayons, couleurs hors Material) via `ThemeExtension` |
 | dev : `build_runner`, `theme_tailor` | Génération de code du thème (les traductions sont générées par la CLI de `slang`) |
 | dev : `mocktail` | Mocks de test sans génération de code |
+| dev : `fake_cloud_firestore` | Firestore en mémoire pour tester DTO, sources de données et repositories sans vrai Firebase |
+
+Cloud Functions (`functions/package.json`) :
+
+| Package | Rôle |
+|---|---|
+| `firebase-functions` | Déclencheurs Firestore 2nde génération (recomptage des compteurs, geohash) |
+| `firebase-admin` | Accès serveur à Firestore depuis les Functions, hors règles de sécurité |
+| `geofire-common` | Calcul du geohash d'un spot (précision 9), base des futures requêtes de proximité de la carte |
+| dev : `typescript` | Compilation du code des Functions (`npm run build`) |
+| dev : `tsx` | Exécution directe du script TypeScript de seed (`npm run seed`) |
+| dev : `@firebase/rules-unit-testing`, `firebase` | Tests des règles Firestore contre l'émulateur (`npm run test:rules`) |
 
 Choix écartés : `riverpod_generator` (incompatible avec `theme_tailor` 3.x, providers écrits à la main) ; moteur de base locale (Drift, Isar…) encore à trancher.

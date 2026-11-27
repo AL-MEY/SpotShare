@@ -2,7 +2,6 @@ app:
   title: SpotShare
 home:
   welcome: Bienvenue sur SpotShare
-  subtitle: Partage tes meilleurs spots
   signOut: Se déconnecter
 welcome:
   tagline: Partage tes meilleurs spots
@@ -74,3 +73,62 @@ errors:
   retry: Réessayer
   close: Fermer
   backHome: Retour à l’accueil
+spot:
+  category:
+    cafe: Café
+    viewpoint: Point de vue
+    streetArt: Street art
+    restaurant: Restaurant
+    park: Parc
+    other: Autre
+  noRating: Pas encore de note
+  ratingCount:
+    one: ${n} avis
+    other: ${n} avis
+  by: Par ${name}
+  unknownAuthor: Auteur inconnu
+  copyAddress: Copier l’adresse
+  addressCopied: Adresse copiée
+  readMore: Lire la suite
+  readLess: Réduire
+  yourRating: Ta note
+  rateTooltip:
+    one: Donner ${n} étoile
+    other: Donner ${n} étoiles
+  ownSpot: Tu ne peux pas noter ton propre spot.
+  offline: Hors connexion, certaines données peuvent être anciennes.
+  comments:
+    title:
+      one: ${n} commentaire
+      other: ${n} commentaires
+    hint: Ajoute un commentaire
+    send: Envoyer
+    tooLong: ${max} caractères maximum.
+    empty: Écris quelque chose avant d’envoyer.
+    none: Aucun commentaire pour le moment. Lance la discussion !
+    showMore: Voir plus de commentaires
+    delete: Supprimer
+    deleteTitle: Supprimer le commentaire ?
+    deleteMessage: Cette action est définitive.
+    cancel: Annuler
+    justNow: À l’instant
+    minutesAgo:
+      one: Il y a ${n} minute
+      other: Il y a ${n} minutes
+    hoursAgo:
+      one: Il y a ${n} heure
+      other: Il y a ${n} heures
+    daysAgo:
+      one: Il y a ${n} jour
+      other: Il y a ${n} jours
+  media:
+    position: ${current} sur ${total}
+    play: Lire la vidéo
+    pause: Mettre en pause
+    mute: Couper le son
+    unmute: Activer le son
+    videoError: Impossible de lire cette vidéo.
+    close: Fermer
+  recent:
+    title: Spots récents
+    empty: Aucun spot pour le moment.

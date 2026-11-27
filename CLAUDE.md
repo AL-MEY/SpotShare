@@ -15,6 +15,8 @@ flutter test
 dart format .
 ./scripts/generate_theme_and_i18n.sh  # après modif des .i18n.yaml (slang) ou du thème (theme_tailor)
 ./scripts/deploy-rules.sh dev|prod|all [--dry-run]  # après modif de firestore.rules / storage.rules
+(cd functions && npm run build && npm test)  # tests unitaires des Cloud Functions
+./scripts/deploy-functions.sh dev|prod|all [--dry-run]  # après modif de functions/src
 flutter run --flavor dev -t lib/main_dev.dart   # toujours un flavor (dev | prod), voir docs/flavors.md
 ```
 

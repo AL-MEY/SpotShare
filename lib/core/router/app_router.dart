@@ -11,6 +11,9 @@ import 'package:spotshare/features/onboarding/presentation/pages/onboarding_page
 import 'package:spotshare/features/profile/presentation/pages/profile_loading_page.dart';
 import 'package:spotshare/features/profile/presentation/pages/profile_setup_page.dart';
 import 'package:spotshare/features/profile/presentation/providers/profile_providers.dart';
+import 'package:spotshare/features/spot/domain/entities/spot.dart';
+import 'package:spotshare/features/spot/presentation/pages/spot_detail_page.dart';
+import 'package:spotshare/features/spot/presentation/pages/spot_media_viewer_page.dart';
 import 'package:spotshare/home_page.dart';
 
 abstract final class AppRoutes {
@@ -23,6 +26,12 @@ abstract final class AppRoutes {
   static const _signUpSegment = 'sign-up';
   static const profileLoading = '/loading';
   static const profileSetup = '/profile-setup';
+
+  static const _spotsPrefix = '/spots';
+
+  static String spotDetail(String spotId) => '$_spotsPrefix/$spotId';
+  static String spotMedia(String spotId, int index) =>
+      '${spotDetail(spotId)}/media?index=$index';
 
   static const public = {welcome, login, signUp, forgotPassword, onboarding};
 
@@ -77,6 +86,27 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.profileSetup,
         builder: (context, state) => const ProfileSetupPage(),
+      ),
+      GoRoute(
+        path: '${AppRoutes._spotsPrefix}/:spotId',
+        builder: (context, state) => SpotDetailPage(
+          spotId: state.pathParameters['spotId']!,
+          // Spot de la liste d'origine, absent sur un lien direct.
+          initialSpot: switch (state.extra) {
+            final Spot spot => spot,
+            _ => null,
+          },
+        ),
+        routes: [
+          GoRoute(
+            path: 'media',
+            builder: (context, state) => SpotMediaViewerPage(
+              spotId: state.pathParameters['spotId']!,
+              initialIndex:
+                  int.tryParse(state.uri.queryParameters['index'] ?? '') ?? 0,
+            ),
+          ),
+        ],
       ),
       GoRoute(
         path: AppRoutes.onboarding,

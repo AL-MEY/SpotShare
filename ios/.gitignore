@@ -32,3 +32,6 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+
+# Équipe de signature locale (voir docs/flavors.md)
+Flutter/Signing.xcconfig

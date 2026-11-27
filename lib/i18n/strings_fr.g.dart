@@ -51,6 +51,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$onboarding$fr onboarding = Translations$onboarding$fr.internal(_root);
 	late final Translations$profile$fr profile = Translations$profile$fr.internal(_root);
 	late final Translations$errors$fr errors = Translations$errors$fr.internal(_root);
+	late final Translations$spot$fr spot = Translations$spot$fr.internal(_root);
 }
 
 // Path: app
@@ -75,9 +76,6 @@ class Translations$home$fr {
 
 	/// fr: 'Bienvenue sur SpotShare'
 	String get welcome => 'Bienvenue sur SpotShare';
-
-	/// fr: 'Partage tes meilleurs spots'
-	String get subtitle => 'Partage tes meilleurs spots';
 
 	/// fr: 'Se déconnecter'
 	String get signOut => 'Se déconnecter';
@@ -277,6 +275,62 @@ class Translations$errors$fr {
 	String get backHome => 'Retour à l’accueil';
 }
 
+// Path: spot
+class Translations$spot$fr {
+	Translations$spot$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$spot$category$fr category = Translations$spot$category$fr.internal(_root);
+
+	/// fr: 'Pas encore de note'
+	String get noRating => 'Pas encore de note';
+
+	/// fr: '(one) {${n} avis} (other) {${n} avis}'
+	String ratingCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: '${n} avis',
+		other: '${n} avis',
+	);
+
+	/// fr: 'Par ${name}'
+	String by({required Object name}) => 'Par ${name}';
+
+	/// fr: 'Auteur inconnu'
+	String get unknownAuthor => 'Auteur inconnu';
+
+	/// fr: 'Copier l’adresse'
+	String get copyAddress => 'Copier l’adresse';
+
+	/// fr: 'Adresse copiée'
+	String get addressCopied => 'Adresse copiée';
+
+	/// fr: 'Lire la suite'
+	String get readMore => 'Lire la suite';
+
+	/// fr: 'Réduire'
+	String get readLess => 'Réduire';
+
+	/// fr: 'Ta note'
+	String get yourRating => 'Ta note';
+
+	/// fr: '(one) {Donner ${n} étoile} (other) {Donner ${n} étoiles}'
+	String rateTooltip({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: 'Donner ${n} étoile',
+		other: 'Donner ${n} étoiles',
+	);
+
+	/// fr: 'Tu ne peux pas noter ton propre spot.'
+	String get ownSpot => 'Tu ne peux pas noter ton propre spot.';
+
+	/// fr: 'Hors connexion, certaines données peuvent être anciennes.'
+	String get offline => 'Hors connexion, certaines données peuvent être anciennes.';
+
+	late final Translations$spot$comments$fr comments = Translations$spot$comments$fr.internal(_root);
+	late final Translations$spot$media$fr media = Translations$spot$media$fr.internal(_root);
+	late final Translations$spot$recent$fr recent = Translations$spot$recent$fr.internal(_root);
+}
+
 // Path: errors.network
 class Translations$errors$network$fr {
 	Translations$errors$network$fr.internal(this._root);
@@ -397,6 +451,144 @@ class Translations$errors$unknown$fr {
 	String get message => 'Une erreur est survenue. Réessaie.';
 }
 
+// Path: spot.category
+class Translations$spot$category$fr {
+	Translations$spot$category$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Café'
+	String get cafe => 'Café';
+
+	/// fr: 'Point de vue'
+	String get viewpoint => 'Point de vue';
+
+	/// fr: 'Street art'
+	String get streetArt => 'Street art';
+
+	/// fr: 'Restaurant'
+	String get restaurant => 'Restaurant';
+
+	/// fr: 'Parc'
+	String get park => 'Parc';
+
+	/// fr: 'Autre'
+	String get other => 'Autre';
+}
+
+// Path: spot.comments
+class Translations$spot$comments$fr {
+	Translations$spot$comments$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: '(one) {${n} commentaire} (other) {${n} commentaires}'
+	String title({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: '${n} commentaire',
+		other: '${n} commentaires',
+	);
+
+	/// fr: 'Ajoute un commentaire'
+	String get hint => 'Ajoute un commentaire';
+
+	/// fr: 'Envoyer'
+	String get send => 'Envoyer';
+
+	/// fr: '${max} caractères maximum.'
+	String tooLong({required Object max}) => '${max} caractères maximum.';
+
+	/// fr: 'Écris quelque chose avant d’envoyer.'
+	String get empty => 'Écris quelque chose avant d’envoyer.';
+
+	/// fr: 'Aucun commentaire pour le moment. Lance la discussion !'
+	String get none => 'Aucun commentaire pour le moment. Lance la discussion !';
+
+	/// fr: 'Voir plus de commentaires'
+	String get showMore => 'Voir plus de commentaires';
+
+	/// fr: 'Supprimer'
+	String get delete => 'Supprimer';
+
+	/// fr: 'Supprimer le commentaire ?'
+	String get deleteTitle => 'Supprimer le commentaire ?';
+
+	/// fr: 'Cette action est définitive.'
+	String get deleteMessage => 'Cette action est définitive.';
+
+	/// fr: 'Annuler'
+	String get cancel => 'Annuler';
+
+	/// fr: 'À l’instant'
+	String get justNow => 'À l’instant';
+
+	/// fr: '(one) {Il y a ${n} minute} (other) {Il y a ${n} minutes}'
+	String minutesAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: 'Il y a ${n} minute',
+		other: 'Il y a ${n} minutes',
+	);
+
+	/// fr: '(one) {Il y a ${n} heure} (other) {Il y a ${n} heures}'
+	String hoursAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: 'Il y a ${n} heure',
+		other: 'Il y a ${n} heures',
+	);
+
+	/// fr: '(one) {Il y a ${n} jour} (other) {Il y a ${n} jours}'
+	String daysAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n,
+		one: 'Il y a ${n} jour',
+		other: 'Il y a ${n} jours',
+	);
+}
+
+// Path: spot.media
+class Translations$spot$media$fr {
+	Translations$spot$media$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: '${current} sur ${total}'
+	String position({required Object current, required Object total}) => '${current} sur ${total}';
+
+	/// fr: 'Lire la vidéo'
+	String get play => 'Lire la vidéo';
+
+	/// fr: 'Mettre en pause'
+	String get pause => 'Mettre en pause';
+
+	/// fr: 'Couper le son'
+	String get mute => 'Couper le son';
+
+	/// fr: 'Activer le son'
+	String get unmute => 'Activer le son';
+
+	/// fr: 'Impossible de lire cette vidéo.'
+	String get videoError => 'Impossible de lire cette vidéo.';
+
+	/// fr: 'Fermer'
+	String get close => 'Fermer';
+}
+
+// Path: spot.recent
+class Translations$spot$recent$fr {
+	Translations$spot$recent$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Spots récents'
+	String get title => 'Spots récents';
+
+	/// fr: 'Aucun spot pour le moment.'
+	String get empty => 'Aucun spot pour le moment.';
+}
+
 /// The flat map containing all translations for locale <fr>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -407,7 +599,6 @@ extension on Translations {
 		return switch (path) {
 			'app.title' => 'SpotShare',
 			'home.welcome' => 'Bienvenue sur SpotShare',
-			'home.subtitle' => 'Partage tes meilleurs spots',
 			'home.signOut' => 'Se déconnecter',
 			'welcome.tagline' => 'Partage tes meilleurs spots',
 			'welcome.start' => 'Commencer',
@@ -463,6 +654,48 @@ extension on Translations {
 			'errors.retry' => 'Réessayer',
 			'errors.close' => 'Fermer',
 			'errors.backHome' => 'Retour à l’accueil',
+			'spot.category.cafe' => 'Café',
+			'spot.category.viewpoint' => 'Point de vue',
+			'spot.category.streetArt' => 'Street art',
+			'spot.category.restaurant' => 'Restaurant',
+			'spot.category.park' => 'Parc',
+			'spot.category.other' => 'Autre',
+			'spot.noRating' => 'Pas encore de note',
+			'spot.ratingCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} avis', other: '${n} avis', ), 
+			'spot.by' => ({required Object name}) => 'Par ${name}',
+			'spot.unknownAuthor' => 'Auteur inconnu',
+			'spot.copyAddress' => 'Copier l’adresse',
+			'spot.addressCopied' => 'Adresse copiée',
+			'spot.readMore' => 'Lire la suite',
+			'spot.readLess' => 'Réduire',
+			'spot.yourRating' => 'Ta note',
+			'spot.rateTooltip' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'Donner ${n} étoile', other: 'Donner ${n} étoiles', ), 
+			'spot.ownSpot' => 'Tu ne peux pas noter ton propre spot.',
+			'spot.offline' => 'Hors connexion, certaines données peuvent être anciennes.',
+			'spot.comments.title' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: '${n} commentaire', other: '${n} commentaires', ), 
+			'spot.comments.hint' => 'Ajoute un commentaire',
+			'spot.comments.send' => 'Envoyer',
+			'spot.comments.tooLong' => ({required Object max}) => '${max} caractères maximum.',
+			'spot.comments.empty' => 'Écris quelque chose avant d’envoyer.',
+			'spot.comments.none' => 'Aucun commentaire pour le moment. Lance la discussion !',
+			'spot.comments.showMore' => 'Voir plus de commentaires',
+			'spot.comments.delete' => 'Supprimer',
+			'spot.comments.deleteTitle' => 'Supprimer le commentaire ?',
+			'spot.comments.deleteMessage' => 'Cette action est définitive.',
+			'spot.comments.cancel' => 'Annuler',
+			'spot.comments.justNow' => 'À l’instant',
+			'spot.comments.minutesAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'Il y a ${n} minute', other: 'Il y a ${n} minutes', ), 
+			'spot.comments.hoursAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'Il y a ${n} heure', other: 'Il y a ${n} heures', ), 
+			'spot.comments.daysAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(n, one: 'Il y a ${n} jour', other: 'Il y a ${n} jours', ), 
+			'spot.media.position' => ({required Object current, required Object total}) => '${current} sur ${total}',
+			'spot.media.play' => 'Lire la vidéo',
+			'spot.media.pause' => 'Mettre en pause',
+			'spot.media.mute' => 'Couper le son',
+			'spot.media.unmute' => 'Activer le son',
+			'spot.media.videoError' => 'Impossible de lire cette vidéo.',
+			'spot.media.close' => 'Fermer',
+			'spot.recent.title' => 'Spots récents',
+			'spot.recent.empty' => 'Aucun spot pour le moment.',
 			_ => null,
 		};
 	}

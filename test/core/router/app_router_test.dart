@@ -4,6 +4,7 @@ import 'package:spotshare/features/auth/presentation/pages/welcome_page.dart';
 import 'package:spotshare/home_page.dart';
 
 import '../../helpers/fake_auth_repository.dart';
+import '../../helpers/fake_spot_repository.dart';
 import '../../helpers/pump_app.dart';
 
 void main() {
@@ -18,7 +19,9 @@ void main() {
 
   testWidgets('suit la connexion puis la déconnexion', (tester) async {
     final auth = FakeAuthRepository();
-    await pumpApp(tester, auth: auth);
+    final spots = FakeSpotRepository();
+    addTearDown(spots.dispose);
+    await pumpApp(tester, auth: auth, spots: spots);
 
     auth.emit(FakeAuthRepository.user);
     await tester.pumpAndSettle();
@@ -32,9 +35,12 @@ void main() {
   testWidgets('affiche la page introuvable puis revient à l’accueil', (
     tester,
   ) async {
+    final spots = FakeSpotRepository();
+    addTearDown(spots.dispose);
     final container = await pumpApp(
       tester,
       auth: FakeAuthRepository(FakeAuthRepository.user),
+      spots: spots,
     );
 
     container.read(routerProvider).go('/route-inconnue');
